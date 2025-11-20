@@ -6,10 +6,18 @@
 # Number of clients to start (default: 2)
 NUM_CLIENTS=${1:-2}
 
-PROJECT_PATH="/Users/arturokuang/snapshot-interpolation"
-GODOT_PATH="/Applications/Godot.app/Contents/MacOS/Godot"
+# Resolve paths
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PROJECT_PATH="${PROJECT_PATH:-${SCRIPT_DIR}}"
 LOG_DIR="${PROJECT_PATH}/debug_logs"
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+
+# Pick a Godot binary; allow override with GODOT_PATH
+if command -v godot4 >/dev/null 2>&1; then
+    GODOT_BIN=${GODOT_PATH:-"$(command -v godot4)"}
+else
+    GODOT_BIN=${GODOT_PATH:-"/Applications/Godot.app/Contents/MacOS/Godot"}
+fi
 
 # Array to store all PIDs
 CLIENT_PIDS=()
@@ -22,9 +30,19 @@ echo "Killing existing Godot instances..."
 pkill -9 Godot 2>/dev/null
 sleep 2
 
+# Rebuild/import project before launching
+if [ "${SKIP_REBUILD:-0}" -ne 1 ]; then
+    echo "Rebuilding project (imports/scripts)..."
+    "${GODOT_BIN}" --path "${PROJECT_PATH}" --headless --editor --quit --verbose > "${LOG_DIR}/rebuild_${TIMESTAMP}.log" 2>&1
+    if [ $? -ne 0 ]; then
+        echo "Rebuild failed. See ${LOG_DIR}/rebuild_${TIMESTAMP}.log"
+        exit 1
+    fi
+fi
+
 # Start server and capture output
 echo "Starting server..."
-"${GODOT_PATH}" --path "${PROJECT_PATH}" --headless > "${LOG_DIR}/server_${TIMESTAMP}.log" 2>&1 &
+"${GODOT_BIN}" --path "${PROJECT_PATH}" --headless > "${LOG_DIR}/server_${TIMESTAMP}.log" 2>&1 &
 SERVER_PID=$!
 echo "Server PID: ${SERVER_PID}"
 sleep 3
@@ -33,9 +51,10 @@ sleep 3
 echo "Starting ${NUM_CLIENTS} client(s)..."
 for i in $(seq 1 ${NUM_CLIENTS}); do
     echo "  Starting client ${i}..."
-    "${GODOT_PATH}" --path "${PROJECT_PATH}" > "${LOG_DIR}/client_${i}_${TIMESTAMP}.log" 2>&1 &
-    CLIENT_PIDS+=($!)
-    echo "  Client ${i} PID: ${!}"
+    "${GODOT_BIN}" --path "${PROJECT_PATH}" > "${LOG_DIR}/client_${i}_${TIMESTAMP}.log" 2>&1 &
+    pid=$!
+    CLIENT_PIDS+=(${pid})
+    echo "  Client ${i} PID: ${pid}"
     sleep 2  # Stagger client starts
 done
 

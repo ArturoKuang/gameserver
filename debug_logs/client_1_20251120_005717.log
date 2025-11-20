@@ -1,0 +1,245 @@
+Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
+
+[CLIENT] Auto-move enabled for testing
+Connecting to server at 127.0.0.1:7777
+[RENDERER] Debug walls drawn
+[RENDERER] Debug obstacle paths drawn
+Connected to server!
+[CLIENT] Player entity ID tracked: 55
+[INTERPOLATOR] First snapshot received! Seq: 1 | Timestamp: 2.1 | Setting render_time to: 1.95 | Delay: 0.15
+[INTERPOLATOR] WARNING: Behind buffer! Jumping render_time from 1.95666666666667 to 2.1
+[INTERPOLATOR] BUFFER UNDERRUN! Render time caught up to latest snapshot. Holding frame.
+[RENDERER] Client prediction ENABLED for player entity 55
+[RENDERER] Created sprite for PLAYER entity 55
+[INTERPOLATOR] BUFFER UNDERRUN! Render time caught up to latest snapshot. Holding frame.
+[INTERPOLATOR] WARNING: Behind buffer! Jumping render_time from 2.00666666666667 to 2.1
+[INTERPOLATOR] WARNING: Behind buffer! Jumping render_time from 2.00666666666667 to 2.1
+[INTERPOLATOR] WARNING: Behind buffer! Jumping render_time from 2.00694444444444 to 2.1
+[INTERPOLATOR] WARNING: Behind buffer! Jumping render_time from 2.05694444444444 to 2.1
+[INTERPOLATOR] WARNING: Behind buffer! Jumping render_time from 2.05694444444444 to 2.1
+[INTERPOLATOR] WARNING: Behind buffer! Jumping render_time from 2.05694444444444 to 2.1
+[DESERIALIZE] Starting snapshot #10 | Timestamp: 2.25 | Entity count: 9 | Player ID: 55 | Has baseline: true | Baseline seq: 6
+[DESERIALIZE] Completed snapshot #10 | Final entity count: 9 | Player 55 in snapshot: true | All entity IDs: [10, 27, 30, 44, 51, 52, 53, 54, 55]
+[DESERIALIZE] Starting snapshot #20 | Timestamp: 2.4 | Entity count: 11 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #20 | Final entity count: 11 | Player 55 in snapshot: true | All entity IDs: [8, 10, 27, 30, 44, 48, 51, 52, 53, 54, 55]
+[INTERPOLATOR] Buffer: 20 pkts | Health: 150.5ms / 150.0ms | Status: OK
+[DESERIALIZE] Starting snapshot #30 | Timestamp: 2.6 | Entity count: 11 | Player ID: 55 | Has baseline: true | Baseline seq: 26
+[DESERIALIZE] Completed snapshot #30 | Final entity count: 11 | Player 55 in snapshot: true | All entity IDs: [8, 10, 27, 30, 44, 48, 51, 52, 53, 54, 55]
+[DESERIALIZE] Starting snapshot #40 | Timestamp: 2.75 | Entity count: 11 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #40 | Final entity count: 11 | Player 55 in snapshot: true | All entity IDs: [8, 10, 27, 30, 44, 48, 51, 52, 53, 54, 55]
+[INTERPOLATOR] Buffer: 40 pkts | Health: 171.5ms / 150.0ms | Status: OK
+[DESERIALIZE] Starting snapshot #50 | Timestamp: 2.9 | Entity count: 13 | Player ID: 55 | Has baseline: true | Baseline seq: 46
+[DESERIALIZE] Completed snapshot #50 | Final entity count: 13 | Player 55 in snapshot: true | All entity IDs: [1, 8, 10, 27, 30, 33, 44, 46, 51, 52, 53, 54, 55]
+[INTERPOLATOR] Entity 48 disappeared (in from_snapshot seq 47 but not in to_snapshot seq 48)
+[INTERPOLATOR] Entity 48 disappeared (in from_snapshot seq 47 but not in to_snapshot seq 48)
+[INTERPOLATOR] Entity 48 disappeared (in from_snapshot seq 47 but not in to_snapshot seq 48)
+[INTERPOLATOR] Entity 48 disappeared (in from_snapshot seq 47 but not in to_snapshot seq 48)
+[INTERPOLATOR] Entity 48 disappeared (in from_snapshot seq 47 but not in to_snapshot seq 48)
+[INTERPOLATOR] Entity 48 disappeared (in from_snapshot seq 47 but not in to_snapshot seq 48)
+[INTERPOLATOR] Entity 48 disappeared (in from_snapshot seq 47 but not in to_snapshot seq 48)
+[DESERIALIZE] Starting snapshot #60 | Timestamp: 3.1 | Entity count: 13 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #60 | Final entity count: 13 | Player 55 in snapshot: true | All entity IDs: [1, 8, 10, 27, 30, 33, 44, 46, 51, 52, 53, 54, 55]
+[INTERPOLATOR] Buffer: 40 pkts | Health: 187.8ms / 150.0ms | Status: OK
+[DESERIALIZE] Starting snapshot #70 | Timestamp: 3.25 | Entity count: 14 | Player ID: 55 | Has baseline: true | Baseline seq: 69
+[DESERIALIZE] Completed snapshot #70 | Final entity count: 14 | Player 55 in snapshot: true | All entity IDs: [1, 8, 10, 27, 30, 33, 44, 46, 51, 52, 53, 54, 55, 56]
+[DESERIALIZE] Starting snapshot #80 | Timestamp: 3.4 | Entity count: 14 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #80 | Final entity count: 14 | Player 55 in snapshot: true | All entity IDs: [1, 8, 10, 27, 30, 33, 44, 46, 51, 52, 53, 54, 55, 56]
+[INTERPOLATOR] Buffer: 40 pkts | Health: 150.7ms / 150.0ms | Status: OK
+[DESERIALIZE] Starting snapshot #90 | Timestamp: 3.6 | Entity count: 14 | Player ID: 55 | Has baseline: true | Baseline seq: 89
+[DESERIALIZE] Completed snapshot #90 | Final entity count: 14 | Player 55 in snapshot: true | All entity IDs: [1, 8, 10, 27, 30, 33, 44, 46, 51, 52, 53, 54, 55, 56]
+[DESERIALIZE] Starting snapshot #100 | Timestamp: 3.75 | Entity count: 14 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #100 | Final entity count: 14 | Player 55 in snapshot: true | All entity IDs: [1, 8, 10, 27, 30, 33, 44, 46, 51, 52, 53, 54, 55, 56]
+[CLIENT] Received snapshot #100 | Snapshot timestamp: 3.75 | Current client time: 1.808 | Interpolator render_time: 3.5822443722368 | Interpolator latest_server_time: 3.75 | Entities: 14 | Player in snapshot: true | Player ID: 55 | Data size: 158 bytes
+[CLIENT] Remote Entity 1 Pos: (-184.5984, 76.29321) Vel: (-0.125061, -0.125061)
+[INTERPOLATOR] Buffer full, removing old snapshot seq 60
+[INTERPOLATOR] Buffer: 40 pkts | Health: 167.8ms / 150.0ms | Status: OK
+[DESERIALIZE] Starting snapshot #110 | Timestamp: 3.9 | Entity count: 14 | Player ID: 55 | Has baseline: true | Baseline seq: 109
+[DESERIALIZE] Completed snapshot #110 | Final entity count: 14 | Player 55 in snapshot: true | All entity IDs: [1, 8, 10, 27, 30, 33, 44, 46, 51, 52, 53, 54, 55, 56]
+=== CLIENT MODE ===
+[DESERIALIZE] Starting snapshot #120 | Timestamp: 4.1 | Entity count: 11 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #120 | Final entity count: 11 | Player 55 in snapshot: true | All entity IDs: [1, 10, 27, 30, 44, 51, 52, 53, 54, 55, 56]
+[INTERPOLATOR] Buffer: 40 pkts | Health: 187.7ms / 150.0ms | Status: OK
+[DESERIALIZE] Starting snapshot #130 | Timestamp: 4.25 | Entity count: 11 | Player ID: 55 | Has baseline: true | Baseline seq: 129
+[DESERIALIZE] Completed snapshot #130 | Final entity count: 11 | Player 55 in snapshot: true | All entity IDs: [1, 10, 27, 30, 44, 51, 52, 53, 54, 55, 56]
+[DESERIALIZE] Starting snapshot #140 | Timestamp: 4.4 | Entity count: 14 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #140 | Final entity count: 14 | Player 55 in snapshot: true | All entity IDs: [1, 8, 10, 27, 30, 33, 44, 46, 51, 52, 53, 54, 55, 56]
+[INTERPOLATOR] Buffer: 40 pkts | Health: 150.0ms / 150.0ms | Status: OK
+[DESERIALIZE] Starting snapshot #150 | Timestamp: 4.6 | Entity count: 14 | Player ID: 55 | Has baseline: true | Baseline seq: 149
+[DESERIALIZE] Completed snapshot #150 | Final entity count: 14 | Player 55 in snapshot: true | All entity IDs: [1, 8, 10, 27, 30, 33, 44, 46, 51, 52, 53, 54, 55, 56]
+[DESERIALIZE] Starting snapshot #160 | Timestamp: 4.75 | Entity count: 14 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #160 | Final entity count: 14 | Player 55 in snapshot: true | All entity IDs: [1, 8, 10, 27, 30, 33, 44, 46, 51, 52, 53, 54, 55, 56]
+[INTERPOLATOR] Buffer: 40 pkts | Health: 167.8ms / 150.0ms | Status: OK
+[DESERIALIZE] Starting snapshot #170 | Timestamp: 4.9 | Entity count: 14 | Player ID: 55 | Has baseline: true | Baseline seq: 168
+[DESERIALIZE] Completed snapshot #170 | Final entity count: 14 | Player 55 in snapshot: true | All entity IDs: [1, 8, 10, 27, 30, 33, 44, 46, 51, 52, 53, 54, 55, 56]
+[DESERIALIZE] Starting snapshot #180 | Timestamp: 5.1 | Entity count: 14 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #180 | Final entity count: 14 | Player 55 in snapshot: true | All entity IDs: [1, 8, 10, 27, 30, 33, 44, 46, 51, 52, 53, 54, 55, 56]
+[INTERPOLATOR] Buffer: 40 pkts | Health: 187.7ms / 150.0ms | Status: OK
+[DESERIALIZE] Starting snapshot #190 | Timestamp: 5.25 | Entity count: 14 | Player ID: 55 | Has baseline: true | Baseline seq: 188
+[DESERIALIZE] Completed snapshot #190 | Final entity count: 14 | Player 55 in snapshot: true | All entity IDs: [1, 8, 10, 27, 30, 33, 44, 46, 51, 52, 53, 54, 55, 56]
+[DESERIALIZE] Starting snapshot #200 | Timestamp: 5.4 | Entity count: 14 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #200 | Final entity count: 14 | Player 55 in snapshot: true | All entity IDs: [1, 8, 10, 27, 30, 33, 44, 46, 51, 52, 53, 54, 55, 56]
+[CLIENT] Received snapshot #200 | Snapshot timestamp: 5.4 | Current client time: 3.478 | Interpolator render_time: 5.25112906012687 | Interpolator latest_server_time: 5.4 | Entities: 14 | Player in snapshot: true | Player ID: 55 | Data size: 158 bytes
+[CLIENT] Remote Entity 1 Pos: (-184.5984, 76.29321) Vel: (-0.125061, -0.125061)
+[INTERPOLATOR] Buffer full, removing old snapshot seq 160
+[INTERPOLATOR] Buffer: 40 pkts | Health: 150.0ms / 150.0ms | Status: OK
+[DESERIALIZE] Starting snapshot #210 | Timestamp: 5.6 | Entity count: 14 | Player ID: 55 | Has baseline: true | Baseline seq: 208
+[DESERIALIZE] Completed snapshot #210 | Final entity count: 14 | Player 55 in snapshot: true | All entity IDs: [1, 8, 10, 27, 30, 33, 44, 46, 51, 52, 53, 54, 55, 56]
+[DESERIALIZE] Starting snapshot #220 | Timestamp: 5.75 | Entity count: 14 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #220 | Final entity count: 14 | Player 55 in snapshot: true | All entity IDs: [1, 8, 10, 27, 30, 33, 44, 46, 51, 52, 53, 54, 55, 56]
+[INTERPOLATOR] Buffer: 40 pkts | Health: 166.0ms / 150.0ms | Status: OK
+[DESERIALIZE] Starting snapshot #230 | Timestamp: 5.9 | Entity count: 13 | Player ID: 55 | Has baseline: true | Baseline seq: 228
+[DESERIALIZE] Completed snapshot #230 | Final entity count: 13 | Player 55 in snapshot: true | All entity IDs: [1, 10, 27, 30, 33, 44, 46, 51, 52, 53, 54, 55, 56]
+[INTERPOLATOR] Entity 8 disappeared (in from_snapshot seq 224 but not in to_snapshot seq 225)
+[INTERPOLATOR] Entity 8 disappeared (in from_snapshot seq 224 but not in to_snapshot seq 225)
+[INTERPOLATOR] Entity 8 disappeared (in from_snapshot seq 224 but not in to_snapshot seq 225)
+[INTERPOLATOR] Entity 8 disappeared (in from_snapshot seq 224 but not in to_snapshot seq 225)
+[INTERPOLATOR] Entity 8 disappeared (in from_snapshot seq 224 but not in to_snapshot seq 225)
+[INTERPOLATOR] Entity 8 disappeared (in from_snapshot seq 224 but not in to_snapshot seq 225)
+[INTERPOLATOR] Entity 8 disappeared (in from_snapshot seq 224 but not in to_snapshot seq 225)
+[DESERIALIZE] Starting snapshot #240 | Timestamp: 6.1 | Entity count: 13 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #240 | Final entity count: 13 | Player 55 in snapshot: true | All entity IDs: [1, 10, 27, 30, 33, 44, 46, 51, 52, 53, 54, 55, 56]
+[INTERPOLATOR] Buffer: 40 pkts | Health: 186.1ms / 150.0ms | Status: OK
+[DESERIALIZE] Starting snapshot #250 | Timestamp: 6.25 | Entity count: 13 | Player ID: 55 | Has baseline: true | Baseline seq: 248
+[DESERIALIZE] Completed snapshot #250 | Final entity count: 13 | Player 55 in snapshot: true | All entity IDs: [1, 10, 27, 30, 33, 44, 46, 51, 52, 53, 54, 55, 56]
+[DESERIALIZE] Starting snapshot #260 | Timestamp: 6.4 | Entity count: 13 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #260 | Final entity count: 13 | Player 55 in snapshot: true | All entity IDs: [1, 10, 27, 30, 33, 44, 46, 51, 52, 53, 54, 55, 56]
+[INTERPOLATOR] Buffer: 40 pkts | Health: 154.2ms / 150.0ms | Status: OK
+[DESERIALIZE] Starting snapshot #270 | Timestamp: 6.6 | Entity count: 13 | Player ID: 55 | Has baseline: true | Baseline seq: 268
+[DESERIALIZE] Completed snapshot #270 | Final entity count: 13 | Player 55 in snapshot: true | All entity IDs: [1, 10, 27, 30, 33, 44, 46, 51, 52, 53, 54, 55, 56]
+[DESERIALIZE] Starting snapshot #280 | Timestamp: 6.75 | Entity count: 13 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #280 | Final entity count: 13 | Player 55 in snapshot: true | All entity IDs: [1, 10, 27, 30, 33, 44, 46, 51, 52, 53, 54, 55, 56]
+[INTERPOLATOR] Buffer: 40 pkts | Health: 166.9ms / 150.0ms | Status: OK
+[DESERIALIZE] Starting snapshot #290 | Timestamp: 6.9 | Entity count: 13 | Player ID: 55 | Has baseline: true | Baseline seq: 288
+[DESERIALIZE] Completed snapshot #290 | Final entity count: 13 | Player 55 in snapshot: true | All entity IDs: [1, 10, 27, 30, 33, 44, 46, 51, 52, 53, 54, 55, 56]
+[DESERIALIZE] Starting snapshot #300 | Timestamp: 7.1 | Entity count: 13 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #300 | Final entity count: 13 | Player 55 in snapshot: true | All entity IDs: [1, 10, 27, 30, 33, 44, 46, 51, 52, 53, 54, 55, 56]
+[CLIENT] Received snapshot #300 | Snapshot timestamp: 7.1 | Current client time: 5.139 | Interpolator render_time: 6.91388888888889 | Interpolator latest_server_time: 7.05 | Entities: 13 | Player in snapshot: true | Player ID: 55 | Data size: 148 bytes
+[CLIENT] Remote Entity 1 Pos: (-184.5984, 76.29321) Vel: (-0.125061, -0.125061)
+[INTERPOLATOR] Buffer full, removing old snapshot seq 260
+[INTERPOLATOR] Buffer: 40 pkts | Health: 186.1ms / 150.0ms | Status: OK
+[DESERIALIZE] Starting snapshot #310 | Timestamp: 7.25 | Entity count: 11 | Player ID: 55 | Has baseline: true | Baseline seq: 307
+[DESERIALIZE] Completed snapshot #310 | Final entity count: 11 | Player 55 in snapshot: true | All entity IDs: [1, 10, 27, 30, 44, 51, 52, 53, 54, 55, 56]
+[DESERIALIZE] Starting snapshot #320 | Timestamp: 7.4 | Entity count: 11 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #320 | Final entity count: 11 | Player 55 in snapshot: true | All entity IDs: [1, 10, 27, 30, 44, 51, 52, 53, 54, 55, 56]
+[INTERPOLATOR] Buffer: 40 pkts | Health: 150.0ms / 150.0ms | Status: OK
+[DESERIALIZE] Starting snapshot #330 | Timestamp: 7.6 | Entity count: 10 | Player ID: 55 | Has baseline: true | Baseline seq: 327
+[DESERIALIZE] Completed snapshot #330 | Final entity count: 10 | Player 55 in snapshot: true | All entity IDs: [1, 10, 27, 30, 44, 51, 53, 54, 55, 56]
+[INTERPOLATOR] Entity 52 disappeared (in from_snapshot seq 326 but not in to_snapshot seq 327)
+[INTERPOLATOR] Entity 52 disappeared (in from_snapshot seq 326 but not in to_snapshot seq 327)
+[INTERPOLATOR] Entity 52 disappeared (in from_snapshot seq 326 but not in to_snapshot seq 327)
+[INTERPOLATOR] Entity 52 disappeared (in from_snapshot seq 326 but not in to_snapshot seq 327)
+[INTERPOLATOR] Entity 52 disappeared (in from_snapshot seq 326 but not in to_snapshot seq 327)
+[INTERPOLATOR] Entity 52 disappeared (in from_snapshot seq 326 but not in to_snapshot seq 327)
+[INTERPOLATOR] Entity 52 disappeared (in from_snapshot seq 326 but not in to_snapshot seq 327)
+[DESERIALIZE] Starting snapshot #340 | Timestamp: 7.75 | Entity count: 10 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #340 | Final entity count: 10 | Player 55 in snapshot: true | All entity IDs: [1, 10, 27, 30, 44, 51, 53, 54, 55, 56]
+[INTERPOLATOR] Buffer: 40 pkts | Health: 167.8ms / 150.0ms | Status: OK
+[DESERIALIZE] Starting snapshot #350 | Timestamp: 7.9 | Entity count: 10 | Player ID: 55 | Has baseline: true | Baseline seq: 347
+[DESERIALIZE] Completed snapshot #350 | Final entity count: 10 | Player 55 in snapshot: true | All entity IDs: [1, 10, 27, 30, 44, 51, 53, 54, 55, 56]
+[DESERIALIZE] Starting snapshot #360 | Timestamp: 8.1 | Entity count: 13 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #360 | Final entity count: 13 | Player 55 in snapshot: true | All entity IDs: [1, 8, 10, 27, 30, 33, 44, 46, 51, 53, 54, 55, 56]
+[INTERPOLATOR] Buffer: 40 pkts | Health: 187.7ms / 150.0ms | Status: OK
+[INTERPOLATOR] Entity 53 disappeared (in from_snapshot seq 353 but not in to_snapshot seq 354)
+[INTERPOLATOR] Entity 53 disappeared (in from_snapshot seq 353 but not in to_snapshot seq 354)
+[INTERPOLATOR] Entity 53 disappeared (in from_snapshot seq 353 but not in to_snapshot seq 354)
+[INTERPOLATOR] Entity 53 disappeared (in from_snapshot seq 353 but not in to_snapshot seq 354)
+[INTERPOLATOR] Entity 53 disappeared (in from_snapshot seq 353 but not in to_snapshot seq 354)
+[INTERPOLATOR] Entity 53 disappeared (in from_snapshot seq 353 but not in to_snapshot seq 354)
+[INTERPOLATOR] Entity 53 disappeared (in from_snapshot seq 353 but not in to_snapshot seq 354)
+[DESERIALIZE] Starting snapshot #370 | Timestamp: 8.25 | Entity count: 13 | Player ID: 55 | Has baseline: true | Baseline seq: 367
+[DESERIALIZE] Completed snapshot #370 | Final entity count: 13 | Player 55 in snapshot: true | All entity IDs: [1, 8, 10, 27, 30, 33, 44, 46, 51, 53, 54, 55, 56]
+[DESERIALIZE] Starting snapshot #380 | Timestamp: 8.4 | Entity count: 13 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #380 | Final entity count: 13 | Player 55 in snapshot: true | All entity IDs: [1, 8, 10, 27, 30, 33, 44, 46, 51, 53, 54, 55, 56]
+[INTERPOLATOR] Buffer: 40 pkts | Health: 150.0ms / 150.0ms | Status: OK
+[DESERIALIZE] Starting snapshot #390 | Timestamp: 8.6 | Entity count: 13 | Player ID: 55 | Has baseline: true | Baseline seq: 387
+[DESERIALIZE] Completed snapshot #390 | Final entity count: 13 | Player 55 in snapshot: true | All entity IDs: [1, 8, 10, 27, 30, 33, 44, 46, 51, 53, 54, 55, 56]
+[DESERIALIZE] Starting snapshot #400 | Timestamp: 8.75 | Entity count: 13 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #400 | Final entity count: 13 | Player 55 in snapshot: true | All entity IDs: [1, 8, 10, 27, 30, 33, 44, 46, 51, 53, 54, 55, 56]
+[CLIENT] Received snapshot #400 | Snapshot timestamp: 8.75 | Current client time: 6.81 | Interpolator render_time: 8.58247772533823 | Interpolator latest_server_time: 8.75 | Entities: 13 | Player in snapshot: true | Player ID: 55 | Data size: 148 bytes
+[CLIENT] Remote Entity 1 Pos: (-184.5984, 76.29321) Vel: (-0.125061, -0.125061)
+[INTERPOLATOR] Buffer full, removing old snapshot seq 360
+[INTERPOLATOR] Buffer: 40 pkts | Health: 167.5ms / 150.0ms | Status: OK
+[DESERIALIZE] Starting snapshot #410 | Timestamp: 8.9 | Entity count: 13 | Player ID: 55 | Has baseline: true | Baseline seq: 407
+[DESERIALIZE] Completed snapshot #410 | Final entity count: 13 | Player 55 in snapshot: true | All entity IDs: [1, 8, 10, 27, 30, 33, 44, 46, 51, 53, 54, 55, 56]
+[DESERIALIZE] Starting snapshot #420 | Timestamp: 9.1 | Entity count: 13 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #420 | Final entity count: 13 | Player 55 in snapshot: true | All entity IDs: [1, 8, 10, 27, 30, 33, 44, 46, 51, 53, 54, 55, 56]
+[INTERPOLATOR] Buffer: 40 pkts | Health: 187.6ms / 150.0ms | Status: OK
+[DESERIALIZE] Starting snapshot #430 | Timestamp: 9.25 | Entity count: 13 | Player ID: 55 | Has baseline: true | Baseline seq: 427
+[DESERIALIZE] Completed snapshot #430 | Final entity count: 13 | Player 55 in snapshot: true | All entity IDs: [1, 8, 10, 27, 30, 33, 44, 46, 51, 53, 54, 55, 56]
+[DESERIALIZE] Starting snapshot #440 | Timestamp: 9.4 | Entity count: 12 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #440 | Final entity count: 12 | Player 55 in snapshot: true | All entity IDs: [1, 10, 27, 30, 33, 44, 46, 51, 53, 54, 55, 56]
+[INTERPOLATOR] Buffer: 40 pkts | Health: 150.0ms / 150.0ms | Status: OK
+[DESERIALIZE] Starting snapshot #450 | Timestamp: 9.6 | Entity count: 12 | Player ID: 55 | Has baseline: true | Baseline seq: 447
+[DESERIALIZE] Completed snapshot #450 | Final entity count: 12 | Player 55 in snapshot: true | All entity IDs: [1, 10, 27, 30, 33, 44, 46, 51, 53, 54, 55, 56]
+[DESERIALIZE] Starting snapshot #460 | Timestamp: 9.75 | Entity count: 12 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #460 | Final entity count: 12 | Player 55 in snapshot: true | All entity IDs: [1, 10, 27, 30, 33, 44, 46, 51, 53, 54, 55, 56]
+[INTERPOLATOR] Buffer: 40 pkts | Health: 167.9ms / 150.0ms | Status: OK
+[DESERIALIZE] Starting snapshot #470 | Timestamp: 9.9 | Entity count: 12 | Player ID: 55 | Has baseline: true | Baseline seq: 466
+[DESERIALIZE] Completed snapshot #470 | Final entity count: 12 | Player 55 in snapshot: true | All entity IDs: [1, 10, 27, 30, 33, 44, 46, 51, 53, 54, 55, 56]
+[DESERIALIZE] Starting snapshot #480 | Timestamp: 10.1 | Entity count: 12 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #480 | Final entity count: 12 | Player 55 in snapshot: true | All entity IDs: [1, 10, 27, 30, 33, 44, 46, 51, 53, 54, 55, 56]
+[INTERPOLATOR] Buffer: 40 pkts | Health: 187.6ms / 150.0ms | Status: OK
+[DESERIALIZE] Starting snapshot #490 | Timestamp: 10.25 | Entity count: 12 | Player ID: 55 | Has baseline: true | Baseline seq: 486
+[DESERIALIZE] Completed snapshot #490 | Final entity count: 12 | Player 55 in snapshot: true | All entity IDs: [1, 10, 27, 30, 33, 44, 46, 51, 53, 54, 55, 56]
+[DESERIALIZE] Starting snapshot #500 | Timestamp: 10.4 | Entity count: 9 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #500 | Final entity count: 9 | Player 55 in snapshot: true | All entity IDs: [1, 10, 27, 30, 44, 51, 54, 55, 56]
+[CLIENT] Received snapshot #500 | Snapshot timestamp: 10.4 | Current client time: 8.479 | Interpolator render_time: 10.2514565674115 | Interpolator latest_server_time: 10.4 | Entities: 9 | Player in snapshot: true | Player ID: 55 | Data size: 107 bytes
+[CLIENT] Remote Entity 1 Pos: (-184.5984, 76.29321) Vel: (-0.125061, -0.125061)
+[INTERPOLATOR] Buffer full, removing old snapshot seq 460
+[INTERPOLATOR] Buffer: 40 pkts | Health: 150.0ms / 150.0ms | Status: OK
+[DESERIALIZE] Starting snapshot #510 | Timestamp: 10.6 | Entity count: 9 | Player ID: 55 | Has baseline: true | Baseline seq: 506
+[DESERIALIZE] Completed snapshot #510 | Final entity count: 9 | Player 55 in snapshot: true | All entity IDs: [1, 10, 27, 30, 44, 51, 54, 55, 56]
+[DESERIALIZE] Starting snapshot #520 | Timestamp: 10.75 | Entity count: 9 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #520 | Final entity count: 9 | Player 55 in snapshot: true | All entity IDs: [1, 10, 27, 30, 44, 51, 54, 55, 56]
+[INTERPOLATOR] Buffer: 40 pkts | Health: 167.9ms / 150.0ms | Status: OK
+[DESERIALIZE] Starting snapshot #530 | Timestamp: 10.9 | Entity count: 9 | Player ID: 55 | Has baseline: true | Baseline seq: 526
+[DESERIALIZE] Completed snapshot #530 | Final entity count: 9 | Player 55 in snapshot: true | All entity IDs: [1, 10, 27, 30, 44, 51, 54, 55, 56]
+[DESERIALIZE] Starting snapshot #540 | Timestamp: 11.1 | Entity count: 9 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #540 | Final entity count: 9 | Player 55 in snapshot: true | All entity IDs: [1, 10, 27, 30, 44, 51, 54, 55, 56]
+[INTERPOLATOR] Buffer: 40 pkts | Health: 187.6ms / 150.0ms | Status: OK
+[DESERIALIZE] Starting snapshot #550 | Timestamp: 11.25 | Entity count: 10 | Player ID: 55 | Has baseline: true | Baseline seq: 546
+[DESERIALIZE] Completed snapshot #550 | Final entity count: 10 | Player 55 in snapshot: true | All entity IDs: [1, 8, 10, 27, 30, 44, 51, 54, 55, 56]
+[DESERIALIZE] Starting snapshot #560 | Timestamp: 11.4 | Entity count: 10 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #560 | Final entity count: 10 | Player 55 in snapshot: true | All entity IDs: [1, 8, 10, 27, 30, 44, 51, 54, 55, 56]
+[INTERPOLATOR] Buffer: 40 pkts | Health: 150.0ms / 150.0ms | Status: OK
+[DESERIALIZE] Starting snapshot #570 | Timestamp: 11.6 | Entity count: 10 | Player ID: 55 | Has baseline: true | Baseline seq: 569
+[DESERIALIZE] Completed snapshot #570 | Final entity count: 10 | Player 55 in snapshot: true | All entity IDs: [1, 8, 10, 27, 30, 44, 51, 54, 55, 56]
+[DESERIALIZE] Starting snapshot #580 | Timestamp: 11.75 | Entity count: 10 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #580 | Final entity count: 10 | Player 55 in snapshot: true | All entity IDs: [1, 8, 10, 27, 30, 44, 51, 54, 55, 56]
+[INTERPOLATOR] Buffer: 40 pkts | Health: 167.9ms / 150.0ms | Status: OK
+[DESERIALIZE] Starting snapshot #590 | Timestamp: 11.9 | Entity count: 10 | Player ID: 55 | Has baseline: true | Baseline seq: 589
+[DESERIALIZE] Completed snapshot #590 | Final entity count: 10 | Player 55 in snapshot: true | All entity IDs: [1, 8, 10, 27, 30, 44, 51, 54, 55, 56]
+[DESERIALIZE] Starting snapshot #600 | Timestamp: 12.1 | Entity count: 10 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #600 | Final entity count: 10 | Player 55 in snapshot: true | All entity IDs: [1, 8, 10, 27, 30, 44, 51, 54, 55, 56]
+[CLIENT] Received snapshot #600 | Snapshot timestamp: 12.1 | Current client time: 10.143 | Interpolator render_time: 11.912418467078 | Interpolator latest_server_time: 12.05 | Entities: 10 | Player in snapshot: true | Player ID: 55 | Data size: 117 bytes
+[CLIENT] Remote Entity 1 Pos: (-184.5984, 76.29321) Vel: (-0.125061, -0.125061)
+[INTERPOLATOR] Buffer full, removing old snapshot seq 560
+[INTERPOLATOR] Buffer: 40 pkts | Health: 187.6ms / 150.0ms | Status: OK
+[DESERIALIZE] Starting snapshot #610 | Timestamp: 12.25 | Entity count: 10 | Player ID: 55 | Has baseline: true | Baseline seq: 609
+[DESERIALIZE] Completed snapshot #610 | Final entity count: 10 | Player 55 in snapshot: true | All entity IDs: [1, 8, 10, 27, 30, 44, 51, 54, 55, 56]
+[DESERIALIZE] Starting snapshot #620 | Timestamp: 12.4 | Entity count: 10 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #620 | Final entity count: 10 | Player 55 in snapshot: true | All entity IDs: [1, 8, 10, 27, 30, 44, 51, 54, 55, 56]
+[INTERPOLATOR] Buffer: 40 pkts | Health: 150.0ms / 150.0ms | Status: OK
+[DESERIALIZE] Starting snapshot #630 | Timestamp: 12.6 | Entity count: 11 | Player ID: 55 | Has baseline: true | Baseline seq: 629
+[DESERIALIZE] Completed snapshot #630 | Final entity count: 11 | Player 55 in snapshot: true | All entity IDs: [1, 10, 27, 30, 33, 44, 51, 52, 54, 55, 56]
+[DESERIALIZE] Starting snapshot #640 | Timestamp: 12.75 | Entity count: 11 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #640 | Final entity count: 11 | Player 55 in snapshot: true | All entity IDs: [1, 10, 27, 30, 33, 44, 51, 52, 54, 55, 56]
+[INTERPOLATOR] Buffer: 40 pkts | Health: 167.9ms / 150.0ms | Status: OK
+[DESERIALIZE] Starting snapshot #650 | Timestamp: 12.9 | Entity count: 11 | Player ID: 55 | Has baseline: true | Baseline seq: 648
+[DESERIALIZE] Completed snapshot #650 | Final entity count: 11 | Player 55 in snapshot: true | All entity IDs: [1, 10, 27, 30, 33, 44, 51, 52, 54, 55, 56]
+[DESERIALIZE] Starting snapshot #660 | Timestamp: 13.1 | Entity count: 11 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #660 | Final entity count: 11 | Player 55 in snapshot: true | All entity IDs: [1, 10, 27, 30, 33, 44, 51, 52, 54, 55, 56]
+[INTERPOLATOR] Buffer: 40 pkts | Health: 187.6ms / 150.0ms | Status: OK
+[DESERIALIZE] Starting snapshot #670 | Timestamp: 13.25 | Entity count: 11 | Player ID: 55 | Has baseline: true | Baseline seq: 668
+[DESERIALIZE] Completed snapshot #670 | Final entity count: 11 | Player 55 in snapshot: true | All entity IDs: [1, 10, 27, 30, 33, 44, 51, 52, 54, 55, 56]
+[DESERIALIZE] Starting snapshot #680 | Timestamp: 13.4 | Entity count: 11 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #680 | Final entity count: 11 | Player 55 in snapshot: true | All entity IDs: [1, 10, 27, 30, 33, 44, 51, 52, 54, 55, 56]
+[INTERPOLATOR] Buffer: 40 pkts | Health: 150.0ms / 150.0ms | Status: OK
+[DESERIALIZE] Starting snapshot #690 | Timestamp: 13.6 | Entity count: 10 | Player ID: 55 | Has baseline: true | Baseline seq: 688
+[DESERIALIZE] Completed snapshot #690 | Final entity count: 10 | Player 55 in snapshot: true | All entity IDs: [1, 10, 27, 30, 44, 51, 52, 54, 55, 56]
+[DESERIALIZE] Starting snapshot #700 | Timestamp: 13.75 | Entity count: 10 | Player ID: 55 | Has baseline: false | Baseline seq: 0
+[DESERIALIZE] Completed snapshot #700 | Final entity count: 10 | Player 55 in snapshot: true | All entity IDs: [1, 10, 27, 30, 44, 51, 52, 54, 55, 56]
+[CLIENT] Received snapshot #700 | Snapshot timestamp: 13.75 | Current client time: 11.813 | Interpolator render_time: 13.5819106859017 | Interpolator latest_server_time: 13.75 | Entities: 10 | Player in snapshot: true | Player ID: 55 | Data size: 117 bytes
+[CLIENT] Remote Entity 1 Pos: (-184.5984, 76.29321) Vel: (-0.125061, -0.125061)
+[INTERPOLATOR] Buffer full, removing old snapshot seq 660
+[INTERPOLATOR] Buffer: 40 pkts | Health: 168.1ms / 150.0ms | Status: OK

@@ -66,7 +66,8 @@ class LineChart:
 				fills[i] = fill_color
 			draw_polygon(fill_points, fills)
 
-		draw_polyline(points, line_color, 2.0, true)
+		if points.size() >= 2:
+			draw_polyline(points, line_color, 2.0, true)
 
 # Preload the classes
 const GameServerScript = preload("res://scripts/game_server.gd")
@@ -132,6 +133,13 @@ func _ready():
 		"- Spatial partitioning for 10k+ players\n" + \
 		"- " + str(int(NetworkConfig.TOTAL_CLIENT_DELAY * 1000)) + "ms interpolation delay"
 	vbox.add_child(instructions)
+
+	# Check command line args for auto-start
+	var args = OS.get_cmdline_args()
+	if "--server" in args:
+		_on_server_button_pressed()
+	elif "--client" in args:
+		_on_client_button_pressed()
 
 func _on_server_button_pressed():
 	if server_instance:

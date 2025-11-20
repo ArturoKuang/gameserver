@@ -109,8 +109,8 @@ func _physics_process(delta: float):
 func _send_snapshot_to_peer(peer_id: int):
 	var snapshot = world.create_snapshot_for_peer(peer_id)
 
-	# Get baseline for delta compression
-	var baseline = world.last_snapshots.get(peer_id)
+	# Get baseline for delta compression (ACK-BASED)
+	var baseline = world.get_baseline_for_peer(peer_id)
 
 	var force_full = force_full_snapshot.get(peer_id, false)
 	var periodic_keyframe = (snapshot.sequence % FULL_SNAPSHOT_INTERVAL) == 0
@@ -128,8 +128,8 @@ func _send_snapshot_to_peer(peer_id: int):
 	# Send to client (call the receive function on client)
 	receive_snapshot_data.rpc_id(peer_id, data)
 
-	# Update baseline
-	world.last_snapshots[peer_id] = snapshot
+	# Store snapshot for future delta compression
+	world.store_snapshot_for_peer(peer_id, snapshot)
 
 	# Debug info (only occasionally)
 	if snapshot.sequence % 100 == 0:
@@ -151,8 +151,15 @@ func receive_snapshot_data(data: PackedByteArray):
 
 ## Receive player input from client
 @rpc("any_peer", "call_remote", "unreliable")
-func receive_player_input(input_dir: Vector2):
+func receive_player_input(input_dir: Vector2, ack: int = 0):
 	var peer_id = multiplayer.get_remote_sender_id()
+	
+	# Debug: Log input occasionally
+	if Engine.get_physics_frames() % 60 == 0:
+		print("[SERVER] Received input from ", peer_id, ": ", input_dir, " | Ack: ", ack)
+
+	if ack > 0:
+		world.acknowledge_snapshot(peer_id, ack)
 	world.handle_player_input(peer_id, input_dir)
 
 ## Get bandwidth stats for UI

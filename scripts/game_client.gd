@@ -17,6 +17,10 @@ var input_direction: Vector2 = Vector2.ZERO
 var last_input_send_time: float = 0.0
 const INPUT_SEND_RATE = 20  # Send input 20 times per second
 
+# Automated Testing
+var auto_move_enabled: bool = false
+var auto_move_timer: float = 0.0
+
 # Bandwidth and network metrics tracking
 var bytes_received_this_second: int = 0
 var bytes_received_per_second: int = 0
@@ -37,6 +41,12 @@ const SNAPSHOT_HISTORY_LIMIT = NetworkConfig.SNAPSHOT_RATE * 4  # ~400ms of base
 
 func _ready():
 	add_child(interpolator)
+	
+	# Check for auto-move argument
+	if "--auto-move" in OS.get_cmdline_args():
+		auto_move_enabled = true
+		print("[CLIENT] Auto-move enabled for testing")
+
 	# Don't auto-connect for now - wait for user input
 	# Uncomment to auto-connect:
 	# _connect_to_server()
@@ -101,11 +111,19 @@ func _process(delta: float):
 	# Rate-limit input sending to avoid spamming the server
 	last_input_send_time += delta
 	if last_input_send_time >= (1.0 / INPUT_SEND_RATE):
-		receive_player_input.rpc_id(1, input_direction)
+		# Send input along with the last received snapshot sequence (ack) for delta compression
+		receive_player_input.rpc_id(1, input_direction, last_snapshot_sequence)
 		last_input_send_time = 0.0
 
 func _handle_input():
 	input_direction = Vector2.ZERO
+
+	if auto_move_enabled:
+		auto_move_timer += get_process_delta_time()
+		# Circular motion
+		input_direction = Vector2(cos(auto_move_timer * 2.0), sin(auto_move_timer * 2.0))
+		# No normalization needed for sin/cos, it's already length 1
+		return
 
 	if Input.is_action_pressed("ui_right"):
 		input_direction.x += 1
@@ -119,7 +137,7 @@ func _handle_input():
 	input_direction = input_direction.normalized()
 
 @rpc("any_peer", "call_remote", "unreliable")
-func receive_player_input(input_dir: Vector2):
+func receive_player_input(input_dir: Vector2, ack: int):
 	# This is defined on server - this is just a stub for RPC registration
 	pass
 
@@ -189,6 +207,15 @@ func receive_snapshot_data(data: PackedByteArray):
 			  " | Player in snapshot: ", player_in_snapshot,
 			  " | Player ID: ", my_entity_id,
 			  " | Data size: ", data.size(), " bytes")
+			
+		# Verify other players are moving
+		for eid in snapshot.entities:
+			if eid != my_entity_id:
+				var e = snapshot.entities[eid]
+				# Heuristic: Player IDs are usually small integers from server logic, but here they are spawned. 
+				# Let's just log one.
+				print("[CLIENT] Remote Entity ", eid, " Pos: ", e.position, " Vel: ", e.velocity)
+				break 
 
 	# Pass to interpolator
 	interpolator.receive_snapshot(snapshot)

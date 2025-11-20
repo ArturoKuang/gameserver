@@ -1,0 +1,315 @@
+Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
+
+[SERVER] Creating world walls...
+[SERVER] Walls created successfully
+Server started on port 7777
+Tick rate: 20 Hz
+Snapshot rate: 20 Hz
+ENet compression: FASTLZ enabled
+[SERVER] Spawned entity 1 at (-198.3042, 18.54116) | Peer: NPC
+[SERVER] Spawned entity 2 at (-159.6961, 307.7119) | Peer: NPC
+[SERVER] Spawned entity 3 at (151.0989, -359.0304) | Peer: NPC
+[SERVER] Spawned entity 4 at (152.1475, 141.4261) | Peer: NPC
+[SERVER] Spawned entity 5 at (90.49329, 68.81257) | Peer: NPC
+[SERVER] Spawned entity 6 at (-394.5535, 33.9638) | Peer: NPC
+[SERVER] Spawned entity 7 at (-119.1797, -33.72797) | Peer: NPC
+[SERVER] Spawned entity 8 at (-38.75251, 412.6792) | Peer: NPC
+[SERVER] Spawned entity 9 at (35.79108, 145.0497) | Peer: NPC
+[SERVER] Spawned entity 10 at (390.6378, -467.6597) | Peer: NPC
+[SERVER] Spawned entity 11 at (69.77224, -73.59928) | Peer: NPC
+[SERVER] Spawned entity 12 at (248.3778, -206.5201) | Peer: NPC
+[SERVER] Spawned entity 13 at (-293.0553, 203.361) | Peer: NPC
+[SERVER] Spawned entity 14 at (389.2149, 363.9675) | Peer: NPC
+[SERVER] Spawned entity 15 at (424.657, -432.1287) | Peer: NPC
+[SERVER] Spawned entity 16 at (-47.98885, -465.5012) | Peer: NPC
+[SERVER] Spawned entity 17 at (247.7764, -457.5546) | Peer: NPC
+[SERVER] Spawned entity 18 at (-88.84528, 364.2242) | Peer: NPC
+[SERVER] Spawned entity 19 at (352.1238, -18.68557) | Peer: NPC
+[SERVER] Spawned entity 20 at (495.3732, 473.3959) | Peer: NPC
+[SERVER] Spawned entity 21 at (-408.9803, -160.6961) | Peer: NPC
+[SERVER] Spawned entity 22 at (-320.1534, 203.9289) | Peer: NPC
+[SERVER] Spawned entity 23 at (41.23106, -103.8267) | Peer: NPC
+[SERVER] Spawned entity 24 at (-428.2128, -209.1871) | Peer: NPC
+[SERVER] Spawned entity 25 at (-28.18903, 296.047) | Peer: NPC
+[SERVER] Spawned entity 26 at (134.1308, -399.2313) | Peer: NPC
+[SERVER] Spawned entity 27 at (-263.6323, 247.7986) | Peer: NPC
+[SERVER] Spawned entity 28 at (-442.5938, -246.0833) | Peer: NPC
+[SERVER] Spawned entity 29 at (-461.2438, -296.3544) | Peer: NPC
+[SERVER] Spawned entity 30 at (-261.4111, 185.6756) | Peer: NPC
+[SERVER] Spawned entity 31 at (-413.3516, -254.1667) | Peer: NPC
+[SERVER] Spawned entity 32 at (-193.8318, -189.7976) | Peer: NPC
+[SERVER] Spawned entity 33 at (-42.6405, 216.9347) | Peer: NPC
+[SERVER] Spawned entity 34 at (-462.0656, -206.9157) | Peer: NPC
+[SERVER] Spawned entity 35 at (-140.6046, 214.9672) | Peer: NPC
+[SERVER] Spawned entity 36 at (302.0067, 155.0724) | Peer: NPC
+[SERVER] Spawned entity 37 at (471.4736, -168.2894) | Peer: NPC
+[SERVER] Spawned entity 38 at (290.3055, 387.7883) | Peer: NPC
+[SERVER] Spawned entity 39 at (124.2035, -208.7861) | Peer: NPC
+[SERVER] Spawned entity 40 at (-217.2983, 40.97833) | Peer: NPC
+[SERVER] Spawned entity 41 at (-422.7332, -126.98) | Peer: NPC
+[SERVER] Spawned entity 42 at (-188.47, 449.4165) | Peer: NPC
+[SERVER] Spawned entity 43 at (-385.1143, 266.0625) | Peer: NPC
+[SERVER] Spawned entity 44 at (498.1152, -37.4876) | Peer: NPC
+[SERVER] Spawned entity 45 at (-164.9971, -109.3046) | Peer: NPC
+[SERVER] Spawned entity 46 at (-218.6959, 458.0606) | Peer: NPC
+[SERVER] Spawned entity 47 at (30.68593, -181.5379) | Peer: NPC
+[SERVER] Spawned entity 48 at (-160.7268, 354.761) | Peer: NPC
+[SERVER] Spawned entity 49 at (166.1828, 429.917) | Peer: NPC
+[SERVER] Spawned entity 50 at (341.718, 160.8657) | Peer: NPC
+[SERVER] Creating moving obstacles...
+[SERVER] Created moving obstacle 51 from (-300.0, 0.0) to (300.0, 0.0)
+[SERVER] Created moving obstacle 52 from (0.0, -300.0) to (0.0, 300.0)
+[SERVER] Created moving obstacle 53 from (-200.0, -200.0) to (200.0, 200.0)
+[SERVER] Created moving obstacle 54 from (150.0, -100.0) to (-150.0, 100.0)
+[SERVER] Moving obstacles created
+=== SERVER MODE ===
+Peer connected: 1752572232
+[SERVER] Spawned entity 55 at (-51.6912, -80.99748) | Peer: 1752572232
+[SERVER] DEBUG: About to add 14 entities to snapshot #10 | Player at [0]: true | Interest list: [55, 53, 45, 32, 51, 1, 40, 7, 11, 47, 52, 23, 54, 39]
+[SERVER] DEBUG: Snapshot #10 created with 14 entities including player 55 | All entities: [55, 53, 45, 32, 51, 1, 40, 7, 11, 47, 52, 23, 54, 39]
+[SERIALIZE] Snapshot #10 | Player ID: 55 | Player in entity_ids: true | Entity count: 14 | All IDs (sorted): [1, 7, 11, 23, 32, 39, 40, 45, 47, 51, 52, 53, 54, 55]
+[SERIALIZE] WARNING: Player 55 unchanged from baseline in snapshot #10 - copying from baseline
+[SERVER] DEBUG: About to add 14 entities to snapshot #20 | Player at [0]: true | Interest list: [55, 53, 45, 32, 51, 1, 40, 7, 11, 47, 52, 23, 54, 39]
+[SERVER] DEBUG: Snapshot #20 created with 14 entities including player 55 | All entities: [55, 53, 45, 32, 51, 1, 40, 7, 11, 47, 52, 23, 54, 39]
+[SERIALIZE] Snapshot #20 | Player ID: 55 | Player in entity_ids: true | Entity count: 14 | All IDs (sorted): [1, 7, 11, 23, 32, 39, 40, 45, 47, 51, 52, 53, 54, 55]
+[SERVER] DEBUG: About to add 14 entities to snapshot #30 | Player at [0]: true | Interest list: [55, 53, 45, 51, 32, 7, 1, 40, 11, 52, 23, 47, 54, 39]
+[SERVER] DEBUG: Snapshot #30 created with 14 entities including player 55 | All entities: [55, 53, 45, 51, 32, 7, 1, 40, 11, 52, 23, 47, 54, 39]
+[SERIALIZE] Snapshot #30 | Player ID: 55 | Player in entity_ids: true | Entity count: 14 | All IDs (sorted): [1, 7, 11, 23, 32, 39, 40, 45, 47, 51, 52, 53, 54, 55]
+[SERIALIZE] WARNING: Player 55 unchanged from baseline in snapshot #30 - copying from baseline
+[SERVER] DEBUG: About to add 14 entities to snapshot #40 | Player at [0]: true | Interest list: [55, 53, 45, 51, 32, 7, 1, 40, 11, 52, 23, 47, 54, 39]
+[SERVER] DEBUG: Snapshot #40 created with 14 entities including player 55 | All entities: [55, 53, 45, 51, 32, 7, 1, 40, 11, 52, 23, 47, 54, 39]
+[SERIALIZE] Snapshot #40 | Player ID: 55 | Player in entity_ids: true | Entity count: 14 | All IDs (sorted): [1, 7, 11, 23, 32, 39, 40, 45, 47, 51, 52, 53, 54, 55]
+[SERVER] DEBUG: About to add 14 entities to snapshot #50 | Player at [0]: true | Interest list: [55, 53, 45, 51, 32, 7, 1, 40, 11, 54, 52, 23, 47, 39]
+[SERVER] DEBUG: Snapshot #50 created with 14 entities including player 55 | All entities: [55, 53, 45, 51, 32, 7, 1, 40, 11, 54, 52, 23, 47, 39]
+[SERIALIZE] Snapshot #50 | Player ID: 55 | Player in entity_ids: true | Entity count: 14 | All IDs (sorted): [1, 7, 11, 23, 32, 39, 40, 45, 47, 51, 52, 53, 54, 55]
+[SERIALIZE] WARNING: Player 55 unchanged from baseline in snapshot #50 - copying from baseline
+[SERVER] DEBUG: About to add 14 entities to snapshot #60 | Player at [0]: true | Interest list: [55, 45, 51, 53, 32, 7, 1, 40, 11, 54, 52, 23, 47, 39]
+[SERVER] DEBUG: Snapshot #60 created with 14 entities including player 55 | All entities: [55, 45, 51, 53, 32, 7, 1, 40, 11, 54, 52, 23, 47, 39]
+[SERIALIZE] Snapshot #60 | Player ID: 55 | Player in entity_ids: true | Entity count: 14 | All IDs (sorted): [1, 7, 11, 23, 32, 39, 40, 45, 47, 51, 52, 53, 54, 55]
+Peer connected: 1241615238
+[SERVER] Spawned entity 56 at (-34.57124, 42.84788) | Peer: 1241615238
+[SERVER] DEBUG: About to add 15 entities to snapshot #70 | Player at [0]: true | Interest list: [55, 45, 51, 53, 32, 7, 1, 40, 11, 54, 56, 52, 23, 47, 39]
+[SERVER] DEBUG: Snapshot #70 created with 15 entities including player 55 | All entities: [55, 45, 51, 53, 32, 7, 1, 40, 11, 54, 56, 52, 23, 47, 39]
+[SERIALIZE] Snapshot #70 | Player ID: 55 | Player in entity_ids: true | Entity count: 15 | All IDs (sorted): [1, 7, 11, 23, 32, 39, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+[SERIALIZE] WARNING: Player 55 unchanged from baseline in snapshot #70 - copying from baseline
+[SERVER] DEBUG: About to add 14 entities to snapshot #10 | Player at [0]: true | Interest list: [56, 45, 51, 32, 7, 1, 40, 55, 11, 54, 23, 47, 9, 5]
+[SERVER] DEBUG: Snapshot #10 created with 14 entities including player 56 | All entities: [56, 45, 51, 32, 7, 1, 40, 55, 11, 54, 23, 47, 9, 5]
+[SERIALIZE] Snapshot #10 | Player ID: 56 | Player in entity_ids: true | Entity count: 14 | All IDs (sorted): [1, 5, 7, 9, 11, 23, 32, 40, 45, 47, 51, 54, 55, 56]
+[SERVER] DEBUG: About to add 15 entities to snapshot #80 | Player at [0]: true | Interest list: [55, 45, 51, 53, 32, 7, 1, 40, 11, 54, 56, 52, 23, 47, 39]
+[SERVER] DEBUG: Snapshot #80 created with 15 entities including player 55 | All entities: [55, 45, 51, 53, 32, 7, 1, 40, 11, 54, 56, 52, 23, 47, 39]
+[SERIALIZE] Snapshot #80 | Player ID: 55 | Player in entity_ids: true | Entity count: 15 | All IDs (sorted): [1, 7, 11, 23, 32, 39, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+[SERVER] DEBUG: About to add 14 entities to snapshot #20 | Player at [0]: true | Interest list: [56, 45, 51, 32, 7, 1, 40, 11, 55, 54, 23, 47, 9, 5]
+[SERVER] DEBUG: Snapshot #20 created with 14 entities including player 56 | All entities: [56, 45, 51, 32, 7, 1, 40, 11, 55, 54, 23, 47, 9, 5]
+[SERIALIZE] Snapshot #20 | Player ID: 56 | Player in entity_ids: true | Entity count: 14 | All IDs (sorted): [1, 5, 7, 9, 11, 23, 32, 40, 45, 47, 51, 54, 55, 56]
+[SERVER] DEBUG: About to add 15 entities to snapshot #90 | Player at [0]: true | Interest list: [55, 45, 51, 32, 53, 7, 1, 40, 11, 54, 56, 52, 23, 47, 39]
+[SERVER] DEBUG: Snapshot #90 created with 15 entities including player 55 | All entities: [55, 45, 51, 32, 53, 7, 1, 40, 11, 54, 56, 52, 23, 47, 39]
+[SERIALIZE] Snapshot #90 | Player ID: 55 | Player in entity_ids: true | Entity count: 15 | All IDs (sorted): [1, 7, 11, 23, 32, 39, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+[SERIALIZE] WARNING: Player 55 unchanged from baseline in snapshot #90 - copying from baseline
+[SERVER] DEBUG: About to add 15 entities to snapshot #30 | Player at [0]: true | Interest list: [56, 45, 51, 32, 53, 7, 1, 40, 11, 55, 54, 23, 47, 9, 5]
+[SERVER] DEBUG: Snapshot #30 created with 15 entities including player 56 | All entities: [56, 45, 51, 32, 53, 7, 1, 40, 11, 55, 54, 23, 47, 9, 5]
+[SERIALIZE] Snapshot #30 | Player ID: 56 | Player in entity_ids: true | Entity count: 15 | All IDs (sorted): [1, 5, 7, 9, 11, 23, 32, 40, 45, 47, 51, 53, 54, 55, 56]
+[SERVER] Snapshot #100 | Tick: 75 | Timestamp: 3.75 | Player ID: 55 | Player pos: (-51.6912, -80.99748) | Player chunk: (-1, -2)
+[SERVER] DEBUG: About to add 15 entities to snapshot #100 | Player at [0]: true | Interest list: [55, 45, 51, 32, 53, 7, 1, 40, 11, 54, 56, 23, 47, 52, 39]
+[SERVER] DEBUG: Snapshot #100 created with 15 entities including player 55 | All entities: [55, 45, 51, 32, 53, 7, 1, 40, 11, 54, 56, 23, 47, 52, 39]
+[SERIALIZE] Snapshot #100 | Player ID: 55 | Player in entity_ids: true | Entity count: 15 | All IDs (sorted): [1, 7, 11, 23, 32, 39, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+Snapshot #100 to peer 1752572232: 15 entities, 168 bytes (uncompressed: ~750 bytes)
+[SERVER] DEBUG: About to add 16 entities to snapshot #40 | Player at [0]: true | Interest list: [56, 45, 51, 32, 53, 7, 1, 40, 11, 55, 54, 23, 47, 52, 9, 5]
+[SERVER] DEBUG: Snapshot #40 created with 16 entities including player 56 | All entities: [56, 45, 51, 32, 53, 7, 1, 40, 11, 55, 54, 23, 47, 52, 9, 5]
+[SERIALIZE] Snapshot #40 | Player ID: 56 | Player in entity_ids: true | Entity count: 16 | All IDs (sorted): [1, 5, 7, 9, 11, 23, 32, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+[SERVER] DEBUG: About to add 15 entities to snapshot #110 | Player at [0]: true | Interest list: [55, 45, 51, 32, 53, 7, 1, 40, 11, 54, 56, 47, 52, 23, 39]
+[SERVER] DEBUG: Snapshot #110 created with 15 entities including player 55 | All entities: [55, 45, 51, 32, 53, 7, 1, 40, 11, 54, 56, 47, 52, 23, 39]
+[SERIALIZE] Snapshot #110 | Player ID: 55 | Player in entity_ids: true | Entity count: 15 | All IDs (sorted): [1, 7, 11, 23, 32, 39, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+[SERIALIZE] WARNING: Player 55 unchanged from baseline in snapshot #110 - copying from baseline
+[SERVER] DEBUG: About to add 16 entities to snapshot #50 | Player at [0]: true | Interest list: [56, 45, 51, 32, 53, 7, 1, 40, 11, 55, 54, 47, 52, 23, 9, 5]
+[SERVER] DEBUG: Snapshot #50 created with 16 entities including player 56 | All entities: [56, 45, 51, 32, 53, 7, 1, 40, 11, 55, 54, 47, 52, 23, 9, 5]
+[SERIALIZE] Snapshot #50 | Player ID: 56 | Player in entity_ids: true | Entity count: 16 | All IDs (sorted): [1, 5, 7, 9, 11, 23, 32, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+[SERVER] Player entity 56 (peer 1241615238) moved from chunk (-1, 0) to (-1, 1) | Position: (-48.07053, 64.20516)
+[SERVER] DEBUG: About to add 14 entities to snapshot #120 | Player at [0]: true | Interest list: [55, 45, 51, 32, 53, 7, 1, 40, 11, 54, 47, 52, 23, 39]
+[SERVER] DEBUG: Snapshot #120 created with 14 entities including player 55 | All entities: [55, 45, 51, 32, 53, 7, 1, 40, 11, 54, 47, 52, 23, 39]
+[SERIALIZE] Snapshot #120 | Player ID: 55 | Player in entity_ids: true | Entity count: 14 | All IDs (sorted): [1, 7, 11, 23, 32, 39, 40, 45, 47, 51, 52, 53, 54, 55]
+[SERVER] DEBUG: About to add 12 entities to snapshot #60 | Player at [0]: true | Interest list: [56, 51, 35, 7, 1, 40, 11, 54, 33, 23, 9, 5]
+[SERVER] DEBUG: Snapshot #60 created with 12 entities including player 56 | All entities: [56, 51, 35, 7, 1, 40, 11, 54, 33, 23, 9, 5]
+[SERIALIZE] Snapshot #60 | Player ID: 56 | Player in entity_ids: true | Entity count: 12 | All IDs (sorted): [1, 5, 7, 9, 11, 23, 33, 35, 40, 51, 54, 56]
+[SERVER] DEBUG: About to add 14 entities to snapshot #130 | Player at [0]: true | Interest list: [55, 45, 32, 53, 7, 1, 40, 11, 51, 54, 47, 52, 23, 39]
+[SERVER] DEBUG: Snapshot #130 created with 14 entities including player 55 | All entities: [55, 45, 32, 53, 7, 1, 40, 11, 51, 54, 47, 52, 23, 39]
+[SERIALIZE] Snapshot #130 | Player ID: 55 | Player in entity_ids: true | Entity count: 14 | All IDs (sorted): [1, 7, 11, 23, 32, 39, 40, 45, 47, 51, 52, 53, 54, 55]
+[SERIALIZE] WARNING: Player 55 unchanged from baseline in snapshot #130 - copying from baseline
+[SERVER] DEBUG: About to add 12 entities to snapshot #70 | Player at [0]: true | Interest list: [56, 35, 7, 1, 40, 11, 51, 54, 33, 23, 9, 5]
+[SERVER] DEBUG: Snapshot #70 created with 12 entities including player 56 | All entities: [56, 35, 7, 1, 40, 11, 51, 54, 33, 23, 9, 5]
+[SERIALIZE] Snapshot #70 | Player ID: 56 | Player in entity_ids: true | Entity count: 12 | All IDs (sorted): [1, 5, 7, 9, 11, 23, 33, 35, 40, 51, 54, 56]
+[SERVER] DEBUG: About to add 14 entities to snapshot #140 | Player at [0]: true | Interest list: [55, 32, 53, 45, 7, 1, 40, 11, 51, 54, 52, 23, 47, 39]
+[SERVER] DEBUG: Snapshot #140 created with 14 entities including player 55 | All entities: [55, 32, 53, 45, 7, 1, 40, 11, 51, 54, 52, 23, 47, 39]
+[SERIALIZE] Snapshot #140 | Player ID: 55 | Player in entity_ids: true | Entity count: 14 | All IDs (sorted): [1, 7, 11, 23, 32, 39, 40, 45, 47, 51, 52, 53, 54, 55]
+[SERVER] DEBUG: About to add 13 entities to snapshot #80 | Player at [0]: true | Interest list: [56, 35, 7, 1, 40, 11, 51, 54, 33, 23, 47, 9, 5]
+[SERVER] DEBUG: Snapshot #80 created with 13 entities including player 56 | All entities: [56, 35, 7, 1, 40, 11, 51, 54, 33, 23, 47, 9, 5]
+[SERIALIZE] Snapshot #80 | Player ID: 56 | Player in entity_ids: true | Entity count: 13 | All IDs (sorted): [1, 5, 7, 9, 11, 23, 33, 35, 40, 47, 51, 54, 56]
+[SERVER] DEBUG: About to add 14 entities to snapshot #150 | Player at [0]: true | Interest list: [55, 32, 53, 45, 7, 1, 40, 11, 51, 54, 52, 23, 47, 39]
+[SERVER] DEBUG: Snapshot #150 created with 14 entities including player 55 | All entities: [55, 32, 53, 45, 7, 1, 40, 11, 51, 54, 52, 23, 47, 39]
+[SERIALIZE] Snapshot #150 | Player ID: 55 | Player in entity_ids: true | Entity count: 14 | All IDs (sorted): [1, 7, 11, 23, 32, 39, 40, 45, 47, 51, 52, 53, 54, 55]
+[SERIALIZE] WARNING: Player 55 unchanged from baseline in snapshot #150 - copying from baseline
+[SERVER] DEBUG: About to add 13 entities to snapshot #90 | Player at [0]: true | Interest list: [56, 35, 7, 1, 40, 11, 51, 54, 33, 23, 47, 9, 5]
+[SERVER] DEBUG: Snapshot #90 created with 13 entities including player 56 | All entities: [56, 35, 7, 1, 40, 11, 51, 54, 33, 23, 47, 9, 5]
+[SERIALIZE] Snapshot #90 | Player ID: 56 | Player in entity_ids: true | Entity count: 13 | All IDs (sorted): [1, 5, 7, 9, 11, 23, 33, 35, 40, 47, 51, 54, 56]
+[SERVER] DEBUG: About to add 14 entities to snapshot #160 | Player at [0]: true | Interest list: [55, 53, 7, 32, 45, 1, 40, 11, 51, 54, 52, 23, 47, 39]
+[SERVER] DEBUG: Snapshot #160 created with 14 entities including player 55 | All entities: [55, 53, 7, 32, 45, 1, 40, 11, 51, 54, 52, 23, 47, 39]
+[SERIALIZE] Snapshot #160 | Player ID: 55 | Player in entity_ids: true | Entity count: 14 | All IDs (sorted): [1, 7, 11, 23, 32, 39, 40, 45, 47, 51, 52, 53, 54, 55]
+[SERVER] Snapshot #100 | Tick: 95 | Timestamp: 4.75 | Player ID: 56 | Player pos: (-46.62367, 72.59024) | Player chunk: (-1, 1)
+[SERVER] DEBUG: About to add 15 entities to snapshot #100 | Player at [0]: true | Interest list: [56, 35, 7, 32, 45, 1, 40, 11, 51, 54, 33, 23, 47, 9, 5]
+[SERVER] DEBUG: Snapshot #100 created with 15 entities including player 56 | All entities: [56, 35, 7, 32, 45, 1, 40, 11, 51, 54, 33, 23, 47, 9, 5]
+[SERIALIZE] Snapshot #100 | Player ID: 56 | Player in entity_ids: true | Entity count: 15 | All IDs (sorted): [1, 5, 7, 9, 11, 23, 32, 33, 35, 40, 45, 47, 51, 54, 56]
+Snapshot #100 to peer 1241615238: 15 entities, 168 bytes (uncompressed: ~750 bytes)
+[SERVER] DEBUG: About to add 14 entities to snapshot #170 | Player at [0]: true | Interest list: [55, 53, 7, 32, 45, 1, 40, 11, 51, 54, 52, 23, 47, 39]
+[SERVER] DEBUG: Snapshot #170 created with 14 entities including player 55 | All entities: [55, 53, 7, 32, 45, 1, 40, 11, 51, 54, 52, 23, 47, 39]
+[SERIALIZE] Snapshot #170 | Player ID: 55 | Player in entity_ids: true | Entity count: 14 | All IDs (sorted): [1, 7, 11, 23, 32, 39, 40, 45, 47, 51, 52, 53, 54, 55]
+[SERVER] DEBUG: About to add 15 entities to snapshot #110 | Player at [0]: true | Interest list: [56, 35, 7, 32, 45, 1, 40, 11, 51, 54, 33, 23, 47, 9, 5]
+[SERVER] DEBUG: Snapshot #110 created with 15 entities including player 56 | All entities: [56, 35, 7, 32, 45, 1, 40, 11, 51, 54, 33, 23, 47, 9, 5]
+[SERIALIZE] Snapshot #110 | Player ID: 56 | Player in entity_ids: true | Entity count: 15 | All IDs (sorted): [1, 5, 7, 9, 11, 23, 32, 33, 35, 40, 45, 47, 51, 54, 56]
+[SERVER] DEBUG: About to add 14 entities to snapshot #180 | Player at [0]: true | Interest list: [55, 53, 7, 32, 45, 1, 40, 11, 51, 54, 52, 23, 47, 39]
+[SERVER] DEBUG: Snapshot #180 created with 14 entities including player 55 | All entities: [55, 53, 7, 32, 45, 1, 40, 11, 51, 54, 52, 23, 47, 39]
+[SERIALIZE] Snapshot #180 | Player ID: 55 | Player in entity_ids: true | Entity count: 14 | All IDs (sorted): [1, 7, 11, 23, 32, 39, 40, 45, 47, 51, 52, 53, 54, 55]
+[SERVER] DEBUG: About to add 15 entities to snapshot #120 | Player at [0]: true | Interest list: [56, 35, 7, 32, 45, 1, 40, 11, 51, 54, 33, 23, 47, 9, 5]
+[SERVER] DEBUG: Snapshot #120 created with 15 entities including player 56 | All entities: [56, 35, 7, 32, 45, 1, 40, 11, 51, 54, 33, 23, 47, 9, 5]
+[SERIALIZE] Snapshot #120 | Player ID: 56 | Player in entity_ids: true | Entity count: 15 | All IDs (sorted): [1, 5, 7, 9, 11, 23, 32, 33, 35, 40, 45, 47, 51, 54, 56]
+[SERVER] DEBUG: About to add 14 entities to snapshot #190 | Player at [0]: true | Interest list: [55, 53, 7, 32, 45, 1, 40, 11, 51, 54, 52, 23, 47, 39]
+[SERVER] DEBUG: Snapshot #190 created with 14 entities including player 55 | All entities: [55, 53, 7, 32, 45, 1, 40, 11, 51, 54, 52, 23, 47, 39]
+[SERIALIZE] Snapshot #190 | Player ID: 55 | Player in entity_ids: true | Entity count: 14 | All IDs (sorted): [1, 7, 11, 23, 32, 39, 40, 45, 47, 51, 52, 53, 54, 55]
+[SERVER] DEBUG: About to add 15 entities to snapshot #130 | Player at [0]: true | Interest list: [56, 35, 7, 32, 45, 1, 40, 11, 51, 54, 33, 23, 47, 9, 5]
+[SERVER] DEBUG: Snapshot #130 created with 15 entities including player 56 | All entities: [56, 35, 7, 32, 45, 1, 40, 11, 51, 54, 33, 23, 47, 9, 5]
+[SERIALIZE] Snapshot #130 | Player ID: 56 | Player in entity_ids: true | Entity count: 15 | All IDs (sorted): [1, 5, 7, 9, 11, 23, 32, 33, 35, 40, 45, 47, 51, 54, 56]
+[SERVER] Snapshot #200 | Tick: 108 | Timestamp: 5.4 | Player ID: 55 | Player pos: (-39.77457, -68.97454) | Player chunk: (-1, -2)
+[SERVER] DEBUG: About to add 14 entities to snapshot #200 | Player at [0]: true | Interest list: [55, 53, 7, 32, 45, 1, 40, 11, 51, 54, 52, 23, 47, 39]
+[SERVER] DEBUG: Snapshot #200 created with 14 entities including player 55 | All entities: [55, 53, 7, 32, 45, 1, 40, 11, 51, 54, 52, 23, 47, 39]
+[SERIALIZE] Snapshot #200 | Player ID: 55 | Player in entity_ids: true | Entity count: 14 | All IDs (sorted): [1, 7, 11, 23, 32, 39, 40, 45, 47, 51, 52, 53, 54, 55]
+Snapshot #200 to peer 1752572232: 14 entities, 158 bytes (uncompressed: ~700 bytes)
+[SERVER] DEBUG: About to add 15 entities to snapshot #140 | Player at [0]: true | Interest list: [56, 35, 7, 32, 45, 1, 40, 11, 51, 54, 33, 23, 47, 9, 5]
+[SERVER] DEBUG: Snapshot #140 created with 15 entities including player 56 | All entities: [56, 35, 7, 32, 45, 1, 40, 11, 51, 54, 33, 23, 47, 9, 5]
+[SERIALIZE] Snapshot #140 | Player ID: 56 | Player in entity_ids: true | Entity count: 15 | All IDs (sorted): [1, 5, 7, 9, 11, 23, 32, 33, 35, 40, 45, 47, 51, 54, 56]
+[SERVER] DEBUG: About to add 14 entities to snapshot #210 | Player at [0]: true | Interest list: [55, 53, 7, 32, 45, 1, 40, 11, 51, 54, 23, 47, 52, 39]
+[SERVER] DEBUG: Snapshot #210 created with 14 entities including player 55 | All entities: [55, 53, 7, 32, 45, 1, 40, 11, 51, 54, 23, 47, 52, 39]
+[SERIALIZE] Snapshot #210 | Player ID: 55 | Player in entity_ids: true | Entity count: 14 | All IDs (sorted): [1, 7, 11, 23, 32, 39, 40, 45, 47, 51, 52, 53, 54, 55]
+[SERVER] DEBUG: About to add 16 entities to snapshot #150 | Player at [0]: true | Interest list: [56, 35, 7, 32, 45, 1, 40, 11, 51, 54, 33, 23, 47, 52, 9, 5]
+[SERVER] DEBUG: Snapshot #150 created with 16 entities including player 56 | All entities: [56, 35, 7, 32, 45, 1, 40, 11, 51, 54, 33, 23, 47, 52, 9, 5]
+[SERIALIZE] Snapshot #150 | Player ID: 56 | Player in entity_ids: true | Entity count: 16 | All IDs (sorted): [1, 5, 7, 9, 11, 23, 32, 33, 35, 40, 45, 47, 51, 52, 54, 56]
+[SERVER] Player entity 55 (peer 1752572232) moved from chunk (-1, -2) to (-1, -1) | Position: (-37.6786, -63.7076)
+[SERVER] DEBUG: About to add 15 entities to snapshot #220 | Player at [0]: true | Interest list: [55, 53, 7, 32, 45, 1, 40, 11, 51, 54, 56, 23, 47, 52, 5]
+[SERVER] DEBUG: Snapshot #220 created with 15 entities including player 55 | All entities: [55, 53, 7, 32, 45, 1, 40, 11, 51, 54, 56, 23, 47, 52, 5]
+[SERIALIZE] Snapshot #220 | Player ID: 55 | Player in entity_ids: true | Entity count: 15 | All IDs (sorted): [1, 5, 7, 11, 23, 32, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+[SERVER] DEBUG: About to add 17 entities to snapshot #160 | Player at [0]: true | Interest list: [56, 35, 7, 32, 45, 1, 40, 11, 51, 55, 54, 33, 23, 47, 52, 9, 5]
+[SERVER] DEBUG: Snapshot #160 created with 17 entities including player 56 | All entities: [56, 35, 7, 32, 45, 1, 40, 11, 51, 55, 54, 33, 23, 47, 52, 9, 5]
+[SERIALIZE] Snapshot #160 | Player ID: 56 | Player in entity_ids: true | Entity count: 17 | All IDs (sorted): [1, 5, 7, 9, 11, 23, 32, 33, 35, 40, 45, 47, 51, 52, 54, 55, 56]
+[SERVER] DEBUG: About to add 15 entities to snapshot #230 | Player at [0]: true | Interest list: [55, 53, 7, 32, 45, 1, 40, 11, 51, 54, 56, 47, 52, 23, 5]
+[SERVER] DEBUG: Snapshot #230 created with 15 entities including player 55 | All entities: [55, 53, 7, 32, 45, 1, 40, 11, 51, 54, 56, 47, 52, 23, 5]
+[SERIALIZE] Snapshot #230 | Player ID: 55 | Player in entity_ids: true | Entity count: 15 | All IDs (sorted): [1, 5, 7, 11, 23, 32, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+[SERVER] DEBUG: About to add 17 entities to snapshot #170 | Player at [0]: true | Interest list: [56, 35, 7, 32, 45, 1, 40, 11, 51, 55, 54, 33, 47, 52, 23, 9, 5]
+[SERVER] DEBUG: Snapshot #170 created with 17 entities including player 56 | All entities: [56, 35, 7, 32, 45, 1, 40, 11, 51, 55, 54, 33, 47, 52, 23, 9, 5]
+[SERIALIZE] Snapshot #170 | Player ID: 56 | Player in entity_ids: true | Entity count: 17 | All IDs (sorted): [1, 5, 7, 9, 11, 23, 32, 33, 35, 40, 45, 47, 51, 52, 54, 55, 56]
+[SERVER] DEBUG: About to add 15 entities to snapshot #240 | Player at [0]: true | Interest list: [55, 53, 7, 32, 45, 1, 40, 11, 51, 54, 56, 47, 52, 23, 5]
+[SERVER] DEBUG: Snapshot #240 created with 15 entities including player 55 | All entities: [55, 53, 7, 32, 45, 1, 40, 11, 51, 54, 56, 47, 52, 23, 5]
+[SERIALIZE] Snapshot #240 | Player ID: 55 | Player in entity_ids: true | Entity count: 15 | All IDs (sorted): [1, 5, 7, 11, 23, 32, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+[SERVER] DEBUG: About to add 17 entities to snapshot #180 | Player at [0]: true | Interest list: [56, 35, 7, 32, 45, 1, 40, 11, 51, 55, 54, 33, 47, 52, 23, 9, 5]
+[SERVER] DEBUG: Snapshot #180 created with 17 entities including player 56 | All entities: [56, 35, 7, 32, 45, 1, 40, 11, 51, 55, 54, 33, 47, 52, 23, 9, 5]
+[SERIALIZE] Snapshot #180 | Player ID: 56 | Player in entity_ids: true | Entity count: 17 | All IDs (sorted): [1, 5, 7, 9, 11, 23, 32, 33, 35, 40, 45, 47, 51, 52, 54, 55, 56]
+[SERVER] DEBUG: About to add 15 entities to snapshot #250 | Player at [0]: true | Interest list: [55, 53, 7, 32, 45, 1, 40, 11, 51, 54, 56, 47, 52, 23, 5]
+[SERVER] DEBUG: Snapshot #250 created with 15 entities including player 55 | All entities: [55, 53, 7, 32, 45, 1, 40, 11, 51, 54, 56, 47, 52, 23, 5]
+[SERIALIZE] Snapshot #250 | Player ID: 55 | Player in entity_ids: true | Entity count: 15 | All IDs (sorted): [1, 5, 7, 11, 23, 32, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+[SERVER] DEBUG: About to add 17 entities to snapshot #190 | Player at [0]: true | Interest list: [56, 35, 7, 32, 45, 1, 40, 11, 51, 55, 54, 33, 47, 52, 23, 9, 5]
+[SERVER] DEBUG: Snapshot #190 created with 17 entities including player 56 | All entities: [56, 35, 7, 32, 45, 1, 40, 11, 51, 55, 54, 33, 47, 52, 23, 9, 5]
+[SERIALIZE] Snapshot #190 | Player ID: 56 | Player in entity_ids: true | Entity count: 17 | All IDs (sorted): [1, 5, 7, 9, 11, 23, 32, 33, 35, 40, 45, 47, 51, 52, 54, 55, 56]
+[SERVER] DEBUG: About to add 15 entities to snapshot #260 | Player at [0]: true | Interest list: [55, 53, 7, 32, 45, 1, 11, 51, 40, 54, 56, 52, 23, 47, 5]
+[SERVER] DEBUG: Snapshot #260 created with 15 entities including player 55 | All entities: [55, 53, 7, 32, 45, 1, 11, 51, 40, 54, 56, 52, 23, 47, 5]
+[SERIALIZE] Snapshot #260 | Player ID: 55 | Player in entity_ids: true | Entity count: 15 | All IDs (sorted): [1, 5, 7, 11, 23, 32, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+[SERVER] Snapshot #200 | Tick: 128 | Timestamp: 6.4 | Player ID: 56 | Player pos: (-44.97742, 87.66035) | Player chunk: (-1, 1)
+[SERVER] DEBUG: About to add 17 entities to snapshot #200 | Player at [0]: true | Interest list: [56, 35, 7, 32, 45, 1, 11, 51, 40, 55, 54, 33, 52, 23, 47, 9, 5]
+[SERVER] DEBUG: Snapshot #200 created with 17 entities including player 56 | All entities: [56, 35, 7, 32, 45, 1, 11, 51, 40, 55, 54, 33, 52, 23, 47, 9, 5]
+[SERIALIZE] Snapshot #200 | Player ID: 56 | Player in entity_ids: true | Entity count: 17 | All IDs (sorted): [1, 5, 7, 9, 11, 23, 32, 33, 35, 40, 45, 47, 51, 52, 54, 55, 56]
+Snapshot #200 to peer 1241615238: 17 entities, 189 bytes (uncompressed: ~850 bytes)
+[SERVER] DEBUG: About to add 15 entities to snapshot #270 | Player at [0]: true | Interest list: [55, 53, 7, 45, 1, 11, 51, 40, 32, 54, 56, 52, 23, 47, 5]
+[SERVER] DEBUG: Snapshot #270 created with 15 entities including player 55 | All entities: [55, 53, 7, 45, 1, 11, 51, 40, 32, 54, 56, 52, 23, 47, 5]
+[SERIALIZE] Snapshot #270 | Player ID: 55 | Player in entity_ids: true | Entity count: 15 | All IDs (sorted): [1, 5, 7, 11, 23, 32, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+[SERVER] DEBUG: About to add 17 entities to snapshot #210 | Player at [0]: true | Interest list: [56, 35, 7, 45, 1, 11, 51, 40, 55, 32, 54, 33, 52, 23, 47, 9, 5]
+[SERVER] DEBUG: Snapshot #210 created with 17 entities including player 56 | All entities: [56, 35, 7, 45, 1, 11, 51, 40, 55, 32, 54, 33, 52, 23, 47, 9, 5]
+[SERIALIZE] Snapshot #210 | Player ID: 56 | Player in entity_ids: true | Entity count: 17 | All IDs (sorted): [1, 5, 7, 9, 11, 23, 32, 33, 35, 40, 45, 47, 51, 52, 54, 55, 56]
+[SERVER] DEBUG: About to add 15 entities to snapshot #280 | Player at [0]: true | Interest list: [55, 7, 45, 53, 1, 11, 51, 40, 32, 54, 56, 52, 23, 47, 5]
+[SERVER] DEBUG: Snapshot #280 created with 15 entities including player 55 | All entities: [55, 7, 45, 53, 1, 11, 51, 40, 32, 54, 56, 52, 23, 47, 5]
+[SERIALIZE] Snapshot #280 | Player ID: 55 | Player in entity_ids: true | Entity count: 15 | All IDs (sorted): [1, 5, 7, 11, 23, 32, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+[SERVER] DEBUG: About to add 18 entities to snapshot #220 | Player at [0]: true | Interest list: [56, 35, 7, 45, 53, 1, 11, 51, 40, 55, 32, 54, 33, 52, 23, 47, 9, 5]
+[SERVER] DEBUG: Snapshot #220 created with 18 entities including player 56 | All entities: [56, 35, 7, 45, 53, 1, 11, 51, 40, 55, 32, 54, 33, 52, 23, 47, 9, 5]
+[SERIALIZE] Snapshot #220 | Player ID: 56 | Player in entity_ids: true | Entity count: 18 | All IDs (sorted): [1, 5, 7, 9, 11, 23, 32, 33, 35, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+[SERVER] DEBUG: About to add 15 entities to snapshot #290 | Player at [0]: true | Interest list: [55, 7, 45, 53, 1, 11, 51, 40, 32, 54, 56, 52, 23, 47, 5]
+[SERVER] DEBUG: Snapshot #290 created with 15 entities including player 55 | All entities: [55, 7, 45, 53, 1, 11, 51, 40, 32, 54, 56, 52, 23, 47, 5]
+[SERIALIZE] Snapshot #290 | Player ID: 55 | Player in entity_ids: true | Entity count: 15 | All IDs (sorted): [1, 5, 7, 11, 23, 32, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+[SERVER] DEBUG: About to add 18 entities to snapshot #230 | Player at [0]: true | Interest list: [56, 35, 7, 45, 53, 1, 11, 51, 40, 55, 32, 54, 33, 52, 23, 47, 9, 5]
+[SERVER] DEBUG: Snapshot #230 created with 18 entities including player 56 | All entities: [56, 35, 7, 45, 53, 1, 11, 51, 40, 55, 32, 54, 33, 52, 23, 47, 9, 5]
+[SERIALIZE] Snapshot #230 | Player ID: 56 | Player in entity_ids: true | Entity count: 18 | All IDs (sorted): [1, 5, 7, 9, 11, 23, 32, 33, 35, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+[SERVER] Snapshot #300 | Tick: 142 | Timestamp: 7.1 | Player ID: 55 | Player pos: (-26.21589, -35.46824) | Player chunk: (-1, -1)
+[SERVER] DEBUG: About to add 15 entities to snapshot #300 | Player at [0]: true | Interest list: [55, 7, 45, 53, 1, 11, 51, 40, 32, 54, 56, 52, 23, 47, 5]
+[SERVER] DEBUG: Snapshot #300 created with 15 entities including player 55 | All entities: [55, 7, 45, 53, 1, 11, 51, 40, 32, 54, 56, 52, 23, 47, 5]
+[SERIALIZE] Snapshot #300 | Player ID: 55 | Player in entity_ids: true | Entity count: 15 | All IDs (sorted): [1, 5, 7, 11, 23, 32, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+Snapshot #300 to peer 1752572232: 15 entities, 168 bytes (uncompressed: ~750 bytes)
+[SERVER] DEBUG: About to add 18 entities to snapshot #240 | Player at [0]: true | Interest list: [56, 35, 7, 45, 53, 1, 11, 51, 40, 55, 32, 54, 33, 52, 23, 47, 9, 5]
+[SERVER] DEBUG: Snapshot #240 created with 18 entities including player 56 | All entities: [56, 35, 7, 45, 53, 1, 11, 51, 40, 55, 32, 54, 33, 52, 23, 47, 9, 5]
+[SERIALIZE] Snapshot #240 | Player ID: 56 | Player in entity_ids: true | Entity count: 18 | All IDs (sorted): [1, 5, 7, 9, 11, 23, 32, 33, 35, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+[SERVER] DEBUG: About to add 15 entities to snapshot #310 | Player at [0]: true | Interest list: [55, 45, 53, 1, 11, 51, 7, 40, 32, 54, 56, 52, 23, 47, 5]
+[SERVER] DEBUG: Snapshot #310 created with 15 entities including player 55 | All entities: [55, 45, 53, 1, 11, 51, 7, 40, 32, 54, 56, 52, 23, 47, 5]
+[SERIALIZE] Snapshot #310 | Player ID: 55 | Player in entity_ids: true | Entity count: 15 | All IDs (sorted): [1, 5, 7, 11, 23, 32, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+[SERVER] DEBUG: About to add 18 entities to snapshot #250 | Player at [0]: true | Interest list: [56, 35, 45, 53, 1, 11, 51, 7, 40, 55, 32, 54, 33, 52, 23, 47, 9, 5]
+[SERVER] DEBUG: Snapshot #250 created with 18 entities including player 56 | All entities: [56, 35, 45, 53, 1, 11, 51, 7, 40, 55, 32, 54, 33, 52, 23, 47, 9, 5]
+[SERIALIZE] Snapshot #250 | Player ID: 56 | Player in entity_ids: true | Entity count: 18 | All IDs (sorted): [1, 5, 7, 9, 11, 23, 32, 33, 35, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+[SERVER] DEBUG: About to add 15 entities to snapshot #320 | Player at [0]: true | Interest list: [55, 45, 1, 11, 51, 7, 40, 32, 53, 54, 56, 52, 23, 47, 5]
+[SERVER] DEBUG: Snapshot #320 created with 15 entities including player 55 | All entities: [55, 45, 1, 11, 51, 7, 40, 32, 53, 54, 56, 52, 23, 47, 5]
+[SERIALIZE] Snapshot #320 | Player ID: 55 | Player in entity_ids: true | Entity count: 15 | All IDs (sorted): [1, 5, 7, 11, 23, 32, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+[SERVER] DEBUG: About to add 18 entities to snapshot #260 | Player at [0]: true | Interest list: [56, 35, 45, 1, 11, 51, 7, 40, 55, 32, 53, 54, 33, 52, 23, 47, 9, 5]
+[SERVER] DEBUG: Snapshot #260 created with 18 entities including player 56 | All entities: [56, 35, 45, 1, 11, 51, 7, 40, 55, 32, 53, 54, 33, 52, 23, 47, 9, 5]
+[SERIALIZE] Snapshot #260 | Player ID: 56 | Player in entity_ids: true | Entity count: 18 | All IDs (sorted): [1, 5, 7, 9, 11, 23, 32, 33, 35, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+[SERVER] DEBUG: About to add 15 entities to snapshot #330 | Player at [0]: true | Interest list: [55, 45, 1, 11, 51, 7, 40, 32, 53, 54, 56, 52, 23, 47, 5]
+[SERVER] DEBUG: Snapshot #330 created with 15 entities including player 55 | All entities: [55, 45, 1, 11, 51, 7, 40, 32, 53, 54, 56, 52, 23, 47, 5]
+[SERIALIZE] Snapshot #330 | Player ID: 55 | Player in entity_ids: true | Entity count: 15 | All IDs (sorted): [1, 5, 7, 11, 23, 32, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+[SERVER] DEBUG: About to add 18 entities to snapshot #270 | Player at [0]: true | Interest list: [56, 35, 45, 1, 11, 51, 7, 40, 55, 32, 53, 54, 33, 52, 23, 47, 9, 5]
+[SERVER] DEBUG: Snapshot #270 created with 18 entities including player 56 | All entities: [56, 35, 45, 1, 11, 51, 7, 40, 55, 32, 53, 54, 33, 52, 23, 47, 9, 5]
+[SERIALIZE] Snapshot #270 | Player ID: 56 | Player in entity_ids: true | Entity count: 18 | All IDs (sorted): [1, 5, 7, 9, 11, 23, 32, 33, 35, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+[SERVER] DEBUG: About to add 15 entities to snapshot #340 | Player at [0]: true | Interest list: [55, 45, 1, 11, 51, 7, 40, 32, 53, 54, 56, 52, 23, 47, 5]
+[SERVER] DEBUG: Snapshot #340 created with 15 entities including player 55 | All entities: [55, 45, 1, 11, 51, 7, 40, 32, 53, 54, 56, 52, 23, 47, 5]
+[SERIALIZE] Snapshot #340 | Player ID: 55 | Player in entity_ids: true | Entity count: 15 | All IDs (sorted): [1, 5, 7, 11, 23, 32, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+[SERVER] DEBUG: About to add 18 entities to snapshot #280 | Player at [0]: true | Interest list: [56, 35, 45, 1, 11, 51, 7, 40, 55, 32, 53, 54, 33, 52, 23, 47, 9, 5]
+[SERVER] DEBUG: Snapshot #280 created with 18 entities including player 56 | All entities: [56, 35, 45, 1, 11, 51, 7, 40, 55, 32, 53, 54, 33, 52, 23, 47, 9, 5]
+[SERIALIZE] Snapshot #280 | Player ID: 56 | Player in entity_ids: true | Entity count: 18 | All IDs (sorted): [1, 5, 7, 9, 11, 23, 32, 33, 35, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+[SERVER] DEBUG: About to add 15 entities to snapshot #350 | Player at [0]: true | Interest list: [55, 45, 1, 11, 51, 7, 40, 32, 53, 54, 56, 52, 23, 47, 5]
+[SERVER] DEBUG: Snapshot #350 created with 15 entities including player 55 | All entities: [55, 45, 1, 11, 51, 7, 40, 32, 53, 54, 56, 52, 23, 47, 5]
+[SERIALIZE] Snapshot #350 | Player ID: 55 | Player in entity_ids: true | Entity count: 15 | All IDs (sorted): [1, 5, 7, 11, 23, 32, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+[SERVER] DEBUG: About to add 18 entities to snapshot #290 | Player at [0]: true | Interest list: [56, 35, 45, 1, 11, 51, 7, 40, 55, 32, 53, 54, 33, 52, 23, 47, 9, 5]
+[SERVER] DEBUG: Snapshot #290 created with 18 entities including player 56 | All entities: [56, 35, 45, 1, 11, 51, 7, 40, 55, 32, 53, 54, 33, 52, 23, 47, 9, 5]
+[SERIALIZE] Snapshot #290 | Player ID: 56 | Player in entity_ids: true | Entity count: 18 | All IDs (sorted): [1, 5, 7, 9, 11, 23, 32, 33, 35, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+[SERVER] DEBUG: About to add 15 entities to snapshot #360 | Player at [0]: true | Interest list: [55, 1, 11, 51, 7, 45, 40, 53, 54, 32, 56, 23, 47, 52, 5]
+[SERVER] DEBUG: Snapshot #360 created with 15 entities including player 55 | All entities: [55, 1, 11, 51, 7, 45, 40, 53, 54, 32, 56, 23, 47, 52, 5]
+[SERIALIZE] Snapshot #360 | Player ID: 55 | Player in entity_ids: true | Entity count: 15 | All IDs (sorted): [1, 5, 7, 11, 23, 32, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+[SERVER] Snapshot #300 | Tick: 162 | Timestamp: 8.1 | Player ID: 56 | Player pos: (-44.41087, 99.03493) | Player chunk: (-1, 1)
+[SERVER] DEBUG: About to add 18 entities to snapshot #300 | Player at [0]: true | Interest list: [56, 35, 1, 11, 51, 7, 45, 40, 55, 53, 54, 32, 33, 23, 47, 52, 9, 5]
+[SERVER] DEBUG: Snapshot #300 created with 18 entities including player 56 | All entities: [56, 35, 1, 11, 51, 7, 45, 40, 55, 53, 54, 32, 33, 23, 47, 52, 9, 5]
+[SERIALIZE] Snapshot #300 | Player ID: 56 | Player in entity_ids: true | Entity count: 18 | All IDs (sorted): [1, 5, 7, 9, 11, 23, 32, 33, 35, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+Snapshot #300 to peer 1241615238: 18 entities, 199 bytes (uncompressed: ~900 bytes)
+[SERVER] DEBUG: About to add 15 entities to snapshot #370 | Player at [0]: true | Interest list: [55, 1, 11, 51, 7, 45, 40, 53, 54, 32, 56, 23, 47, 52, 5]
+[SERVER] DEBUG: Snapshot #370 created with 15 entities including player 55 | All entities: [55, 1, 11, 51, 7, 45, 40, 53, 54, 32, 56, 23, 47, 52, 5]
+[SERIALIZE] Snapshot #370 | Player ID: 55 | Player in entity_ids: true | Entity count: 15 | All IDs (sorted): [1, 5, 7, 11, 23, 32, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+[SERVER] DEBUG: About to add 18 entities to snapshot #310 | Player at [0]: true | Interest list: [56, 35, 1, 11, 51, 7, 45, 40, 55, 53, 54, 32, 33, 23, 47, 52, 9, 5]
+[SERVER] DEBUG: Snapshot #310 created with 18 entities including player 56 | All entities: [56, 35, 1, 11, 51, 7, 45, 40, 55, 53, 54, 32, 33, 23, 47, 52, 9, 5]
+[SERIALIZE] Snapshot #310 | Player ID: 56 | Player in entity_ids: true | Entity count: 18 | All IDs (sorted): [1, 5, 7, 9, 11, 23, 32, 33, 35, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+[SERVER] DEBUG: About to add 15 entities to snapshot #380 | Player at [0]: true | Interest list: [55, 1, 11, 51, 45, 40, 53, 54, 32, 7, 56, 47, 52, 5, 23]
+[SERVER] DEBUG: Snapshot #380 created with 15 entities including player 55 | All entities: [55, 1, 11, 51, 45, 40, 53, 54, 32, 7, 56, 47, 52, 5, 23]
+[SERIALIZE] Snapshot #380 | Player ID: 55 | Player in entity_ids: true | Entity count: 15 | All IDs (sorted): [1, 5, 7, 11, 23, 32, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+[SERVER] DEBUG: About to add 18 entities to snapshot #320 | Player at [0]: true | Interest list: [56, 35, 1, 11, 51, 45, 40, 55, 53, 54, 32, 7, 33, 47, 52, 9, 5, 23]
+[SERVER] DEBUG: Snapshot #320 created with 18 entities including player 56 | All entities: [56, 35, 1, 11, 51, 45, 40, 55, 53, 54, 32, 7, 33, 47, 52, 9, 5, 23]
+[SERIALIZE] Snapshot #320 | Player ID: 56 | Player in entity_ids: true | Entity count: 18 | All IDs (sorted): [1, 5, 7, 9, 11, 23, 32, 33, 35, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+[SERVER] DEBUG: About to add 15 entities to snapshot #390 | Player at [0]: true | Interest list: [55, 1, 51, 45, 40, 11, 53, 32, 7, 56, 54, 47, 52, 5, 23]
+[SERVER] DEBUG: Snapshot #390 created with 15 entities including player 55 | All entities: [55, 1, 51, 45, 40, 11, 53, 32, 7, 56, 54, 47, 52, 5, 23]
+[SERIALIZE] Snapshot #390 | Player ID: 55 | Player in entity_ids: true | Entity count: 15 | All IDs (sorted): [1, 5, 7, 11, 23, 32, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+[SERVER] DEBUG: About to add 18 entities to snapshot #330 | Player at [0]: true | Interest list: [56, 35, 1, 51, 45, 40, 11, 55, 53, 32, 7, 54, 33, 47, 52, 9, 5, 23]
+[SERVER] DEBUG: Snapshot #330 created with 18 entities including player 56 | All entities: [56, 35, 1, 51, 45, 40, 11, 55, 53, 32, 7, 54, 33, 47, 52, 9, 5, 23]
+[SERIALIZE] Snapshot #330 | Player ID: 56 | Player in entity_ids: true | Entity count: 18 | All IDs (sorted): [1, 5, 7, 9, 11, 23, 32, 33, 35, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+[SERVER] Snapshot #400 | Tick: 175 | Timestamp: 8.75 | Player ID: 55 | Player pos: (-15.24785, -9.121216) | Player chunk: (-1, -1)
+[SERVER] DEBUG: About to add 15 entities to snapshot #400 | Player at [0]: true | Interest list: [55, 1, 51, 45, 40, 11, 53, 32, 7, 56, 54, 47, 52, 5, 23]
+[SERVER] DEBUG: Snapshot #400 created with 15 entities including player 55 | All entities: [55, 1, 51, 45, 40, 11, 53, 32, 7, 56, 54, 47, 52, 5, 23]
+[SERIALIZE] Snapshot #400 | Player ID: 55 | Player in entity_ids: true | Entity count: 15 | All IDs (sorted): [1, 5, 7, 11, 23, 32, 40, 45, 47, 51, 52, 53, 54, 55, 56]
+Snapshot #400 to peer 1752572232: 15 entities, 168 bytes (uncompressed: ~750 bytes)
+[SERVER] DEBUG: About to add 18 entities to snapshot #340 | Player at [0]: true | Interest list: [56, 35, 1, 51, 45, 40, 11, 55, 53, 32, 7, 54, 33, 47, 52, 9, 5, 23]
+[SERVER] DEBUG: Snapshot #340 created with 18 entities including player 56 | All entities: [56, 35, 1, 51, 45, 40, 11, 55, 53, 32, 7, 54, 33, 47, 52, 9, 5, 23]
+[SERIALIZE] Snapshot #340 | Player ID: 56 | Player in entity_ids: true | Entity count: 18 | All IDs (sorted): [1, 5, 7, 9, 11, 23, 32, 33, 35, 40, 45, 47, 51, 52, 53, 54, 55, 56]

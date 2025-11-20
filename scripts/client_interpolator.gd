@@ -31,18 +31,28 @@ func _ready():
 
 func _process(delta: float):
 	# CRITICAL: Never extrapolate beyond latest snapshot (GafferOnGames)
-	# If we're catching up to the latest snapshot, slow down render time advancement
-	var time_until_latest = latest_server_time - render_time
-	var min_buffer_time = NetworkConfig.TOTAL_CLIENT_DELAY
-
-	# Adaptive time advancement - slow down when buffer is getting low
-	var time_delta = delta
-	if time_until_latest < min_buffer_time:
-		# We're running low on snapshots - slow down to 90% speed
-		time_delta *= 0.9
-		if snapshot_buffer.size() % 60 == 0:  # Log occasionally
-			print("[INTERPOLATOR] WARNING: Low buffer! Time until latest: ",
-				  time_until_latest * 1000.0, "ms (min: ", min_buffer_time * 1000.0, "ms)")
+	
+	# Clock synchronization (Smooth Proportional Control)
+	# We want render_time to be exactly TOTAL_CLIENT_DELAY behind latest_server_time.
+	var target_delay = NetworkConfig.TOTAL_CLIENT_DELAY
+	var current_buffer = latest_server_time - render_time
+	var error = current_buffer - target_delay
+	
+	# Apply smooth correction
+	# If error is positive (buffer too big), speed up.
+	# If error is negative (buffer too small), slow down.
+	var time_scale = 1.0
+	if abs(error) > 0.010: # 10ms deadzone
+		time_scale = 1.0 + (error * 0.5) # P-Controller Gain
+		time_scale = clamp(time_scale, 0.90, 1.10) # Clamp speed change
+		
+		# Emergency handling for huge spikes (freeze or jump)
+		if error < -0.5: # >500ms behind (buffer empty for long time)
+			time_scale = 0.0 # Freeze
+		elif error > 1.0: # >1s ahead? Just jump.
+			render_time = latest_server_time - target_delay
+			
+	var time_delta = delta * time_scale
 
 	# Advance render time (but never past latest snapshot)
 	render_time += time_delta
@@ -51,6 +61,8 @@ func _process(delta: float):
 	if not snapshot_buffer.is_empty():
 		var max_render_time = snapshot_buffer.back().timestamp
 		if render_time > max_render_time:
+			if render_time - time_delta <= max_render_time: # Only log on the frame we hit the wall
+				print("[INTERPOLATOR] BUFFER UNDERRUN! Render time caught up to latest snapshot. Holding frame.")
 			render_time = max_render_time
 
 	# Interpolate entities
@@ -99,11 +111,12 @@ func receive_snapshot(snapshot: EntitySnapshot):
 			print("[INTERPOLATOR] Buffer full, removing old snapshot seq ", removed.sequence)
 
 	# Debug logging
-	if snapshot.sequence % 100 == 0:
-		print("[INTERPOLATOR] Buffer state: ", snapshot_buffer.size(), " snapshots | ",
-			  "Render time: ", render_time,
-			  " | Latest server time: ", latest_server_time,
-			  " | Delay: ", (latest_server_time - render_time) * 1000.0, " ms")
+	if snapshot.sequence % 20 == 0: # Log every second (at 20Hz)
+		var buffer_ms = (latest_server_time - render_time) * 1000.0
+		var required_ms = NetworkConfig.TOTAL_CLIENT_DELAY * 1000.0
+		print("[INTERPOLATOR] Buffer: ", snapshot_buffer.size(), " pkts | ",
+			  "Health: ", "%.1f" % buffer_ms, "ms / ", "%.1f" % required_ms, "ms",
+			  " | Status: ", "OK" if buffer_ms > 50 else "CRITICAL")
 
 ## Interpolate entities at current render time
 func _interpolate():
