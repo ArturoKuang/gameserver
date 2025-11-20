@@ -98,7 +98,7 @@ func _process(delta: float):
 	# Rate-limit input sending to avoid spamming the server
 	last_input_send_time += delta
 	if last_input_send_time >= (1.0 / INPUT_SEND_RATE):
-		receive_player_input.rpc_id(1, input_direction)
+		receive_player_input.rpc_id(1, input_direction, last_snapshot_sequence)
 		last_input_send_time = 0.0
 
 func _handle_input():
@@ -116,7 +116,7 @@ func _handle_input():
 	input_direction = input_direction.normalized()
 
 @rpc("any_peer", "call_remote", "unreliable")
-func receive_player_input(input_dir: Vector2):
+func receive_player_input(input_dir: Vector2, last_seq: int):
 	# This is defined on server - this is just a stub for RPC registration
 	pass
 
@@ -128,8 +128,24 @@ func receive_snapshot_data(data: PackedByteArray):
 	snapshots_received_this_second += 1
 	total_packets_received += 1
 
-	# Deserialize snapshot
-	var snapshot = EntitySnapshot.deserialize(data, server_baseline)
+	# FIX: Peek header to find the correct baseline for delta compression
+	# The server might use an older baseline if our ACKs haven't arrived yet
+	var header = EntitySnapshot.peek_header(data)
+	var baseline_snapshot = null
+	
+	if header.baseline_seq > 0:
+		# Try to find baseline in interpolator buffer
+		baseline_snapshot = interpolator.get_snapshot(header.baseline_seq)
+		
+		# Fallback to last received snapshot if it matches
+		if not baseline_snapshot and server_baseline and server_baseline.sequence == header.baseline_seq:
+			baseline_snapshot = server_baseline
+
+	# Deserialize snapshot using the correct baseline
+	var snapshot = EntitySnapshot.deserialize(data, baseline_snapshot)
+
+	if not snapshot:
+		return
 
 	# Track packet loss (missed sequence numbers)
 	if last_snapshot_sequence != -1:

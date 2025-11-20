@@ -50,8 +50,16 @@ func _process(delta: float):
 		# Blend toward server position (soft reconciliation)
 		if entities.has(game_client.my_entity_id):
 			var server_position = entities[game_client.my_entity_id].current_position
-			var error = server_position - predicted_player_position
-			predicted_player_position += error * PREDICTION_BLEND_FACTOR
+			
+			# CRITICAL FIX: Do not blend continuously against interpolated position (which is 150ms in the past).
+			# This caused the "laggy" feeling (rubber-banding).
+			# Only snap if the error is massive (e.g. teleport or major desync)
+			# Max speed 100 * 0.15s = 15 units of expected lag. 
+			# Allow some buffer (e.g. 64 units) before snapping.
+			var dist = server_position.distance_to(predicted_player_position)
+			if dist > 64.0:
+				print("[RENDERER] Large desync detected (", dist, " units) - snapping to server")
+				predicted_player_position = server_position
 
 	# Update/create sprites for entities
 	for entity_id in entities:

@@ -116,6 +116,20 @@ func serialize(baseline: EntitySnapshot = null) -> PackedByteArray:
 	writer.flush()
 	return buffer
 
+## Peek at the snapshot header to get sequence and baseline_sequence
+## Useful for finding the correct baseline before full deserialization
+static func peek_header(buffer: PackedByteArray) -> Dictionary:
+	var reader = BitReader.new(buffer)
+	var sequence = reader.read_bits(16)
+	var timestamp_ms = reader.read_bits(32)
+	var baseline_seq = reader.read_bits(16)
+	
+	return {
+		"sequence": sequence,
+		"timestamp": float(timestamp_ms) / 1000.0,
+		"baseline_seq": baseline_seq
+	}
+
 ## Deserialize snapshot from bytes
 static func deserialize(buffer: PackedByteArray, baseline: EntitySnapshot = null) -> EntitySnapshot:
 	var reader = BitReader.new(buffer)
@@ -133,10 +147,15 @@ static func deserialize(buffer: PackedByteArray, baseline: EntitySnapshot = null
 	if baseline and baseline_seq > 0:
 		baseline_valid = (baseline.sequence == baseline_seq)
 		if not baseline_valid:
-			print("[DESERIALIZE] WARNING: Baseline mismatch! Snapshot #", sequence,
+			print("[DESERIALIZE] ERROR: Baseline mismatch! Snapshot #", sequence,
 				  " expects baseline #", baseline_seq, " but we have #", baseline.sequence,
-				  " (likely out-of-order packet) - ignoring delta compression")
-			baseline = null  # Disable delta compression for this packet
+				  " - CANNOT DESERIALIZE, discarding snapshot")
+			return null  # Cannot deserialize without correct baseline
+	elif baseline_seq > 0 and baseline == null:
+		print("[DESERIALIZE] ERROR: Snapshot #", sequence, " expects baseline #", baseline_seq,
+			  " but we have NO baseline - discarding snapshot")
+		return null
+
 
 	var entity_count = reader.read_bits(16)
 	var player_id = reader.read_bits(32)
@@ -216,12 +235,23 @@ class BitWriter:
 		buffer = buf
 
 	func write_bits(value: int, num_bits: int):
+		# Mask value to ensure no high bits leak in
+		value &= ((1 << num_bits) - 1)
+		
 		scratch |= (value << scratch_bits)
 		scratch_bits += num_bits
 
 		while scratch_bits >= 8:
 			buffer.append(scratch & 0xFF)
 			scratch >>= 8
+			# FIX: Mask after shift to prevent sign extension (arithmetic shift) from filling top bits with 1s
+			# scratch_bits has been decremented, so we mask to keep only valid bits
+			if scratch_bits < 63:
+				scratch &= (1 << scratch_bits) - 1
+			else:
+				# Should not happen with standard usage, but for safety with large shifts
+				scratch &= 0x7FFFFFFFFFFFFFFF # Clear sign bit at least
+			
 			scratch_bits -= 8
 
 	func write_variable_uint(value: int):
@@ -262,7 +292,11 @@ class BitReader:
 
 		var value = scratch & ((1 << num_bits) - 1)
 		scratch >>= num_bits
+		# FIX: Mask after shift to prevent sign extension
 		scratch_bits -= num_bits
+		if scratch_bits < 63:
+			scratch &= (1 << scratch_bits) - 1
+		
 		return value
 
 	func read_variable_uint() -> int:

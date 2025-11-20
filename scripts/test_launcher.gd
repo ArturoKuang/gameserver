@@ -53,6 +53,13 @@ func _ready():
 		"- " + str(int(NetworkConfig.TOTAL_CLIENT_DELAY * 1000)) + "ms interpolation delay"
 	vbox.add_child(instructions)
 
+	# Check command line arguments for auto-start (headless support)
+	var args = OS.get_cmdline_args()
+	if "--server" in args:
+		call_deferred("_on_server_button_pressed")
+	elif "--client" in args:
+		call_deferred("_on_client_button_pressed")
+
 func _on_server_button_pressed():
 	if server_instance:
 		return

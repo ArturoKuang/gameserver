@@ -231,6 +231,14 @@ func get_entity_position(entity_id: int) -> Vector2:
 func get_all_entities() -> Dictionary:
 	return interpolated_entities
 
+## Get a specific snapshot from buffer by sequence number
+func get_snapshot(sequence: int) -> EntitySnapshot:
+	# Search backwards as we likely need a recent snapshot
+	for i in range(snapshot_buffer.size() - 1, -1, -1):
+		if snapshot_buffer[i].sequence == sequence:
+			return snapshot_buffer[i]
+	return null
+
 ## Reset the interpolator
 func reset():
 	snapshot_buffer.clear()

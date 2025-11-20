@@ -106,8 +106,8 @@ func _physics_process(delta: float):
 func _send_snapshot_to_peer(peer_id: int):
 	var snapshot = world.create_snapshot_for_peer(peer_id)
 
-	# Get baseline for delta compression
-	var baseline = world.last_snapshots.get(peer_id)
+	# Get baseline for delta compression (ACK-BASED)
+	var baseline = world.get_acked_snapshot(peer_id)
 
 	# Serialize with compression
 	var data = snapshot.serialize(baseline)
@@ -119,8 +119,8 @@ func _send_snapshot_to_peer(peer_id: int):
 	# Send to client (call the receive function on client)
 	receive_snapshot_data.rpc_id(peer_id, data)
 
-	# Update baseline
-	world.last_snapshots[peer_id] = snapshot
+	# Store for future reference (so we can use it as baseline when acked)
+	world.store_snapshot(peer_id, snapshot)
 
 	# Debug info (only occasionally)
 	if snapshot.sequence % 100 == 0:
@@ -136,9 +136,9 @@ func receive_snapshot_data(data: PackedByteArray):
 
 ## Receive player input from client
 @rpc("any_peer", "call_remote", "unreliable")
-func receive_player_input(input_dir: Vector2):
+func receive_player_input(input_dir: Vector2, last_seq: int = -1):
 	var peer_id = multiplayer.get_remote_sender_id()
-	world.handle_player_input(peer_id, input_dir)
+	world.handle_player_input(peer_id, input_dir, last_seq)
 
 ## Get bandwidth stats for UI
 func get_bandwidth_stats() -> Dictionary:

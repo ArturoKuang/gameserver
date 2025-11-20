@@ -15,7 +15,9 @@ var current_tick: int = 0
 var snapshot_sequences: Dictionary = {}  # peer_id -> int
 
 # For delta compression
-var last_snapshots: Dictionary = {}  # peer_id -> EntitySnapshot
+var last_snapshots: Dictionary = {}  # peer_id -> EntitySnapshot (legacy)
+var snapshot_history: Dictionary = {} # peer_id -> Dictionary { seq: int -> EntitySnapshot }
+var peer_acked_seq: Dictionary = {} # peer_id -> int
 
 # Physics containers
 var physics_container: Node2D
@@ -40,6 +42,8 @@ class Entity:
 				return physics_body.velocity
 			elif physics_body is RigidBody2D:
 				return physics_body.linear_velocity
+			elif physics_body is AnimatableBody2D:
+				return physics_body.get_meta("velocity", Vector2.ZERO)
 			else:
 				return Vector2.ZERO
 
@@ -205,6 +209,8 @@ func remove_entity(entity_id: int):
 func cleanup_peer(peer_id: int):
 	snapshot_sequences.erase(peer_id)
 	last_snapshots.erase(peer_id)
+	snapshot_history.erase(peer_id)
+	peer_acked_seq.erase(peer_id)
 
 func set_entity_velocity(entity_id: int, vel: Vector2):
 	if entities.has(entity_id):
@@ -399,17 +405,15 @@ func _create_wall(pos: Vector2, size: Vector2):
 
 	walls_container.add_child(wall)
 
-## Create a moving obstacle (RigidBody2D that moves back and forth)
+## Create a moving obstacle (AnimatableBody2D that moves back and forth)
 func spawn_moving_obstacle(start_pos: Vector2, end_pos: Vector2, speed: float = 50.0) -> int:
 	var entity_id = next_entity_id
 	next_entity_id += 1
 
-	var body = RigidBody2D.new()
+	var body = AnimatableBody2D.new()
 	body.position = start_pos
 	body.name = "MovingObstacle_" + str(entity_id)
-	body.gravity_scale = 0.0  # Top-down game, no gravity
-	body.linear_damp = 0.0  # No damping for constant movement
-	body.lock_rotation = true  # Don't rotate
+	body.sync_to_physics = false  # We control movement in _tick
 
 	# Add collision shape
 	var collision = CollisionShape2D.new()
@@ -429,10 +433,10 @@ func spawn_moving_obstacle(start_pos: Vector2, end_pos: Vector2, speed: float = 
 	body.set_meta("end_pos", end_pos)
 	body.set_meta("speed", speed)
 	body.set_meta("moving_to_end", true)
-
-	# Set initial velocity
+	
+	# Initial velocity (for snapshot)
 	var direction = (end_pos - start_pos).normalized()
-	body.linear_velocity = direction * speed
+	body.set_meta("velocity", direction * speed)
 
 	# IMPORTANT: Create Entity wrapper so it appears in snapshots
 	var entity = Entity.new(entity_id, body)
@@ -453,7 +457,7 @@ func spawn_moving_obstacle(start_pos: Vector2, end_pos: Vector2, speed: float = 
 ## Update moving obstacles (call this in _physics_process or _tick)
 func _update_moving_obstacles():
 	for obstacle in moving_obstacles_container.get_children():
-		if obstacle is RigidBody2D:
+		if obstacle is AnimatableBody2D:
 			var start_pos: Vector2 = obstacle.get_meta("start_pos")
 			var end_pos: Vector2 = obstacle.get_meta("end_pos")
 			var speed: float = obstacle.get_meta("speed")
@@ -462,19 +466,28 @@ func _update_moving_obstacles():
 			# Check if we've reached the target
 			var target = end_pos if moving_to_end else start_pos
 			var distance = obstacle.position.distance_to(target)
-
+			
+			# Calculate move amount for this tick
+			var move_dist = speed * NetworkConfig.TICK_DELTA
+			
 			# If close enough, reverse direction
-			if distance < 10.0:
+			if distance < move_dist:
 				moving_to_end = !moving_to_end
 				obstacle.set_meta("moving_to_end", moving_to_end)
 				target = end_pos if moving_to_end else start_pos
-
+				# Snap to target? No, just keep moving towards new target
+			
 			# Update velocity towards target
 			var direction = (target - obstacle.position).normalized()
-			obstacle.linear_velocity = direction * speed
+			obstacle.position += direction * move_dist
+			obstacle.set_meta("velocity", direction * speed)
 
 ## Input handling from client
-func handle_player_input(peer_id: int, input_dir: Vector2):
+func handle_player_input(peer_id: int, input_dir: Vector2, last_seq: int = -1):
+	# Acknowledge snapshot if provided
+	if last_seq != -1:
+		ack_snapshot(peer_id, last_seq)
+
 	# Find player entity
 	for entity_id in entities:
 		var entity: Entity = entities[entity_id]
@@ -494,3 +507,35 @@ func handle_player_input(peer_id: int, input_dir: Vector2):
 			elif input_dir.y < 0:
 				entity.state_flags = 3  # Up
 			break
+
+## Acknowledge that a peer has received a snapshot
+func ack_snapshot(peer_id: int, seq: int):
+	# Only update if newer (handle out of order packets)
+	if not peer_acked_seq.has(peer_id) or seq > peer_acked_seq[peer_id]:
+		peer_acked_seq[peer_id] = seq
+
+## Store a snapshot in history
+func store_snapshot(peer_id: int, snapshot: EntitySnapshot):
+	if not snapshot_history.has(peer_id):
+		snapshot_history[peer_id] = {}
+	
+	snapshot_history[peer_id][snapshot.sequence] = snapshot
+	
+	# Prune old snapshots (keep last 2 seconds / 20 snapshots)
+	if snapshot_history[peer_id].size() > 20:
+		var oldest_seq = snapshot.sequence - 20
+		var keys = snapshot_history[peer_id].keys()
+		for seq in keys:
+			if seq < oldest_seq:
+				snapshot_history[peer_id].erase(seq)
+
+## Get the last acknowledged snapshot for a peer (to use as baseline)
+func get_acked_snapshot(peer_id: int) -> EntitySnapshot:
+	if not peer_acked_seq.has(peer_id):
+		return null
+		
+	var seq = peer_acked_seq[peer_id]
+	if snapshot_history.has(peer_id) and snapshot_history[peer_id].has(seq):
+		return snapshot_history[peer_id][seq]
+		
+	return null
