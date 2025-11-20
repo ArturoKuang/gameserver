@@ -62,6 +62,11 @@ func receive_snapshot(snapshot: EntitySnapshot):
 	if snapshot.timestamp > latest_server_time:
 		latest_server_time = snapshot.timestamp
 
+	# Keep render_time behind the newest snapshot by the configured delay
+	var target_render_time = latest_server_time - NetworkConfig.TOTAL_CLIENT_DELAY
+	if render_time > target_render_time:
+		render_time = target_render_time
+
 	# Initialize render time on first snapshot
 	if snapshot_buffer.is_empty():
 		render_time = snapshot.timestamp - NetworkConfig.TOTAL_CLIENT_DELAY

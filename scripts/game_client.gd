@@ -8,7 +8,9 @@ class_name GameClient
 var peer: ENetMultiplayerPeer
 var connected: bool = false
 var server_baseline: EntitySnapshot = null
+var snapshots_by_sequence: Dictionary = {}  # seq -> EntitySnapshot for baseline lookup
 var my_entity_id: int = -1  # Track which entity is the player
+var awaiting_full_snapshot: bool = false
 
 # Input
 var input_direction: Vector2 = Vector2.ZERO
@@ -31,6 +33,7 @@ var fps: int = 0
 
 const SERVER_IP = "127.0.0.1"
 const PORT = 7777
+const SNAPSHOT_HISTORY_LIMIT = NetworkConfig.SNAPSHOT_RATE * 4  # ~400ms of baseline history
 
 func _ready():
 	add_child(interpolator)
@@ -120,6 +123,11 @@ func receive_player_input(input_dir: Vector2):
 	# This is defined on server - this is just a stub for RPC registration
 	pass
 
+@rpc("any_peer", "call_remote", "reliable")
+func request_full_snapshot():
+	# Stub so the client can send an RPC to the server requesting a keyframe
+	pass
+
 ## Receive snapshot from server
 @rpc("authority", "call_remote", "unreliable")
 func receive_snapshot_data(data: PackedByteArray):
@@ -128,8 +136,24 @@ func receive_snapshot_data(data: PackedByteArray):
 	snapshots_received_this_second += 1
 	total_packets_received += 1
 
-	# Deserialize snapshot
-	var snapshot = EntitySnapshot.deserialize(data, server_baseline)
+	# Peek header to pick the correct baseline (or request a keyframe if missing)
+	var header = EntitySnapshot.peek_header(data)
+	var baseline_seq: int = header.get("baseline_seq", 0)
+	var baseline_snapshot: EntitySnapshot = null
+
+	if baseline_seq > 0:
+		if snapshots_by_sequence.has(baseline_seq):
+			baseline_snapshot = snapshots_by_sequence[baseline_seq]
+		else:
+			print("[CLIENT] WARNING: Missing baseline #", baseline_seq, " for incoming snapshot #", header.get("sequence"), " - requesting keyframe")
+			_request_full_snapshot()
+			return
+
+	# Deserialize snapshot with correct baseline (or full snapshot when baseline_seq == 0)
+	var snapshot = EntitySnapshot.deserialize(data, baseline_snapshot)
+	if snapshot == null:
+		_request_full_snapshot()
+		return
 
 	# Track packet loss (missed sequence numbers)
 	if last_snapshot_sequence != -1:
@@ -141,8 +165,11 @@ func receive_snapshot_data(data: PackedByteArray):
 				  " but got ", snapshot.sequence, " (lost ", lost, " packets)")
 	last_snapshot_sequence = snapshot.sequence
 
-	# Update baseline
+	# Update baselines
 	server_baseline = snapshot
+	snapshots_by_sequence[snapshot.sequence] = snapshot
+	_trim_snapshot_history()
+	awaiting_full_snapshot = false
 
 	# CRITICAL FIX: Track player entity using explicit ID from server
 	if my_entity_id == -1 and snapshot.player_entity_id != -1:
@@ -198,3 +225,19 @@ func get_network_stats() -> Dictionary:
 		"entities_count": interpolator.interpolated_entities.size(),
 		"fps": fps
 	}
+
+func _trim_snapshot_history():
+	if snapshots_by_sequence.size() <= SNAPSHOT_HISTORY_LIMIT:
+		return
+	var keys = snapshots_by_sequence.keys()
+	keys.sort()
+	while keys.size() > SNAPSHOT_HISTORY_LIMIT:
+		var oldest = keys.pop_front()
+		snapshots_by_sequence.erase(oldest)
+
+func _request_full_snapshot():
+	if awaiting_full_snapshot:
+		return  # Avoid spamming
+	awaiting_full_snapshot = true
+	request_full_snapshot.rpc_id(1)  # Ask server (peer 1) for a keyframe / full snapshot
+	print("[CLIENT] Requested full snapshot/keyframe from server")

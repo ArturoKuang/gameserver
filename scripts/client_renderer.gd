@@ -19,6 +19,7 @@ var predicted_player_position: Vector2 = Vector2.ZERO
 var prediction_enabled: bool = false  # Enabled once we receive first snapshot
 
 func _ready():
+	set_process(true)
 	add_child(camera)
 	camera.enabled = true
 	camera.zoom = Vector2(2, 2)  # Zoom in a bit

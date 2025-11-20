@@ -16,9 +16,11 @@ var bytes_sent_per_second: int = 0
 var snapshots_sent_this_second: int = 0
 var snapshots_sent_per_second: int = 0
 var bandwidth_timer: float = 0.0
+var force_full_snapshot: Dictionary = {}  # peer_id -> bool, request to send full snapshot (no delta)
 
 const PORT = 7777
 const MAX_CLIENTS = 100  # Can scale to 10,000 with proper server infrastructure
+const FULL_SNAPSHOT_INTERVAL = 20  # Send a full/keyframe snapshot every N snapshots (~2s)
 
 func _ready():
 	add_child(world)
@@ -86,6 +88,7 @@ func _on_peer_disconnected(peer_id: int):
 	if connected_peers.has(peer_id):
 		world.remove_entity(connected_peers[peer_id])
 		connected_peers.erase(peer_id)
+	force_full_snapshot.erase(peer_id)
 
 ## Override world's _send_snapshots to actually send over network
 func _physics_process(delta: float):
@@ -109,6 +112,12 @@ func _send_snapshot_to_peer(peer_id: int):
 	# Get baseline for delta compression
 	var baseline = world.last_snapshots.get(peer_id)
 
+	var force_full = force_full_snapshot.get(peer_id, false)
+	var periodic_keyframe = (snapshot.sequence % FULL_SNAPSHOT_INTERVAL) == 0
+	if force_full or periodic_keyframe or baseline == null:
+		baseline = null  # Send full snapshot for recovery
+		force_full_snapshot[peer_id] = false
+
 	# Serialize with compression
 	var data = snapshot.serialize(baseline)
 
@@ -128,6 +137,12 @@ func _send_snapshot_to_peer(peer_id: int):
 		print("Snapshot #", snapshot.sequence, " to peer ", peer_id,
 			  ": ", snapshot.entities.size(), " entities, ",
 			  data.size(), " bytes (uncompressed: ~", uncompressed_size, " bytes)")
+
+@rpc("any_peer", "call_local", "reliable")
+func request_full_snapshot():
+	var peer_id = multiplayer.get_remote_sender_id()
+	force_full_snapshot[peer_id] = true
+	print("[SERVER] Peer ", peer_id, " requested full snapshot - will send next tick")
 
 @rpc("authority", "call_remote", "unreliable")
 func receive_snapshot_data(data: PackedByteArray):
