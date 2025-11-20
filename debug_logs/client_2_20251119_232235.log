@@ -1,0 +1,69 @@
+Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
+Metal 3.2 - Forward+ - Using Device #0: Apple - Apple M2 Pro (Apple8)
+
+[SERVER] Creating world walls...
+[SERVER] Walls created successfully
+ERROR: Couldn't create an ENet host.
+   at: _create (modules/enet/enet_connection.cpp:318)
+   GDScript backtrace (most recent call first):
+       [0] _start_server (res://scripts/game_server.gd:50)
+       [1] _ready (res://scripts/game_server.gd:25)
+       [2] _on_server_button_pressed (res://scripts/test_launcher.gd:66)
+Failed to start server: 20
+[SERVER] Spawned entity 1 at (-190.3776, 468.5965) | Peer: NPC
+[SERVER] Spawned entity 2 at (-58.82523, -309.8202) | Peer: NPC
+[SERVER] Spawned entity 3 at (-105.8895, 455.8985) | Peer: NPC
+[SERVER] Spawned entity 4 at (-420.4705, -471.9236) | Peer: NPC
+[SERVER] Spawned entity 5 at (291.3671, -410.0215) | Peer: NPC
+[SERVER] Spawned entity 6 at (-63.27603, 154.105) | Peer: NPC
+[SERVER] Spawned entity 7 at (-476.5041, -108.8835) | Peer: NPC
+[SERVER] Spawned entity 8 at (468.1626, -414.3732) | Peer: NPC
+[SERVER] Spawned entity 9 at (-168.1963, 75.98775) | Peer: NPC
+[SERVER] Spawned entity 10 at (126.7522, 248.9017) | Peer: NPC
+[SERVER] Spawned entity 11 at (297.9698, 472.7031) | Peer: NPC
+[SERVER] Spawned entity 12 at (384.329, 212.9672) | Peer: NPC
+[SERVER] Spawned entity 13 at (-3.270337, 19.00866) | Peer: NPC
+[SERVER] Spawned entity 14 at (-269.7636, 327.4373) | Peer: NPC
+[SERVER] Spawned entity 15 at (-293.1546, -52.04321) | Peer: NPC
+[SERVER] Spawned entity 16 at (199.0267, -209.0218) | Peer: NPC
+[SERVER] Spawned entity 17 at (-70.37959, -342.0612) | Peer: NPC
+[SERVER] Spawned entity 18 at (-37.4199, 485.314) | Peer: NPC
+[SERVER] Spawned entity 19 at (-24.80203, 263.3664) | Peer: NPC
+[SERVER] Spawned entity 20 at (-230.7159, -138.0966) | Peer: NPC
+[SERVER] Spawned entity 21 at (-110.0959, 123.321) | Peer: NPC
+[SERVER] Spawned entity 22 at (-351.6886, -421.89) | Peer: NPC
+[SERVER] Spawned entity 23 at (-393.7731, -54.93699) | Peer: NPC
+[SERVER] Spawned entity 24 at (56.35054, 434.6136) | Peer: NPC
+[SERVER] Spawned entity 25 at (146.8224, 296.9221) | Peer: NPC
+[SERVER] Spawned entity 26 at (10.78323, 193.6523) | Peer: NPC
+[SERVER] Spawned entity 27 at (-182.4731, 442.4377) | Peer: NPC
+[SERVER] Spawned entity 28 at (15.01357, -79.45436) | Peer: NPC
+[SERVER] Spawned entity 29 at (-499.1584, -230.4271) | Peer: NPC
+[SERVER] Spawned entity 30 at (443.4541, -17.1895) | Peer: NPC
+[SERVER] Spawned entity 31 at (420.1203, 19.50159) | Peer: NPC
+[SERVER] Spawned entity 32 at (-70.46448, 405.2326) | Peer: NPC
+[SERVER] Spawned entity 33 at (5.083419, 111.3898) | Peer: NPC
+[SERVER] Spawned entity 34 at (-150.717, -70.61894) | Peer: NPC
+[SERVER] Spawned entity 35 at (-19.62009, 231.2143) | Peer: NPC
+[SERVER] Spawned entity 36 at (-354.9803, -192.4126) | Peer: NPC
+[SERVER] Spawned entity 37 at (374.2001, -456.7938) | Peer: NPC
+[SERVER] Spawned entity 38 at (126.0596, -355.6312) | Peer: NPC
+[SERVER] Spawned entity 39 at (499.1111, -163.0288) | Peer: NPC
+[SERVER] Spawned entity 40 at (406.7875, -409.4348) | Peer: NPC
+[SERVER] Spawned entity 41 at (252.5528, -469.0186) | Peer: NPC
+[SERVER] Spawned entity 42 at (-378.0345, 340.5979) | Peer: NPC
+[SERVER] Spawned entity 43 at (210.5266, 493.548) | Peer: NPC
+[SERVER] Spawned entity 44 at (356.2949, -255.4535) | Peer: NPC
+[SERVER] Spawned entity 45 at (139.8271, 364.5217) | Peer: NPC
+[SERVER] Spawned entity 46 at (483.6111, 62.58516) | Peer: NPC
+[SERVER] Spawned entity 47 at (-0.885525, 144.653) | Peer: NPC
+[SERVER] Spawned entity 48 at (73.01359, 438.4884) | Peer: NPC
+[SERVER] Spawned entity 49 at (-309.7141, -145.5789) | Peer: NPC
+[SERVER] Spawned entity 50 at (-65.23796, 126.9578) | Peer: NPC
+[SERVER] Creating moving obstacles...
+[SERVER] Created moving obstacle 51 from (-300.0, 0.0) to (300.0, 0.0)
+[SERVER] Created moving obstacle 52 from (0.0, -300.0) to (0.0, 300.0)
+[SERVER] Created moving obstacle 53 from (-200.0, -200.0) to (200.0, 200.0)
+[SERVER] Created moving obstacle 54 from (150.0, -100.0) to (-150.0, 100.0)
+[SERVER] Moving obstacles created
+=== SERVER MODE ===

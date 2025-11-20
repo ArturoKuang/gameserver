@@ -7,7 +7,6 @@ class_name GameClient
 
 var peer: ENetMultiplayerPeer
 var connected: bool = false
-var server_baseline: EntitySnapshot = null
 var my_entity_id: int = -1  # Track which entity is the player
 
 # Input
@@ -128,8 +127,27 @@ func receive_snapshot_data(data: PackedByteArray):
 	snapshots_received_this_second += 1
 	total_packets_received += 1
 
-	# Deserialize snapshot
-	var snapshot = EntitySnapshot.deserialize(data, server_baseline)
+	# CRITICAL FIX: Peek at the header to find which baseline we need
+	var header = EntitySnapshot.peek_header(data)
+	var baseline_seq = header["baseline_seq"]
+
+	# Look up the correct baseline from our snapshot buffer
+	var baseline: EntitySnapshot = null
+	if baseline_seq > 0:
+		baseline = interpolator.get_snapshot(baseline_seq)
+		if not baseline:
+			# We don't have the baseline - this is expected if there was packet loss
+			# The deserializer will handle this gracefully by disabling delta compression
+			if header["sequence"] % 100 == 0:
+				print("[CLIENT] INFO: Baseline #", baseline_seq, " not found for snapshot #",
+					  header["sequence"], " (likely packet loss) - using full deserialization")
+
+	# Deserialize snapshot with correct baseline (or null if we don't have it)
+	var snapshot = EntitySnapshot.deserialize(data, baseline)
+
+	if not snapshot:
+		print("[CLIENT] ERROR: Failed to deserialize snapshot, skipping")
+		return
 
 	# Track packet loss (missed sequence numbers)
 	if last_snapshot_sequence != -1:
@@ -140,9 +158,6 @@ func receive_snapshot_data(data: PackedByteArray):
 			print("[CLIENT] WARNING: Packet loss detected! Expected seq ", expected_sequence,
 				  " but got ", snapshot.sequence, " (lost ", lost, " packets)")
 	last_snapshot_sequence = snapshot.sequence
-
-	# Update baseline
-	server_baseline = snapshot
 
 	# CRITICAL FIX: Track player entity using explicit ID from server
 	if my_entity_id == -1 and snapshot.player_entity_id != -1:

@@ -1,0 +1,76 @@
+Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
+Metal 3.2 - Forward+ - Using Device #0: Apple - Apple M2 Pro (Apple8)
+
+SCRIPT ERROR: Parse Error: Static function "peek_header()" not found in base "EntitySnapshot".
+          at: GDScript::reload (res://scripts/game_client.gd:131)
+SCRIPT ERROR: Parse Error: Static function "peek_header()" not found in base "EntitySnapshot".
+          at: GDScript::reload (res://scripts/game_client.gd:131)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://scripts/client_renderer.gd:0)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://scripts/test_launcher.gd:0)
+ERROR: Failed to load script "res://scripts/test_launcher.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript.cpp:3041)
+[SERVER] Creating world walls...
+[SERVER] Walls created successfully
+Server started on port 7777
+Tick rate: 32 Hz
+Snapshot rate: 10 Hz
+ENet compression: FASTLZ enabled
+[SERVER] Spawned entity 1 at (424.3476, 26.53592) | Peer: NPC
+[SERVER] Spawned entity 2 at (-41.97367, -403.2562) | Peer: NPC
+[SERVER] Spawned entity 3 at (-195.6362, -456.8584) | Peer: NPC
+[SERVER] Spawned entity 4 at (-183.7109, -440.4766) | Peer: NPC
+[SERVER] Spawned entity 5 at (-349.0004, 217.5246) | Peer: NPC
+[SERVER] Spawned entity 6 at (-429.2547, -55.13119) | Peer: NPC
+[SERVER] Spawned entity 7 at (-10.88649, 288.2484) | Peer: NPC
+[SERVER] Spawned entity 8 at (-376.3434, 247.4079) | Peer: NPC
+[SERVER] Spawned entity 9 at (-84.93938, -22.90157) | Peer: NPC
+[SERVER] Spawned entity 10 at (274.4393, 228.0051) | Peer: NPC
+[SERVER] Spawned entity 11 at (350.8571, 390.2468) | Peer: NPC
+[SERVER] Spawned entity 12 at (-10.33156, 32.97075) | Peer: NPC
+[SERVER] Spawned entity 13 at (34.80626, 413.4005) | Peer: NPC
+[SERVER] Spawned entity 14 at (96.48994, -242.3815) | Peer: NPC
+[SERVER] Spawned entity 15 at (118.9283, -221.4731) | Peer: NPC
+[SERVER] Spawned entity 16 at (-422.9196, 86.43845) | Peer: NPC
+[SERVER] Spawned entity 17 at (-394.5613, 63.30895) | Peer: NPC
+[SERVER] Spawned entity 18 at (-408.053, 259.7218) | Peer: NPC
+[SERVER] Spawned entity 19 at (116.5572, 142.0534) | Peer: NPC
+[SERVER] Spawned entity 20 at (-430.9279, -446.6107) | Peer: NPC
+[SERVER] Spawned entity 21 at (-231.5683, -388.6858) | Peer: NPC
+[SERVER] Spawned entity 22 at (364.9078, 18.70525) | Peer: NPC
+[SERVER] Spawned entity 23 at (21.54848, 302.9988) | Peer: NPC
+[SERVER] Spawned entity 24 at (-326.1913, 12.94259) | Peer: NPC
+[SERVER] Spawned entity 25 at (-413.7625, 181.94) | Peer: NPC
+[SERVER] Spawned entity 26 at (64.42043, -398.6035) | Peer: NPC
+[SERVER] Spawned entity 27 at (-221.0622, 230.2412) | Peer: NPC
+[SERVER] Spawned entity 28 at (368.6082, -238.3449) | Peer: NPC
+[SERVER] Spawned entity 29 at (274.8264, 160.6689) | Peer: NPC
+[SERVER] Spawned entity 30 at (-446.3856, 489.5477) | Peer: NPC
+[SERVER] Spawned entity 31 at (189.0887, 364.4966) | Peer: NPC
+[SERVER] Spawned entity 32 at (-139.803, -437.5726) | Peer: NPC
+[SERVER] Spawned entity 33 at (136.1584, -55.26268) | Peer: NPC
+[SERVER] Spawned entity 34 at (-293.9418, 281.7362) | Peer: NPC
+[SERVER] Spawned entity 35 at (-5.467633, -471.5728) | Peer: NPC
+[SERVER] Spawned entity 36 at (327.2197, -5.444683) | Peer: NPC
+[SERVER] Spawned entity 37 at (-450.2833, 339.3581) | Peer: NPC
+[SERVER] Spawned entity 38 at (-27.39305, 125.2875) | Peer: NPC
+[SERVER] Spawned entity 39 at (13.26544, -79.06973) | Peer: NPC
+[SERVER] Spawned entity 40 at (423.4499, -236.7838) | Peer: NPC
+[SERVER] Spawned entity 41 at (330.4287, -431.8069) | Peer: NPC
+[SERVER] Spawned entity 42 at (-217.8901, 486.8356) | Peer: NPC
+[SERVER] Spawned entity 43 at (422.7899, 156.4926) | Peer: NPC
+[SERVER] Spawned entity 44 at (162.4856, 105.1839) | Peer: NPC
+[SERVER] Spawned entity 45 at (182.4737, -303.9291) | Peer: NPC
+[SERVER] Spawned entity 46 at (413.5975, -280.969) | Peer: NPC
+[SERVER] Spawned entity 47 at (-207.8937, -362.33) | Peer: NPC
+[SERVER] Spawned entity 48 at (-70.11118, 148.6151) | Peer: NPC
+[SERVER] Spawned entity 49 at (54.71616, -376.614) | Peer: NPC
+[SERVER] Spawned entity 50 at (-127.0524, 484.1359) | Peer: NPC
+[SERVER] Creating moving obstacles...
+[SERVER] Created moving obstacle 51 from (-300.0, 0.0) to (300.0, 0.0)
+[SERVER] Created moving obstacle 52 from (0.0, -300.0) to (0.0, 300.0)
+[SERVER] Created moving obstacle 53 from (-200.0, -200.0) to (200.0, 200.0)
+[SERVER] Created moving obstacle 54 from (150.0, -100.0) to (-150.0, 100.0)
+[SERVER] Moving obstacles created
+=== SERVER MODE ===

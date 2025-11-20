@@ -116,6 +116,20 @@ func serialize(baseline: EntitySnapshot = null) -> PackedByteArray:
 	writer.flush()
 	return buffer
 
+## Peek at the snapshot header to get sequence and baseline_sequence
+## Useful for finding the correct baseline before full deserialization
+static func peek_header(buffer: PackedByteArray) -> Dictionary:
+	var reader = BitReader.new(buffer)
+	var sequence = reader.read_bits(16)
+	var timestamp_ms = reader.read_bits(32)
+	var baseline_seq = reader.read_bits(16)
+
+	return {
+		"sequence": sequence,
+		"timestamp": float(timestamp_ms) / 1000.0,
+		"baseline_seq": baseline_seq
+	}
+
 ## Deserialize snapshot from bytes
 static func deserialize(buffer: PackedByteArray, baseline: EntitySnapshot = null) -> EntitySnapshot:
 	var reader = BitReader.new(buffer)
@@ -216,6 +230,9 @@ class BitWriter:
 		buffer = buf
 
 	func write_bits(value: int, num_bits: int):
+		# Mask value to prevent high bits from leaking
+		value &= ((1 << num_bits) - 1)
+
 		scratch |= (value << scratch_bits)
 		scratch_bits += num_bits
 
@@ -223,6 +240,11 @@ class BitWriter:
 			buffer.append(scratch & 0xFF)
 			scratch >>= 8
 			scratch_bits -= 8
+
+			# CRITICAL: Mask to clear sign-extended bits after arithmetic right shift
+			# GDScript uses 64-bit signed integers, so >> may sign-extend
+			if scratch_bits > 0:
+				scratch &= ((1 << scratch_bits) - 1)
 
 	func write_variable_uint(value: int):
 		# Variable-length encoding: small values use fewer bits
@@ -263,6 +285,11 @@ class BitReader:
 		var value = scratch & ((1 << num_bits) - 1)
 		scratch >>= num_bits
 		scratch_bits -= num_bits
+
+		# CRITICAL: Mask to clear sign-extended bits after arithmetic right shift
+		if scratch_bits > 0:
+			scratch &= ((1 << scratch_bits) - 1)
+
 		return value
 
 	func read_variable_uint() -> int:

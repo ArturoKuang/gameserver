@@ -1,0 +1,984 @@
+Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
+Metal 3.2 - Forward+ - Using Device #0: Apple - Apple M2 Pro (Apple8)
+
+Connecting to server at 127.0.0.1:7777
+[RENDERER] Debug walls drawn
+[RENDERER] Debug obstacle paths drawn
+[INTERPOLATOR] WARNING: Low buffer! Time until latest: 0.0ms (min: 75.0ms)
+Connected to server!
+[INTERPOLATOR] WARNING: Low buffer! Time until latest: -7.5ms (min: 75.0ms)
+[INTERPOLATOR] WARNING: Low buffer! Time until latest: -15.0ms (min: 75.0ms)
+[CLIENT] Player entity ID tracked: 55
+[INTERPOLATOR] First snapshot received! Seq: 1 | Timestamp: 9.937 | Setting render_time to: 9.862 | Delay: 0.075
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+[RENDERER] WARNING: Player entity 55 not in interpolated entities! Available: []
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+[RENDERER] WARNING: Player entity 55 not in interpolated entities! Available: []
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+[RENDERER] WARNING: Player entity 55 not in interpolated entities! Available: []
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+=== CLIENT MODE ===
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+[RENDERER] WARNING: Player entity 55 not in interpolated entities! Available: []
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+[RENDERER] WARNING: Player entity 55 not in interpolated entities! Available: []
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+[RENDERER] WARNING: Player entity 55 not in interpolated entities! Available: []
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+[RENDERER] WARNING: Player entity 55 not in interpolated entities! Available: []
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+[RENDERER] WARNING: Player entity 55 not in interpolated entities! Available: []
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+[RENDERER] WARNING: Player entity 55 not in interpolated entities! Available: []
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+[RENDERER] WARNING: Player entity 55 not in interpolated entities! Available: []
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+[RENDERER] WARNING: Player entity 55 not in interpolated entities! Available: []
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+[RENDERER] WARNING: Player entity 55 not in interpolated entities! Available: []
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+[RENDERER] WARNING: Player entity 55 not in interpolated entities! Available: []
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+[RENDERER] WARNING: Player entity 55 not in interpolated entities! Available: []
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+[RENDERER] WARNING: Player entity 55 not in interpolated entities! Available: []
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+[RENDERER] WARNING: Player entity 55 not in interpolated entities! Available: []
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+[RENDERER] WARNING: Player entity 55 not in interpolated entities! Available: []
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+[RENDERER] WARNING: Player entity 55 not in interpolated entities! Available: []
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+[RENDERER] WARNING: Player entity 55 not in interpolated entities! Available: []
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+[RENDERER] WARNING: Player entity 55 not in interpolated entities! Available: []
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+[RENDERER] WARNING: Player entity 55 not in interpolated entities! Available: []
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+[RENDERER] WARNING: Player entity 55 not in interpolated entities! Available: []
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+[RENDERER] WARNING: Player entity 55 not in interpolated entities! Available: []
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_snapshot' in base 'Node (ClientInterpolator)'.
+          at: GameClient.receive_snapshot_data (res://scripts/game_client.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] receive_snapshot_data (res://scripts/game_client.gd:137)

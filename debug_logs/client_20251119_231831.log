@@ -1,0 +1,66 @@
+Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
+Metal 3.2 - Forward+ - Using Device #0: Apple - Apple M2 Pro (Apple8)
+
+[SERVER] Creating world walls...
+[SERVER] Walls created successfully
+Server started on port 7777
+Tick rate: 32 Hz
+Snapshot rate: 10 Hz
+ENet compression: FASTLZ enabled
+[SERVER] Spawned entity 1 at (-15.14115, 367.5872) | Peer: NPC
+[SERVER] Spawned entity 2 at (-231.2173, 66.28385) | Peer: NPC
+[SERVER] Spawned entity 3 at (313.1428, -259.5222) | Peer: NPC
+[SERVER] Spawned entity 4 at (-193.9811, -103.5136) | Peer: NPC
+[SERVER] Spawned entity 5 at (78.99514, -103.6698) | Peer: NPC
+[SERVER] Spawned entity 6 at (242.8785, 327.0968) | Peer: NPC
+[SERVER] Spawned entity 7 at (222.3896, -491.8799) | Peer: NPC
+[SERVER] Spawned entity 8 at (-255.0888, 128.5977) | Peer: NPC
+[SERVER] Spawned entity 9 at (22.64526, -317.1839) | Peer: NPC
+[SERVER] Spawned entity 10 at (278.1168, 344.2115) | Peer: NPC
+[SERVER] Spawned entity 11 at (398.0226, -163.1306) | Peer: NPC
+[SERVER] Spawned entity 12 at (-101.668, 20.25541) | Peer: NPC
+[SERVER] Spawned entity 13 at (-487.3277, 262.9769) | Peer: NPC
+[SERVER] Spawned entity 14 at (-235.607, 228.9072) | Peer: NPC
+[SERVER] Spawned entity 15 at (278.5264, 198.0676) | Peer: NPC
+[SERVER] Spawned entity 16 at (311.1632, -89.05283) | Peer: NPC
+[SERVER] Spawned entity 17 at (-142.2036, -345.2312) | Peer: NPC
+[SERVER] Spawned entity 18 at (16.33889, -19.60261) | Peer: NPC
+[SERVER] Spawned entity 19 at (493.4666, -327.9398) | Peer: NPC
+[SERVER] Spawned entity 20 at (201.716, 224.8954) | Peer: NPC
+[SERVER] Spawned entity 21 at (-37.18113, -73.47477) | Peer: NPC
+[SERVER] Spawned entity 22 at (195.3477, -473.7762) | Peer: NPC
+[SERVER] Spawned entity 23 at (-235.2328, -449.3507) | Peer: NPC
+[SERVER] Spawned entity 24 at (107.3462, -457.1567) | Peer: NPC
+[SERVER] Spawned entity 25 at (41.39089, -412.9431) | Peer: NPC
+[SERVER] Spawned entity 26 at (-280.4453, 99.9861) | Peer: NPC
+[SERVER] Spawned entity 27 at (-167.5084, -310.4839) | Peer: NPC
+[SERVER] Spawned entity 28 at (-220.5862, 265.5631) | Peer: NPC
+[SERVER] Spawned entity 29 at (228.0744, -413.0327) | Peer: NPC
+[SERVER] Spawned entity 30 at (61.70535, -414.0166) | Peer: NPC
+[SERVER] Spawned entity 31 at (160.9214, -388.2183) | Peer: NPC
+[SERVER] Spawned entity 32 at (-459.3842, -489.0578) | Peer: NPC
+[SERVER] Spawned entity 33 at (77.42115, -31.00791) | Peer: NPC
+[SERVER] Spawned entity 34 at (-123.3429, 124.0454) | Peer: NPC
+[SERVER] Spawned entity 35 at (-141.6083, -275.3373) | Peer: NPC
+[SERVER] Spawned entity 36 at (27.13504, -357.3399) | Peer: NPC
+[SERVER] Spawned entity 37 at (-271.2881, 414.0872) | Peer: NPC
+[SERVER] Spawned entity 38 at (-157.6878, -260.8141) | Peer: NPC
+[SERVER] Spawned entity 39 at (-375.0629, -487.3418) | Peer: NPC
+[SERVER] Spawned entity 40 at (-112.6997, 341.258) | Peer: NPC
+[SERVER] Spawned entity 41 at (267.7238, -137.8052) | Peer: NPC
+[SERVER] Spawned entity 42 at (409.4375, -133.2609) | Peer: NPC
+[SERVER] Spawned entity 43 at (6.435346, -206.6815) | Peer: NPC
+[SERVER] Spawned entity 44 at (358.8727, 231.5661) | Peer: NPC
+[SERVER] Spawned entity 45 at (456.0895, -29.18796) | Peer: NPC
+[SERVER] Spawned entity 46 at (-488.9017, -113.699) | Peer: NPC
+[SERVER] Spawned entity 47 at (-462.791, 58.22162) | Peer: NPC
+[SERVER] Spawned entity 48 at (-470.0122, -395.8124) | Peer: NPC
+[SERVER] Spawned entity 49 at (320.2907, -119.7907) | Peer: NPC
+[SERVER] Spawned entity 50 at (332.7484, -415.9774) | Peer: NPC
+[SERVER] Creating moving obstacles...
+[SERVER] Created moving obstacle 51 from (-300.0, 0.0) to (300.0, 0.0)
+[SERVER] Created moving obstacle 52 from (0.0, -300.0) to (0.0, 300.0)
+[SERVER] Created moving obstacle 53 from (-200.0, -200.0) to (200.0, 200.0)
+[SERVER] Created moving obstacle 54 from (150.0, -100.0) to (-150.0, 100.0)
+[SERVER] Moving obstacles created
+=== SERVER MODE ===
