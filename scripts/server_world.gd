@@ -135,9 +135,7 @@ func _move_entity_chunk(entity: Entity, new_chunk: Vector2i):
 
 	# Debug logging for player entities changing chunks
 	if entity.peer_id != -1:
-		print("[SERVER] Player entity ", entity.id, " (peer ", entity.peer_id,
-			  ") moved from chunk ", old_chunk, " to ", new_chunk,
-			  " | Position: ", entity.position)
+		Logger.log_chunk_change(entity.id, old_chunk, new_chunk, entity.position)
 
 func spawn_entity(position: Vector2, peer_id: int = -1) -> int:
 	var entity_id = next_entity_id
@@ -174,8 +172,11 @@ func spawn_entity(position: Vector2, peer_id: int = -1) -> int:
 		chunks[entity.chunk] = []
 	chunks[entity.chunk].append(entity_id)
 
-	print("[SERVER] Spawned entity ", entity_id, " at ", position,
-		  " | Peer: ", peer_id if peer_id != -1 else "NPC")
+	Logger.info("SERVER", "Entity spawned", {
+		"entity_id": entity_id,
+		"pos": "(%d,%d)" % [int(position.x), int(position.y)],
+		"peer_id": peer_id if peer_id != -1 else "NPC"
+	})
 
 	return entity_id
 
@@ -258,12 +259,14 @@ func create_snapshot_for_peer(peer_id: int) -> EntitySnapshot:
 
 	# Debug logging (every 100 snapshots)
 	if sequence % 100 == 0:
-		print("[SERVER] Snapshot #", sequence,
-			  " | Tick: ", current_tick,
-			  " | Timestamp: ", timestamp,
-			  " | Player ID: ", player_entity.id,
-			  " | Player pos: ", player_entity.position,
-			  " | Player chunk: ", player_entity.chunk)
+		Logger.debug("SERVER", "Creating snapshot", {
+			"seq": sequence,
+			"tick": current_tick,
+			"timestamp": "%.3f" % timestamp,
+			"player_id": player_entity.id,
+			"player_pos": "(%d,%d)" % [int(player_entity.position.x), int(player_entity.position.y)],
+			"player_chunk": str(player_entity.chunk)
+		})
 
 	# Get entities in interest area
 	var interest_entities = get_entities_in_area(player_entity.position)

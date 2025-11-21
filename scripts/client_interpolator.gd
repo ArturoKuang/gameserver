@@ -41,8 +41,12 @@ func _process(delta: float):
 		# We're running low on snapshots - slow down to 90% speed
 		time_delta *= 0.9
 		if snapshot_buffer.size() % 60 == 0:  # Log occasionally
-			print("[INTERPOLATOR] WARNING: Low buffer! Time until latest: ",
-				  time_until_latest * 1000.0, "ms (min: ", min_buffer_time * 1000.0, "ms)")
+			Logger.log_interpolation_warning(
+				"Low buffer",
+				render_time,
+				latest_server_time,
+				snapshot_buffer.size()
+			)
 
 	# Advance render time (but never past latest snapshot)
 	render_time += time_delta
@@ -168,8 +172,11 @@ func _interpolate():
 			interp_entity.state_flags = to_state.state_flags
 		elif from_state:
 			# Entity disappeared - keep last known position
-			print("[INTERPOLATOR] Entity ", entity_id, " disappeared (in from_snapshot seq ",
-				  from_snapshot.sequence, " but not in to_snapshot seq ", to_snapshot.sequence, ")")
+			Logger.log_entity_disappeared(
+				entity_id,
+				from_snapshot.sequence,
+				to_snapshot.sequence
+			)
 			pass  # Could mark for removal
 
 	# Remove entities that no longer exist in recent snapshots
