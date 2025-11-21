@@ -74,6 +74,24 @@ This document explains how to run and test the snapshot interpolation system.
 - **How to test**: Watch NPCs moving - they should accelerate/decelerate smoothly
 - **Expected**: Natural-looking movement curves
 
+## Headless Autotest Harness
+
+Use the built-in harness to spin up a headless server plus scripted clients that follow repeatable movement paths (helps validate lag, prediction, interpolation, and reconciliation).
+
+```bash
+# Default: 3 clients, 25s run, simulated 80ms +/-40ms lag
+./run_autotest.sh
+
+# Custom run: 5 clients, 40s, heavier packet loss and a figure-8 pattern
+./run_autotest.sh -c 5 -d 40 --lag-ms 120 --jitter-ms 80 --packet-loss 0.05 --pattern figure8
+```
+
+Flags map directly into the Godot CLI:
+- `--mode=server|client` lets Godot skip the UI and auto-start
+- Client flags: `--autotest-id`, `--auto-move`, `--fake-lag-ms`, `--fake-jitter-ms`, `--packet-loss`, `--headless-client`, `--exit-after`
+
+Logs land in `debug_logs/run_<timestamp>/`. When a run finishes, `summarize_logs.sh` writes a compact `summary.txt` that highlights packet loss, interpolation holds, prediction error samples, and the last autotest telemetry lines so you can paste them back into a debugging session quickly.
+
 ## Console Output Examples
 
 ### Server Output

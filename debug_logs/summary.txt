@@ -1,0 +1,51 @@
+Autotest log summary for debug_logs
+Generated: Thu Nov 20 19:26:18 PST 2025
+
+---- client_1_20251119_233144.log ----
+snapshots=10 | missing_player=0 | packet_loss_warn=0 | holds=0 | drops=0 | prediction_debug_lines=0
+last_autotest_lines:
+last_interpolator_debug:
+last_prediction_debug:
+
+---- client_1_20251119_235242.log ----
+snapshots=7 | missing_player=0 | packet_loss_warn=0 | holds=0 | drops=0 | prediction_debug_lines=0
+last_autotest_lines:
+last_interpolator_debug:
+last_prediction_debug:
+
+---- client_2_20251119_233144.log ----
+snapshots=0 | missing_player=0 | packet_loss_warn=0 | holds=0 | drops=0 | prediction_debug_lines=0
+last_autotest_lines:
+last_interpolator_debug:
+last_prediction_debug:
+
+---- client_2_20251119_235242.log ----
+snapshots=8 | missing_player=0 | packet_loss_warn=0 | holds=0 | drops=0 | prediction_debug_lines=0
+last_autotest_lines:
+last_interpolator_debug:
+last_prediction_debug:
+
+---- client_3_20251119_233144.log ----
+snapshots=10 | missing_player=0 | packet_loss_warn=0 | holds=0 | drops=0 | prediction_debug_lines=0
+last_autotest_lines:
+last_interpolator_debug:
+last_prediction_debug:
+
+---- client_3_20251119_235242.log ----
+snapshots=0 | missing_player=0 | packet_loss_warn=0 | holds=0 | drops=0 | prediction_debug_lines=0
+last_autotest_lines:
+last_interpolator_debug:
+last_prediction_debug:
+
+---- server_20251119_233144.log ----
+snapshots=0 | input_logs=0
+
+---- server_20251119_235242.log ----
+snapshots=0 | input_logs=0
+
+---- test_20251116_105204.log ----
+snapshots=0 | missing_player=0 | packet_loss_warn=0 | holds=0 | drops=0 | prediction_debug_lines=0
+last_autotest_lines:
+last_interpolator_debug:
+last_prediction_debug:
+

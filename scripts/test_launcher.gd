@@ -18,6 +18,59 @@ var client_instance: Node = null
 var renderer: Node2D = null
 
 func _ready():
+	# Fast path: allow headless CLI-driven runs for automated tests
+	var cli_args = _parse_cli_args()
+	if cli_args.has("mode"):
+		_run_cli_mode(cli_args)
+		return
+
+	_build_ui()
+
+func _parse_cli_args() -> Dictionary:
+	var args = OS.get_cmdline_args()
+	var result: Dictionary = {}
+
+	for arg in args:
+		if arg.begins_with("--") and arg.find("=") != -1:
+			var parts = arg.substr(2).split("=", false, 1)
+			if parts.size() == 2:
+				result[parts[0]] = parts[1]
+		elif arg == "--headless-client":
+			result["headless_client"] = true
+
+	return result
+
+func _run_cli_mode(cli_args: Dictionary):
+	var mode: String = cli_args.get("mode", "")
+	var exit_after: float = float(cli_args.get("exit_after", "0"))
+
+	if mode == "server":
+		_on_server_button_pressed()
+	elif mode == "client":
+		# Start client without UI
+		client_instance = GameClientScript.new()
+
+		# Pass CLI configuration into the client for automated movement/lag testing
+		if client_instance.has_method("configure_autotest"):
+			client_instance.configure_autotest(cli_args)
+
+		add_child(client_instance)
+		client_instance._connect_to_server()
+
+		# Only spawn a renderer when explicitly requested
+		if not cli_args.get("headless_client", false):
+			renderer = ClientRendererScript.new()
+			renderer.game_client = client_instance
+			add_child(renderer)
+
+	if exit_after > 0:
+		print("[AUTOTEST] Exit timer armed for ", exit_after, " seconds")
+		get_tree().create_timer(exit_after).timeout.connect(func ():
+			print("[AUTOTEST] Exit timer fired, closing Godot (", mode, ")")
+			get_tree().quit()
+		)
+
+func _build_ui():
 	# Setup UI
 	var vbox = VBoxContainer.new()
 	vbox.position = Vector2(20, 20)

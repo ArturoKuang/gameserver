@@ -10,6 +10,11 @@ var baseline_snapshot: EntitySnapshot = null
 # Interpolated entities
 var interpolated_entities: Dictionary = {}  # entity_id -> InterpolatedEntity
 
+# Optional debug/watch settings
+var debug_watch_entity_id: int = -1
+var debug_tag: String = ""
+var debug_log_timer: float = 0.0
+
 # Timing
 var render_time: float = 0.0  # Time we're rendering at (server time - delay)
 var latest_server_time: float = 0.0
@@ -55,6 +60,19 @@ func _process(delta: float):
 
 	# Interpolate entities
 	_interpolate()
+
+	# Emit concise debug info for automated runs
+	if debug_watch_entity_id != -1:
+		debug_log_timer += delta
+		if debug_log_timer >= 1.0:
+			debug_log_timer = 0.0
+			var buffer_ms = (latest_server_time - render_time) * 1000.0
+			var watched = interpolated_entities.get(debug_watch_entity_id)
+			print("[INTERPOLATOR DEBUG][", debug_tag, "] buffer_ms=",
+				  "%.1f" % buffer_ms, " snapshots=", snapshot_buffer.size(),
+				  " watch_id=", debug_watch_entity_id,
+				  " pos=", watched.current_position if watched else "N/A",
+				  " vel=", watched.current_velocity if watched else "N/A")
 
 ## Receive a snapshot from server
 func receive_snapshot(snapshot: EntitySnapshot):
@@ -231,9 +249,18 @@ func get_entity_position(entity_id: int) -> Vector2:
 func get_all_entities() -> Dictionary:
 	return interpolated_entities
 
+## Get one entity (used by autotest logs)
+func get_entity_state(entity_id: int) -> InterpolatedEntity:
+	return interpolated_entities.get(entity_id)
+
 ## Reset the interpolator
 func reset():
 	snapshot_buffer.clear()
 	interpolated_entities.clear()
 	render_time = 0.0
 	latest_server_time = 0.0
+
+## Enable debug logging for a specific entity (client autotest hook)
+func enable_debug_watch(entity_id: int, tag: String = ""):
+	debug_watch_entity_id = entity_id
+	debug_tag = tag

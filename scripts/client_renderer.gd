@@ -17,6 +17,7 @@ const PLAYER_SPEED = 100.0  # units per second (matches server_world.gd)
 const PREDICTION_BLEND_FACTOR = 0.3  # 30% correction per frame toward server
 var predicted_player_position: Vector2 = Vector2.ZERO
 var prediction_enabled: bool = false  # Enabled once we receive first snapshot
+var prediction_log_timer: float = 0.0
 
 func _ready():
 	add_child(camera)
@@ -95,6 +96,29 @@ func _process(delta: float):
 			if debug_counter % 60 == 0:  # Log once per second at 60 FPS
 				print("[RENDERER] WARNING: Player entity ", game_client.my_entity_id,
 					  " not in interpolated entities! Available: ", entities.keys())
+
+	# Emit prediction error/debug samples every second
+	if prediction_enabled and game_client.my_entity_id != -1 and entities.has(game_client.my_entity_id):
+		prediction_log_timer += delta
+		if prediction_log_timer >= 1.0:
+			prediction_log_timer = 0.0
+			var server_pos = entities[game_client.my_entity_id].current_position
+			var error = predicted_player_position.distance_to(server_pos)
+
+			# Sample a couple of other entities to monitor smoothness
+			var samples: Array[String] = []
+			for id in entities.keys():
+				if id == game_client.my_entity_id:
+					continue
+				samples.append(str(id) + ":" + "%.1f" % entities[id].current_velocity.length())
+				if samples.size() >= 3:
+					break
+
+			print("[RENDERER DEBUG] player=", game_client.my_entity_id,
+				  " prediction_error=", "%.2f" % error,
+				  " predicted=", predicted_player_position,
+				  " server=", server_pos,
+				  " others|speed=", samples)
 
 func _create_entity_sprite(entity_id: int) -> Sprite2D:
 	var sprite = Sprite2D.new()

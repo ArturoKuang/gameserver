@@ -3,12 +3,16 @@ class_name GameClient
 
 ## Example game client with snapshot interpolation
 
+const SERVER_IP = "127.0.0.1"
+const PORT = 7777
+
 @onready var interpolator = ClientInterpolator.new()
 
 var peer: ENetMultiplayerPeer
 var connected: bool = false
 var server_baseline: EntitySnapshot = null
 var my_entity_id: int = -1  # Track which entity is the player
+var server_ip_override: String = SERVER_IP  # Allow overriding via CLI/testing
 
 # Input
 var input_direction: Vector2 = Vector2.ZERO
@@ -29,8 +33,22 @@ var bandwidth_timer: float = 0.0
 var frames_this_second: int = 0
 var fps: int = 0
 
-const SERVER_IP = "127.0.0.1"
-const PORT = 7777
+# Automated test / lag simulation options
+var autotest_enabled: bool = false
+var autotest_label: String = ""
+var autotest_move_pattern: String = ""
+var autotest_move_radius: float = 180.0
+var autotest_move_interval: float = 2.5
+var autotest_fake_lag_ms: float = 0.0
+var autotest_fake_jitter_ms: float = 0.0
+var autotest_packet_loss: float = 0.0
+var autotest_start_time_ms: int = 0
+var autotest_log_timer: float = 0.0
+var autotest_time: float = 0.0
+var autotest_exit_after: float = 0.0
+
+# Delayed snapshot queue for artificial lag
+var delayed_snapshots: Array[Dictionary] = []  # {deliver_at: int, data: PackedByteArray}
 
 func _ready():
 	add_child(interpolator)
@@ -40,7 +58,7 @@ func _ready():
 
 func _connect_to_server():
 	peer = ENetMultiplayerPeer.new()
-	var error = peer.create_client(SERVER_IP, PORT)
+	var error = peer.create_client(server_ip_override, PORT)
 
 	if error != OK:
 		print("Failed to connect to server: ", error)
@@ -54,18 +72,20 @@ func _connect_to_server():
 	multiplayer.connection_failed.connect(_on_connection_failed)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
 
-	print("Connecting to server at ", SERVER_IP, ":", PORT)
+	print("Connecting to server at ", server_ip_override, ":", PORT,
+		  autotest_enabled ? " | autotest=" + autotest_label : "")
 
 func _on_connected_to_server():
-	print("Connected to server!")
+	print("Connected to server!", autotest_enabled ? " | autotest=" + autotest_label : "")
 	connected = true
+	autotest_start_time_ms = Time.get_ticks_msec()
 
 func _on_connection_failed():
-	print("Connection failed")
+	print("Connection failed", autotest_enabled ? " | autotest=" + autotest_label : "")
 	connected = false
 
 func _on_server_disconnected():
-	print("Disconnected from server")
+	print("Disconnected from server", autotest_enabled ? " | autotest=" + autotest_label : "")
 	connected = false
 
 func _process(delta: float):
@@ -92,8 +112,11 @@ func _process(delta: float):
 		frames_this_second = 0
 		bandwidth_timer = 0.0
 
+	# Deliver delayed snapshots used to simulate latency/jitter
+	_drain_delayed_snapshots()
+
 	# Handle input
-	_handle_input()
+	_handle_input(delta)
 
 	# Rate-limit input sending to avoid spamming the server
 	last_input_send_time += delta
@@ -101,7 +124,32 @@ func _process(delta: float):
 		receive_player_input.rpc_id(1, input_direction)
 		last_input_send_time = 0.0
 
-func _handle_input():
+	# Emit recurring autotest telemetry for easier log inspection
+	if autotest_enabled and connected:
+		autotest_log_timer += delta
+		if autotest_log_timer >= 1.0:
+			autotest_log_timer = 0.0
+			var stats = get_network_stats()
+			var player_state = interpolator.get_entity_state(my_entity_id)
+			var player_pos = player_state.current_position if player_state else Vector2.ZERO
+			var player_vel = player_state.current_velocity if player_state else Vector2.ZERO
+
+			print("[AUTOTEST][", autotest_label, "] delay=", "%.0f" % stats.render_delay_ms,
+				  "ms | buffer=", stats.buffer_size,
+				  " | snapshots/s=", stats.snapshots_per_second,
+				  " | packet_loss=", "%.2f" % stats.packet_loss_percent, "%",
+				  " | player_pos=", player_pos,
+				  " | player_vel=", player_vel,
+				  " | input=", input_direction)
+
+	# Respect optional exit timer for headless runs
+	if autotest_enabled and autotest_exit_after > 0.0:
+		var runtime = (Time.get_ticks_msec() - autotest_start_time_ms) / 1000.0
+		if runtime >= autotest_exit_after:
+			print("[AUTOTEST][", autotest_label, "] exit_after reached (", runtime, "s). Quitting client.")
+			get_tree().quit()
+
+func _handle_input_keyboard():
 	input_direction = Vector2.ZERO
 
 	if Input.is_action_pressed("ui_right"):
@@ -115,6 +163,12 @@ func _handle_input():
 
 	input_direction = input_direction.normalized()
 
+func _handle_input(delta: float):
+	if autotest_enabled and autotest_move_pattern != "":
+		input_direction = _autotest_input(delta)
+	else:
+		_handle_input_keyboard()
+
 @rpc("any_peer", "call_remote", "unreliable")
 func receive_player_input(input_dir: Vector2):
 	# This is defined on server - this is just a stub for RPC registration
@@ -123,6 +177,35 @@ func receive_player_input(input_dir: Vector2):
 ## Receive snapshot from server
 @rpc("authority", "call_remote", "unreliable")
 func receive_snapshot_data(data: PackedByteArray):
+	# Artificial network conditions for tests
+	if autotest_enabled:
+		if autotest_packet_loss > 0.0 and randf() < autotest_packet_loss:
+			print("[AUTOTEST][", autotest_label, "] DROP packet (simulated loss)")
+			return
+
+		var delay_ms = autotest_fake_lag_ms
+		if autotest_fake_jitter_ms > 0.0:
+			delay_ms += randf_range(0.0, autotest_fake_jitter_ms)
+
+		if delay_ms > 0.0:
+			var deliver_at = Time.get_ticks_msec() + int(delay_ms)
+			delayed_snapshots.append({"deliver_at": deliver_at, "data": data})
+			return
+
+	_process_snapshot_now(data)
+
+func _drain_delayed_snapshots():
+	if delayed_snapshots.is_empty():
+		return
+
+	var now = Time.get_ticks_msec()
+	for i in range(delayed_snapshots.size() - 1, -1, -1):
+		var entry = delayed_snapshots[i]
+		if entry["deliver_at"] <= now:
+			_process_snapshot_now(entry["data"])
+			delayed_snapshots.remove_at(i)
+
+func _process_snapshot_now(data: PackedByteArray):
 	# Track bandwidth
 	bytes_received_this_second += data.size()
 	snapshots_received_this_second += 1
@@ -148,6 +231,8 @@ func receive_snapshot_data(data: PackedByteArray):
 	if my_entity_id == -1 and snapshot.player_entity_id != -1:
 		my_entity_id = snapshot.player_entity_id
 		print("[CLIENT] Player entity ID tracked: ", my_entity_id)
+		if autotest_enabled:
+			interpolator.enable_debug_watch(my_entity_id, autotest_label)
 
 	# Debug logging (every 100 snapshots)
 	if snapshot.sequence % 100 == 0:
@@ -175,6 +260,10 @@ func receive_snapshot_data(data: PackedByteArray):
 func get_entities() -> Dictionary:
 	return interpolator.get_all_entities()
 
+## Get a single entity state (used by autotest logs)
+func get_entity_state(entity_id: int) -> ClientInterpolator.InterpolatedEntity:
+	return interpolator.get_entity_state(entity_id)
+
 ## Get comprehensive network stats for UI
 func get_network_stats() -> Dictionary:
 	var packet_loss_percent = 0.0
@@ -198,3 +287,53 @@ func get_network_stats() -> Dictionary:
 		"entities_count": interpolator.interpolated_entities.size(),
 		"fps": fps
 	}
+
+## Configure automated test settings from CLI dictionary (see test_launcher.gd)
+func configure_autotest(args: Dictionary):
+	autotest_enabled = true
+	autotest_label = args.get("autotest_id", args.get("label", "client"))
+	autotest_move_pattern = args.get("auto-move", "")
+	autotest_move_radius = float(args.get("auto-radius", str(autotest_move_radius)))
+	autotest_move_interval = float(args.get("auto-interval", str(autotest_move_interval)))
+	autotest_fake_lag_ms = float(args.get("fake-lag-ms", "0"))
+	autotest_fake_jitter_ms = float(args.get("fake-jitter-ms", "0"))
+	autotest_packet_loss = float(args.get("packet-loss", "0"))
+	autotest_exit_after = float(args.get("exit_after", "0"))
+	server_ip_override = args.get("connect_ip", SERVER_IP)
+
+	# Forward debug tag to interpolator for log clarity
+	if interpolator:
+		interpolator.enable_debug_watch(my_entity_id, autotest_label)
+
+	print("[AUTOTEST] Configured client label=", autotest_label,
+		  " move=", autotest_move_pattern,
+		  " lag=", autotest_fake_lag_ms, "ms+/-", autotest_fake_jitter_ms, "ms",
+		  " drop=", autotest_packet_loss * 100.0, "%")
+
+func _autotest_input(delta: float) -> Vector2:
+	autotest_time += delta
+
+	match autotest_move_pattern:
+		"circle":
+			var angle = autotest_time * 0.8  # radians/sec
+			return Vector2(cos(angle), sin(angle))
+		"line":
+			# Ping-pong between left/right every interval
+			var phase = int(floor(autotest_time / autotest_move_interval)) % 2
+			return Vector2(1, 0) if phase == 0 else Vector2(-1, 0)
+		"figure8":
+			var angle_f = autotest_time
+			return Vector2(cos(angle_f), sin(angle_f*2.0)).normalized()
+		"dashes":
+			# Burst movement to stress reconciliation
+			var pulse = int(floor(autotest_time * 2.0)) % 4
+			if pulse == 0:
+				return Vector2.RIGHT
+			if pulse == 1:
+				return Vector2.DOWN
+			if pulse == 2:
+				return Vector2.LEFT
+			return Vector2.UP
+		_:
+			# Default: gentle diagonal
+			return Vector2(1, 1).normalized()

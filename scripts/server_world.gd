@@ -21,6 +21,7 @@ var last_snapshots: Dictionary = {}  # peer_id -> EntitySnapshot
 var physics_container: Node2D
 var walls_container: Node2D
 var moving_obstacles_container: Node2D
+var input_log_ticks: Dictionary = {}  # peer_id -> last tick we logged input
 
 class Entity:
 	var id: int
@@ -493,4 +494,13 @@ func handle_player_input(peer_id: int, input_dir: Vector2):
 				entity.state_flags = 2  # Down
 			elif input_dir.y < 0:
 				entity.state_flags = 3  # Up
+
+			# Throttled input debug logging for test harness
+			var last_log = input_log_ticks.get(peer_id, -30)
+			if current_tick - last_log >= 30:
+				input_log_ticks[peer_id] = current_tick
+				print("[SERVER INPUT] peer ", peer_id, " | dir=", input_dir,
+					  " | pos=", entity.position,
+					  " | vel=", entity.velocity,
+					  " | tick=", current_tick)
 			break
