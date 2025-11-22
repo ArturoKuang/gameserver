@@ -1,5 +1,4 @@
 extends Node
-class_name TestAutomation
 
 ## Automated test behaviors for clients
 ## Enables headless testing of network interpolation and prediction
@@ -50,33 +49,33 @@ func _load_test_config():
 		"random_walk":
 			current_mode = TestMode.RANDOM_WALK
 			direction_change_interval = 3.0
-			Logger.info("TEST_AUTO", "Enabled: RANDOM_WALK", {"interval": direction_change_interval})
+			GameLogger.info("TEST_AUTO", "Enabled: RANDOM_WALK", {"interval": direction_change_interval})
 
 		"stress_test":
 			current_mode = TestMode.STRESS_TEST
 			direction_change_interval = 0.5  # Fast direction changes
-			Logger.info("TEST_AUTO", "Enabled: STRESS_TEST", {"interval": direction_change_interval})
+			GameLogger.info("TEST_AUTO", "Enabled: STRESS_TEST", {"interval": direction_change_interval})
 
 		"chunk_crossing":
 			current_mode = TestMode.CHUNK_CROSSING
-			Logger.info("TEST_AUTO", "Enabled: CHUNK_CROSSING", {"chunk_size": NetworkConfig.CHUNK_SIZE})
+			GameLogger.info("TEST_AUTO", "Enabled: CHUNK_CROSSING", {"chunk_size": NetworkConfig.CHUNK_SIZE})
 
 		"circle_pattern":
 			current_mode = TestMode.CIRCLE_PATTERN
-			Logger.info("TEST_AUTO", "Enabled: CIRCLE_PATTERN", {})
+			GameLogger.info("TEST_AUTO", "Enabled: CIRCLE_PATTERN", {})
 
 		"figure_eight":
 			current_mode = TestMode.FIGURE_EIGHT
-			Logger.info("TEST_AUTO", "Enabled: FIGURE_EIGHT", {})
+			GameLogger.info("TEST_AUTO", "Enabled: FIGURE_EIGHT", {})
 
 		"collision_test":
 			current_mode = TestMode.COLLISION_TEST
 			_setup_collision_targets()
-			Logger.info("TEST_AUTO", "Enabled: COLLISION_TEST", {"targets": collision_targets.size()})
+			GameLogger.info("TEST_AUTO", "Enabled: COLLISION_TEST", {"targets": collision_targets.size()})
 
 		_:
 			test_enabled = false
-			Logger.warn("TEST_AUTO", "Unknown test mode", {"mode": test_mode_str})
+			GameLogger.warn("TEST_AUTO", "Unknown test mode", {"mode": test_mode_str})
 
 func _process(delta: float):
 	if not test_enabled:
@@ -123,12 +122,12 @@ func _update_random_walk(delta: float):
 				randf_range(-1.0, 1.0)
 			).normalized()
 
-			Logger.debug("TEST_AUTO", "Random walk direction change", {
+			GameLogger.debug("TEST_AUTO", "Random walk direction change", {
 				"dir": "(%+.2f,%+.2f)" % [current_direction.x, current_direction.y]
 			})
 		else:
 			current_direction = Vector2.ZERO
-			Logger.debug("TEST_AUTO", "Random walk stopped", {})
+			GameLogger.debug("TEST_AUTO", "Random walk stopped", {})
 
 ## Stress test: rapid direction changes
 func _update_stress_test(delta: float):
@@ -144,7 +143,7 @@ func _update_stress_test(delta: float):
 		# Occasionally do 180 degree turn (worst case for interpolation)
 		if randf() < 0.3:
 			current_direction = -current_direction
-			Logger.debug("TEST_AUTO", "Stress test 180° turn", {})
+			GameLogger.debug("TEST_AUTO", "Stress test 180° turn", {})
 
 ## Chunk crossing: deliberately move to cross chunk boundaries
 func _update_chunk_crossing(delta: float):
@@ -170,7 +169,7 @@ func _update_chunk_crossing(delta: float):
 	# Log when crossing chunks
 	if test_timer > 1.0:  # Log every second
 		test_timer = 0.0
-		Logger.debug("TEST_AUTO", "Chunk crossing", {
+		GameLogger.debug("TEST_AUTO", "Chunk crossing", {
 			"current_chunk": str(current_chunk),
 			"target_chunk": str(target_chunk),
 			"distance": int(player_position.distance_to(target_position))
@@ -216,7 +215,7 @@ func _update_figure_eight(delta: float):
 
 	if test_timer > 2.0:
 		test_timer = 0.0
-		Logger.debug("TEST_AUTO", "Figure-8 motion", {
+		GameLogger.debug("TEST_AUTO", "Figure-8 motion", {
 			"phase": "%.2f" % figure8_time,
 			"pos": "(%d,%d)" % [int(target_position.x), int(target_position.y)]
 		})
@@ -237,7 +236,7 @@ func _update_collision_test(delta: float):
 	# Log when close to wall
 	var distance = player_position.distance_to(target_position)
 	if distance < 50.0 and test_timer == 0.0:
-		Logger.debug("TEST_AUTO", "Approaching collision target", {
+		GameLogger.debug("TEST_AUTO", "Approaching collision target", {
 			"distance": int(distance),
 			"target": "(%d,%d)" % [int(target_position.x), int(target_position.y)]
 		})
@@ -272,7 +271,7 @@ func set_test_mode(mode: TestMode):
 	current_mode = mode
 	test_enabled = (mode != TestMode.DISABLED)
 	test_timer = 0.0
-	Logger.info("TEST_AUTO", "Test mode changed", {"mode": TestMode.keys()[mode]})
+	GameLogger.info("TEST_AUTO", "Test mode changed", {"mode": TestMode.keys()[mode]})
 
 ## Check if test automation is active
 func is_active() -> bool:

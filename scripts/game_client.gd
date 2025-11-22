@@ -8,12 +8,18 @@ class_name GameClient
 var peer: ENetMultiplayerPeer
 var connected: bool = false
 var server_baseline: EntitySnapshot = null
+var snapshots_by_sequence: Dictionary = {}  # seq -> EntitySnapshot for baseline lookup
 var my_entity_id: int = -1  # Track which entity is the player
+var awaiting_full_snapshot: bool = false
 
 # Input
 var input_direction: Vector2 = Vector2.ZERO
 var last_input_send_time: float = 0.0
 const INPUT_SEND_RATE = 20  # Send input 20 times per second
+
+# Automated Testing
+var auto_move_enabled: bool = false
+var auto_move_timer: float = 0.0
 
 # Bandwidth and network metrics tracking
 var bytes_received_this_second: int = 0
@@ -31,6 +37,7 @@ var fps: int = 0
 
 const SERVER_IP = "127.0.0.1"
 const PORT = 7777
+const SNAPSHOT_HISTORY_LIMIT = NetworkConfig.SNAPSHOT_RATE * 4  # ~400ms of baseline history
 
 func _ready():
 	add_child(interpolator)
@@ -38,8 +45,14 @@ func _ready():
 	# Check if running in test mode
 	var test_mode = OS.get_environment("TEST_MODE")
 	if test_mode == "client":
-		Logger.info("CLIENT", "Starting in automated test mode", {})
+		GameLogger.info("CLIENT", "Starting in automated test mode", {})
 		_connect_to_server()
+	
+	# Check for auto-move argument
+	if "--auto-move" in OS.get_cmdline_args():
+		auto_move_enabled = true
+		print("[CLIENT] Auto-move enabled for testing")
+
 	# Don't auto-connect for now - wait for user input
 	# Uncomment to auto-connect:
 	# _connect_to_server()
@@ -104,7 +117,8 @@ func _process(delta: float):
 	# Rate-limit input sending to avoid spamming the server
 	last_input_send_time += delta
 	if last_input_send_time >= (1.0 / INPUT_SEND_RATE):
-		receive_player_input.rpc_id(1, input_direction)
+		# Send input along with the last received snapshot sequence (ack) for delta compression
+		receive_player_input.rpc_id(1, input_direction, last_snapshot_sequence)
 		last_input_send_time = 0.0
 
 func _handle_input():
@@ -117,6 +131,11 @@ func _handle_input():
 
 		# Get automated input
 		input_direction = TestAutomation.get_input_direction()
+	elif auto_move_enabled:
+		auto_move_timer += get_process_delta_time()
+		# Circular motion
+		input_direction = Vector2(cos(auto_move_timer * 2.0), sin(auto_move_timer * 2.0))
+		# No normalization needed for sin/cos, it's already length 1
 	else:
 		# Manual input
 		input_direction = Vector2.ZERO
@@ -133,8 +152,13 @@ func _handle_input():
 		input_direction = input_direction.normalized()
 
 @rpc("any_peer", "call_remote", "unreliable")
-func receive_player_input(input_dir: Vector2):
+func receive_player_input(input_dir: Vector2, ack: int):
 	# This is defined on server - this is just a stub for RPC registration
+	pass
+
+@rpc("any_peer", "call_remote", "reliable")
+func request_full_snapshot():
+	# Stub so the client can send an RPC to the server requesting a keyframe
 	pass
 
 ## Receive snapshot from server
@@ -145,8 +169,24 @@ func receive_snapshot_data(data: PackedByteArray):
 	snapshots_received_this_second += 1
 	total_packets_received += 1
 
-	# Deserialize snapshot
-	var snapshot = EntitySnapshot.deserialize(data, server_baseline)
+	# Peek header to pick the correct baseline (or request a keyframe if missing)
+	var header = EntitySnapshot.peek_header(data)
+	var baseline_seq: int = header.get("baseline_seq", 0)
+	var baseline_snapshot: EntitySnapshot = null
+
+	if baseline_seq > 0:
+		if snapshots_by_sequence.has(baseline_seq):
+			baseline_snapshot = snapshots_by_sequence[baseline_seq]
+		else:
+			print("[CLIENT] WARNING: Missing baseline #", baseline_seq, " for incoming snapshot #", header.get("sequence"), " - requesting keyframe")
+			_request_full_snapshot()
+			return
+
+	# Deserialize snapshot with correct baseline (or full snapshot when baseline_seq == 0)
+	var snapshot = EntitySnapshot.deserialize(data, baseline_snapshot)
+	if snapshot == null:
+		_request_full_snapshot()
+		return
 
 	# Network condition simulation: check if packet should be dropped
 	if not NetworkSimulator.should_process_packet(snapshot.sequence):
@@ -159,26 +199,28 @@ func receive_snapshot_data(data: PackedByteArray):
 		if snapshot.sequence > expected_sequence:
 			var lost = snapshot.sequence - expected_sequence
 			packets_lost += lost
-			Logger.warn("CLIENT", "Packet loss detected", {
+			GameLogger.warn("CLIENT", "Packet loss detected", {
 				"expected_seq": expected_sequence,
 				"got_seq": snapshot.sequence,
 				"lost": lost
 			})
 	last_snapshot_sequence = snapshot.sequence
 
-	# Update baseline
+	# Update baselines
 	server_baseline = snapshot
+	snapshots_by_sequence[snapshot.sequence] = snapshot
+	_trim_snapshot_history()
+	awaiting_full_snapshot = false
 
 	# CRITICAL FIX: Track player entity using explicit ID from server
 	if my_entity_id == -1 and snapshot.player_entity_id != -1:
 		my_entity_id = snapshot.player_entity_id
-		Logger.info("CLIENT", "Player entity ID tracked", {"player_id": my_entity_id})
+		GameLogger.info("CLIENT", "Player entity ID tracked", {"player_id": my_entity_id})
 
 	# Debug logging (every 100 snapshots)
 	if snapshot.sequence % 100 == 0:
-		var player_in_snapshot = snapshot.entities.has(my_entity_id)
 		var delay_ms = (interpolator.latest_server_time - interpolator.render_time) * 1000.0
-		Logger.log_snapshot_received(
+		GameLogger.log_snapshot_received(
 			snapshot.sequence,
 			snapshot.entities.size(),
 			my_entity_id,
@@ -190,7 +232,7 @@ func receive_snapshot_data(data: PackedByteArray):
 
 	# Debug - check if player disappeared
 	if my_entity_id != -1 and not snapshot.entities.has(my_entity_id):
-		Logger.log_player_disappearance(my_entity_id, snapshot.sequence, false)
+		GameLogger.log_player_disappearance(my_entity_id, snapshot.sequence, false)
 
 ## Get interpolated entities for rendering
 func get_entities() -> Dictionary:
@@ -219,3 +261,19 @@ func get_network_stats() -> Dictionary:
 		"entities_count": interpolator.interpolated_entities.size(),
 		"fps": fps
 	}
+
+func _trim_snapshot_history():
+	if snapshots_by_sequence.size() <= SNAPSHOT_HISTORY_LIMIT:
+		return
+	var keys = snapshots_by_sequence.keys()
+	keys.sort()
+	while keys.size() > SNAPSHOT_HISTORY_LIMIT:
+		var oldest = keys.pop_front()
+		snapshots_by_sequence.erase(oldest)
+
+func _request_full_snapshot():
+	if awaiting_full_snapshot:
+		return  # Avoid spamming
+	awaiting_full_snapshot = true
+	request_full_snapshot.rpc_id(1)  # Ask server (peer 1) for a keyframe / full snapshot
+	print("[CLIENT] Requested full snapshot/keyframe from server")

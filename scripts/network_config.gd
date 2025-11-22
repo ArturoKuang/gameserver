@@ -4,14 +4,15 @@ extends Node
 ## Based on GafferOnGames snapshot interpolation/compression articles
 
 # Network timing
-const TICK_RATE = 32  # Server simulation ticks per second
-const SNAPSHOT_RATE = 10  # Snapshots sent per second (every 2 ticks)
+const TICK_RATE = 20  # Server simulation ticks per second (50ms)
+const SNAPSHOT_RATE = 20  # Snapshots sent per second (Send every tick for smoothness)
 const TICK_DELTA = 1.0 / TICK_RATE  # 0.05 seconds per tick
 
-# Interpolation settings (REDUCED for faster response with client prediction)
-const INTERPOLATION_DELAY = 0.05  # 50ms buffer for interpolation (was 0.1)
-const JITTER_BUFFER = 0.025  # 25ms extra for network jitter (was 0.05)
-const TOTAL_CLIENT_DELAY = INTERPOLATION_DELAY + JITTER_BUFFER  # 75ms (was 150ms)
+# Interpolation settings
+# With 20Hz snapshots (50ms interval), we need at least 100ms buffer to survive 1 lost packet
+const INTERPOLATION_DELAY = 0.100  # 100ms buffer (2 frames)
+const JITTER_BUFFER = 0.050  # 50ms extra for jitter/lag spikes
+const TOTAL_CLIENT_DELAY = INTERPOLATION_DELAY + JITTER_BUFFER  # 150ms total delay
 
 # Spatial partitioning (for 10k players)
 const CHUNK_SIZE = 64  # World units per chunk (e.g., 64 tiles)
@@ -20,7 +21,7 @@ const INTEREST_RADIUS = 2  # How many chunks around player to send updates
 # Compression settings
 const POSITION_BITS = 18  # ~2mm precision for 512 unit range
 const VELOCITY_BITS = 11  # Velocity quantization bits
-const MAX_VELOCITY = 32.0  # Max velocity in units/second
+const MAX_VELOCITY = 256.0  # Max velocity in units/second (must cover max player speed 100.0)
 
 # World bounds (adjust for your game)
 const WORLD_MIN = Vector2(-1024, -1024)

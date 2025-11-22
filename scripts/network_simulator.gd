@@ -1,5 +1,4 @@
 extends Node
-class_name NetworkSimulator
 
 ## Network condition simulator for testing
 ## Simulates packet loss, lag, and jitter
@@ -38,14 +37,14 @@ func _load_config():
 	if not packet_loss_str.is_empty():
 		packet_loss_rate = float(packet_loss_str)
 		enabled = true
-		Logger.info("NET_SIM", "Packet loss simulation enabled", {
+		GameLogger.info("NET_SIM", "Packet loss simulation enabled", {
 			"rate": "%.1f%%" % (packet_loss_rate * 100)
 		})
 
 	if not lag_str.is_empty():
 		lag_ms = int(lag_str)
 		enabled = true
-		Logger.info("NET_SIM", "Lag simulation enabled", {
+		GameLogger.info("NET_SIM", "Lag simulation enabled", {
 			"lag_ms": lag_ms
 		})
 
@@ -66,7 +65,7 @@ func _process(delta: float):
 
 		if current_time >= packet.deliver_time:
 			# Deliver packet
-			Logger.log_network_simulation(
+			GameLogger.log_network_simulation(
 				"Packet delivered",
 				packet.sequence,
 				false,
@@ -88,7 +87,7 @@ func should_process_packet(sequence: int = 0) -> bool:
 
 	# Packet loss simulation
 	if packet_loss_rate > 0.0 and randf() < packet_loss_rate:
-		Logger.log_network_simulation(
+		GameLogger.log_network_simulation(
 			"Packet dropped (simulated loss)",
 			sequence,
 			true,
@@ -120,7 +119,7 @@ func send_with_delay(data: PackedByteArray, callback: Callable, sequence: int = 
 	var packet = DelayedPacket.new(data, deliver_time, callback, sequence)
 	delayed_packets.append(packet)
 
-	Logger.log_network_simulation(
+	GameLogger.log_network_simulation(
 		"Packet delayed",
 		sequence,
 		false,
@@ -131,7 +130,7 @@ func send_with_delay(data: PackedByteArray, callback: Callable, sequence: int = 
 func set_packet_loss(rate: float):
 	packet_loss_rate = clampf(rate, 0.0, 1.0)
 	enabled = (packet_loss_rate > 0.0 or lag_ms > 0)
-	Logger.info("NET_SIM", "Packet loss configured", {
+	GameLogger.info("NET_SIM", "Packet loss configured", {
 		"rate": "%.1f%%" % (packet_loss_rate * 100),
 		"enabled": enabled
 	})
@@ -140,7 +139,7 @@ func set_lag(lag_milliseconds: int, jitter_milliseconds: int = 0):
 	lag_ms = max(0, lag_milliseconds)
 	jitter_ms = max(0, jitter_milliseconds)
 	enabled = (packet_loss_rate > 0.0 or lag_ms > 0)
-	Logger.info("NET_SIM", "Lag configured", {
+	GameLogger.info("NET_SIM", "Lag configured", {
 		"lag_ms": lag_ms,
 		"jitter_ms": jitter_ms,
 		"enabled": enabled
@@ -149,7 +148,7 @@ func set_lag(lag_milliseconds: int, jitter_milliseconds: int = 0):
 ## Reset simulation
 func reset():
 	delayed_packets.clear()
-	Logger.info("NET_SIM", "Network simulator reset", {})
+	GameLogger.info("NET_SIM", "Network simulator reset", {})
 
 ## Get statistics
 func get_stats() -> Dictionary:

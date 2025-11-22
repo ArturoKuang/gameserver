@@ -11,11 +11,19 @@ var next_entity_id: int = 1
 var tick_accumulator: float = 0.0
 var current_tick: int = 0
 
+const PLAYER_LINEAR_DAMP: float = 8.0  # Keeps rigidbody players responsive without sliding
+
 # Per-client snapshot sequences (CRITICAL: each client needs independent sequence numbers)
 var snapshot_sequences: Dictionary = {}  # peer_id -> int
 
-# For delta compression
-var last_snapshots: Dictionary = {}  # peer_id -> EntitySnapshot
+# For delta compression (Ack-based)
+var snapshot_history: Dictionary = {}  # peer_id -> Dictionary[sequence -> EntitySnapshot]
+var peer_acks: Dictionary = {}  # peer_id -> int (last acknowledged sequence)
+const HISTORY_SIZE = 60  # Keep ~3 seconds of snapshots (at 20Hz)
+
+# For entity interest management hysteresis
+var active_peer_entities: Dictionary = {}  # peer_id -> Dictionary[entity_id -> bool]
+const HYSTERESIS_BONUS = 10000.0  # Distance bonus squared (100 units)
 
 # Physics containers
 var physics_container: Node2D
@@ -101,9 +109,10 @@ func _update_entity(entity: Entity):
 		body.velocity *= 0.85
 
 	# For RigidBody2D, physics is handled automatically by the engine
-	# We just apply damping for friction-like behavior
 	elif body is RigidBody2D:
-		body.linear_damp = 0.5  # Friction-like damping
+		# Keep player rigidbodies damped so they stop quickly after input
+		if (body.collision_layer & 0b0001) != 0:
+			body.linear_damp = PLAYER_LINEAR_DAMP
 
 	# Update chunk if position changed
 	var new_chunk = NetworkConfig.world_to_chunk(body.position)
@@ -135,21 +144,25 @@ func _move_entity_chunk(entity: Entity, new_chunk: Vector2i):
 
 	# Debug logging for player entities changing chunks
 	if entity.peer_id != -1:
-		Logger.log_chunk_change(entity.id, old_chunk, new_chunk, entity.position)
+		GameLogger.log_chunk_change(entity.id, old_chunk, new_chunk, entity.position)
 
 func spawn_entity(position: Vector2, peer_id: int = -1) -> int:
 	var entity_id = next_entity_id
 	next_entity_id += 1
 
-	# Create CharacterBody2D for player/NPC entities
-	var body = CharacterBody2D.new()
+	# Create RigidBody2D for player/NPC entities so they collide with each other
+	var body = RigidBody2D.new()
 	body.position = position
 	body.name = "Entity_" + str(entity_id)
+	body.gravity_scale = 0.0  # Top-down, no gravity
+	body.lock_rotation = true  # Keep sprites upright
+	body.linear_damp = PLAYER_LINEAR_DAMP
 
-	# Add collision shape (circle for top-down movement)
+	# Add collision shape (box to match the sprite)
 	var collision = CollisionShape2D.new()
-	var shape = CircleShape2D.new()
-	shape.radius = 16.0  # 16 pixels radius
+	var shape = RectangleShape2D.new()
+	# Match the 16x16 visual sprite so the hitbox aligns with the box art
+	shape.size = Vector2(16.0, 16.0)
 	collision.shape = shape
 	body.add_child(collision)
 
@@ -158,7 +171,7 @@ func spawn_entity(position: Vector2, peer_id: int = -1) -> int:
 	# Layer 2 (bit 1) = Walls
 	# Layer 3 (bit 2) = Moving obstacles
 	body.collision_layer = 0b0001  # This entity is on layer 1
-	body.collision_mask = 0b0110   # Collides with layers 2 and 3 (walls and obstacles)
+	body.collision_mask = 0b0111   # Collides with players, walls, and moving obstacles
 
 	# Add to scene tree (required for physics to work)
 	physics_container.add_child(body)
@@ -172,7 +185,7 @@ func spawn_entity(position: Vector2, peer_id: int = -1) -> int:
 		chunks[entity.chunk] = []
 	chunks[entity.chunk].append(entity_id)
 
-	Logger.info("SERVER", "Entity spawned", {
+	GameLogger.info("SERVER", "Entity spawned", {
 		"entity_id": entity_id,
 		"pos": "(%d,%d)" % [int(position.x), int(position.y)],
 		"peer_id": peer_id if peer_id != -1 else "NPC"
@@ -205,7 +218,49 @@ func remove_entity(entity_id: int):
 ## Cleanup peer-specific data when a client disconnects
 func cleanup_peer(peer_id: int):
 	snapshot_sequences.erase(peer_id)
-	last_snapshots.erase(peer_id)
+	snapshot_history.erase(peer_id)
+	peer_acks.erase(peer_id)
+	active_peer_entities.erase(peer_id)
+
+## Process acknowledgement from client
+func acknowledge_snapshot(peer_id: int, ack: int):
+	if ack <= 0:
+		return
+
+	# Only update if newer (handle out-of-order packets)
+	var current_ack = peer_acks.get(peer_id, 0)
+	if ack > current_ack:
+		peer_acks[peer_id] = ack
+		# print("[SERVER] Peer ", peer_id, " acked snapshot #", ack)
+
+func get_baseline_for_peer(peer_id: int) -> EntitySnapshot:
+	var ack = peer_acks.get(peer_id, 0)
+	if ack == 0:
+		return null
+	
+	if snapshot_history.has(peer_id):
+		var history = snapshot_history[peer_id]
+		if history.has(ack):
+			return history[ack]
+			
+	return null
+
+func store_snapshot_for_peer(peer_id: int, snapshot: EntitySnapshot):
+	if not snapshot_history.has(peer_id):
+		snapshot_history[peer_id] = {}
+	
+	snapshot_history[peer_id][snapshot.sequence] = snapshot
+	
+	# Prune history (keep last N snapshots)
+	var history = snapshot_history[peer_id]
+	if history.size() > HISTORY_SIZE:
+		var oldest_allowed = snapshot.sequence - HISTORY_SIZE
+		var keys_to_remove = []
+		for seq in history:
+			if seq < oldest_allowed:
+				keys_to_remove.append(seq)
+		for seq in keys_to_remove:
+			history.erase(seq)
 
 func set_entity_velocity(entity_id: int, vel: Vector2):
 	if entities.has(entity_id):
@@ -259,7 +314,7 @@ func create_snapshot_for_peer(peer_id: int) -> EntitySnapshot:
 
 	# Debug logging (every 100 snapshots)
 	if sequence % 100 == 0:
-		Logger.debug("SERVER", "Creating snapshot", {
+		GameLogger.debug("SERVER", "Creating snapshot", {
 			"seq": sequence,
 			"tick": current_tick,
 			"timestamp": "%.3f" % timestamp,
@@ -283,21 +338,35 @@ func create_snapshot_for_peer(peer_id: int) -> EntitySnapshot:
 	if not player_was_in_interest and sequence % 10 == 0:
 		print("[SERVER] DEBUG: Player ", player_entity.id, " NOT in natural interest area, manually added. Interest count: ", interest_entities.size())
 
+	# Retrieve active entities for this peer (Hysteresis)
+	if not active_peer_entities.has(peer_id):
+		active_peer_entities[peer_id] = {}
+	var active_set = active_peer_entities[peer_id]
+
 	# Limit to MAX_ENTITIES_PER_SNAPSHOT (but never cut the player)
 	if interest_entities.size() > NetworkConfig.MAX_ENTITIES_PER_SNAPSHOT:
-		print("[SERVER] DEBUG: Limiting snapshot, before: ", interest_entities.size(),
-			  " entities, player at index 0: ", interest_entities[0] == player_entity.id)
-		# Sort by distance (skip index 0 since that's the player)
+		# print("[SERVER] DEBUG: Limiting snapshot, before: ", interest_entities.size())
+		
+		# Sort by distance with hysteresis (skip index 0 since that's the player)
 		var other_entities = interest_entities.slice(1)
 		other_entities.sort_custom(func(a, b):
 			var dist_a = entities[a].position.distance_squared_to(player_entity.position)
 			var dist_b = entities[b].position.distance_squared_to(player_entity.position)
+			
+			# Apply hysteresis bonus to keep existing entities
+			if active_set.has(a): dist_a -= HYSTERESIS_BONUS
+			if active_set.has(b): dist_b -= HYSTERESIS_BONUS
+			
 			return dist_a < dist_b
 		)
 		# Keep player + closest entities
 		interest_entities = [player_entity.id] + other_entities.slice(0, NetworkConfig.MAX_ENTITIES_PER_SNAPSHOT - 1)
-		print("[SERVER] DEBUG: After limiting: ", interest_entities.size(),
-			  " entities, player still at [0]: ", interest_entities[0] == player_entity.id)
+		# print("[SERVER] DEBUG: After limiting: ", interest_entities.size())
+
+	# Update active set for next frame
+	active_set.clear()
+	for eid in interest_entities:
+		active_set[eid] = true
 
 	# Debug: Log interest_entities before adding to snapshot (every 10 snapshots)
 	if sequence % 10 == 0:
@@ -486,6 +555,12 @@ func handle_player_input(peer_id: int, input_dir: Vector2):
 			var speed = 100.0  # units per second
 			if entity.physics_body is CharacterBody2D:
 				entity.physics_body.velocity = input_dir.normalized() * speed
+			elif entity.physics_body is RigidBody2D:
+				var body: RigidBody2D = entity.physics_body
+				if input_dir != Vector2.ZERO:
+					body.linear_velocity = input_dir.normalized() * speed
+				# Keep the body awake so collision responses stay active
+				body.sleeping = false
 
 			# Set facing direction in state_flags
 			if input_dir.x > 0:

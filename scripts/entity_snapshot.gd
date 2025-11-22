@@ -48,7 +48,7 @@ func serialize(baseline: EntitySnapshot = null) -> PackedByteArray:
 	var writer = BitWriter.new(buffer)
 
 	# Write header
-	writer.write_bits(sequence, 16)  # Sequence number
+	writer.write_bits(sequence, 16)  # Sequence number (65536 wrap)
 
 	# CRITICAL FIX: Write timestamp as milliseconds (32-bit int)
 	var timestamp_ms = int(timestamp * 1000.0)
@@ -116,6 +116,18 @@ func serialize(baseline: EntitySnapshot = null) -> PackedByteArray:
 	writer.flush()
 	return buffer
 
+## Peek at header without mutating baseline state (used to find the right baseline before deserializing)
+static func peek_header(buffer: PackedByteArray) -> Dictionary:
+	var reader = BitReader.new(buffer)
+	var sequence = reader.read_bits(16)
+	var timestamp_ms = reader.read_bits(32)
+	var baseline_seq = reader.read_bits(16)
+	return {
+		"sequence": sequence,
+		"timestamp": float(timestamp_ms) / 1000.0,
+		"baseline_seq": baseline_seq
+	}
+
 ## Deserialize snapshot from bytes
 static func deserialize(buffer: PackedByteArray, baseline: EntitySnapshot = null) -> EntitySnapshot:
 	var reader = BitReader.new(buffer)
@@ -133,10 +145,14 @@ static func deserialize(buffer: PackedByteArray, baseline: EntitySnapshot = null
 	if baseline and baseline_seq > 0:
 		baseline_valid = (baseline.sequence == baseline_seq)
 		if not baseline_valid:
-			print("[DESERIALIZE] WARNING: Baseline mismatch! Snapshot #", sequence,
+			print("[DESERIALIZE] ERROR: Baseline mismatch! Snapshot #", sequence,
 				  " expects baseline #", baseline_seq, " but we have #", baseline.sequence,
-				  " (likely out-of-order packet) - ignoring delta compression")
-			baseline = null  # Disable delta compression for this packet
+				  " - refusing to deserialize to avoid corruption")
+			return null
+	elif baseline_seq > 0 and baseline == null:
+		print("[DESERIALIZE] ERROR: Snapshot #", sequence, " expects baseline #", baseline_seq,
+			  " but none was provided - refusing to deserialize")
+		return null
 
 	var entity_count = reader.read_bits(16)
 	var player_id = reader.read_bits(32)
@@ -216,25 +232,27 @@ class BitWriter:
 		buffer = buf
 
 	func write_bits(value: int, num_bits: int):
+		value &= (1 << num_bits) - 1  # Prevent high bits from leaking
 		scratch |= (value << scratch_bits)
 		scratch_bits += num_bits
 
 		while scratch_bits >= 8:
 			buffer.append(scratch & 0xFF)
-			scratch >>= 8
+			scratch >>= 8  # Arithmetic shift; mask below prevents sign extension
 			scratch_bits -= 8
+			if scratch_bits > 0:
+				scratch &= (1 << scratch_bits) - 1  # Keep only the valid bits
 
 	func write_variable_uint(value: int):
-		# Variable-length encoding: small values use fewer bits
-		if value < 16:  # 4 bits
-			write_bits(0, 2)  # Prefix: 00
-			write_bits(value, 4)
-		elif value < 128:  # 7 bits
-			write_bits(1, 2)  # Prefix: 01
-			write_bits(value, 7)
-		else:  # 12 bits
-			write_bits(2, 2)  # Prefix: 10
-			write_bits(value, 12)
+		# Standard 7-bit continuation varint (handles full 32-bit deltas safely)
+		while true:
+			var byte = value & 0x7F
+			value >>= 7
+			if value != 0:
+				byte |= 0x80
+			write_bits(byte, 8)
+			if value == 0:
+				break
 
 	func flush():
 		if scratch_bits > 0:
@@ -255,21 +273,26 @@ class BitReader:
 	func read_bits(num_bits: int) -> int:
 		while scratch_bits < num_bits:
 			if pos >= buffer.size():
+				push_error("BitReader underrun while reading %d bits" % num_bits)
 				return 0
-			scratch |= (buffer[pos] << scratch_bits)
+			scratch |= int(buffer[pos]) << scratch_bits
 			scratch_bits += 8
 			pos += 1
 
 		var value = scratch & ((1 << num_bits) - 1)
-		scratch >>= num_bits
+		scratch >>= num_bits  # Arithmetic shift; mask below clears sign bits
 		scratch_bits -= num_bits
+		if scratch_bits > 0:
+			scratch &= (1 << scratch_bits) - 1
 		return value
 
 	func read_variable_uint() -> int:
-		var prefix = read_bits(2)
-		if prefix == 0:
-			return read_bits(4)
-		elif prefix == 1:
-			return read_bits(7)
-		else:
-			return read_bits(12)
+		var result = 0
+		var shift = 0
+		while true:
+			var byte = read_bits(8)
+			result |= (byte & 0x7F) << shift
+			if (byte & 0x80) == 0:
+				break
+			shift += 7
+		return result

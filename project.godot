@@ -18,6 +18,5 @@ config/icon="res://icon.svg"
 [autoload]
 
 NetworkConfig="*res://scripts/network_config.gd"
-Logger="*res://scripts/logger.gd"
 TestAutomation="*res://scripts/test_automation.gd"
 NetworkSimulator="*res://scripts/network_simulator.gd"
