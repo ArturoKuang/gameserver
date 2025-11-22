@@ -19,6 +19,7 @@ var predicted_player_position: Vector2 = Vector2.ZERO
 var prediction_enabled: bool = false  # Enabled once we receive first snapshot
 
 func _ready():
+	set_process(true)
 	add_child(camera)
 	camera.enabled = true
 	camera.zoom = Vector2(2, 2)  # Zoom in a bit
@@ -128,7 +129,7 @@ func _update_sprite_appearance(sprite: Sprite2D, entity: ClientInterpolator.Inte
 ## Debug: Draw walls on client for visualization (matches server walls)
 func _draw_debug_walls():
 	var wall_thickness = 32.0
-	var wall_color = Color(0.3, 0.3, 0.3, 0.7)  # Semi-transparent gray
+	var wall_color = Color(0, 0, 0, 0.85)  # Semi-transparent black
 
 	# Helper to create a visual wall
 	var create_visual_wall = func(pos: Vector2, size: Vector2):
