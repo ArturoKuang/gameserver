@@ -45,7 +45,7 @@ func _ready():
 	# Check if running in test mode
 	var test_mode = OS.get_environment("TEST_MODE")
 	if test_mode == "client":
-		Logger.info("CLIENT", "Starting in automated test mode", {})
+		GameLogger.info("CLIENT", "Starting in automated test mode", {})
 		_connect_to_server()
 	
 	# Check for auto-move argument
@@ -199,7 +199,7 @@ func receive_snapshot_data(data: PackedByteArray):
 		if snapshot.sequence > expected_sequence:
 			var lost = snapshot.sequence - expected_sequence
 			packets_lost += lost
-			Logger.warn("CLIENT", "Packet loss detected", {
+			GameLogger.warn("CLIENT", "Packet loss detected", {
 				"expected_seq": expected_sequence,
 				"got_seq": snapshot.sequence,
 				"lost": lost
@@ -215,12 +215,12 @@ func receive_snapshot_data(data: PackedByteArray):
 	# CRITICAL FIX: Track player entity using explicit ID from server
 	if my_entity_id == -1 and snapshot.player_entity_id != -1:
 		my_entity_id = snapshot.player_entity_id
-		Logger.info("CLIENT", "Player entity ID tracked", {"player_id": my_entity_id})
+		GameLogger.info("CLIENT", "Player entity ID tracked", {"player_id": my_entity_id})
 
 	# Debug logging (every 100 snapshots)
 	if snapshot.sequence % 100 == 0:
 		var delay_ms = (interpolator.latest_server_time - interpolator.render_time) * 1000.0
-		Logger.log_snapshot_received(
+		GameLogger.log_snapshot_received(
 			snapshot.sequence,
 			snapshot.entities.size(),
 			my_entity_id,
@@ -232,7 +232,7 @@ func receive_snapshot_data(data: PackedByteArray):
 
 	# Debug - check if player disappeared
 	if my_entity_id != -1 and not snapshot.entities.has(my_entity_id):
-		Logger.log_player_disappearance(my_entity_id, snapshot.sequence, false)
+		GameLogger.log_player_disappearance(my_entity_id, snapshot.sequence, false)
 
 ## Get interpolated entities for rendering
 func get_entities() -> Dictionary:

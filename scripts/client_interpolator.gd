@@ -186,7 +186,7 @@ func _interpolate():
 			interp_entity.state_flags = to_state.state_flags
 		elif from_state:
 			# Entity disappeared - keep last known position
-			Logger.log_entity_disappeared(
+			GameLogger.log_entity_disappeared(
 				entity_id,
 				from_snapshot.sequence,
 				to_snapshot.sequence

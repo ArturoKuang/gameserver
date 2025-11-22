@@ -144,7 +144,7 @@ func _move_entity_chunk(entity: Entity, new_chunk: Vector2i):
 
 	# Debug logging for player entities changing chunks
 	if entity.peer_id != -1:
-		Logger.log_chunk_change(entity.id, old_chunk, new_chunk, entity.position)
+		GameLogger.log_chunk_change(entity.id, old_chunk, new_chunk, entity.position)
 
 func spawn_entity(position: Vector2, peer_id: int = -1) -> int:
 	var entity_id = next_entity_id
@@ -185,7 +185,7 @@ func spawn_entity(position: Vector2, peer_id: int = -1) -> int:
 		chunks[entity.chunk] = []
 	chunks[entity.chunk].append(entity_id)
 
-	Logger.info("SERVER", "Entity spawned", {
+	GameLogger.info("SERVER", "Entity spawned", {
 		"entity_id": entity_id,
 		"pos": "(%d,%d)" % [int(position.x), int(position.y)],
 		"peer_id": peer_id if peer_id != -1 else "NPC"
@@ -314,7 +314,7 @@ func create_snapshot_for_peer(peer_id: int) -> EntitySnapshot:
 
 	# Debug logging (every 100 snapshots)
 	if sequence % 100 == 0:
-		Logger.debug("SERVER", "Creating snapshot", {
+		GameLogger.debug("SERVER", "Creating snapshot", {
 			"seq": sequence,
 			"tick": current_tick,
 			"timestamp": "%.3f" % timestamp,
