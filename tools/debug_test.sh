@@ -8,7 +8,7 @@ NUM_CLIENTS=${1:-2}
 
 # Resolve paths
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-PROJECT_PATH="${PROJECT_PATH:-${SCRIPT_DIR}}"
+PROJECT_PATH="${PROJECT_PATH:-${SCRIPT_DIR}/..}"
 LOG_DIR="${PROJECT_PATH}/debug_logs"
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 
