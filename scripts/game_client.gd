@@ -41,6 +41,12 @@ const SNAPSHOT_HISTORY_LIMIT = NetworkConfig.SNAPSHOT_RATE * 4  # ~400ms of base
 
 func _ready():
 	add_child(interpolator)
+
+	# Check if running in test mode
+	var test_mode = OS.get_environment("TEST_MODE")
+	if test_mode == "client":
+		Logger.info("CLIENT", "Starting in automated test mode", {})
+		_connect_to_server()
 	
 	# Check for auto-move argument
 	if "--auto-move" in OS.get_cmdline_args():
@@ -116,25 +122,34 @@ func _process(delta: float):
 		last_input_send_time = 0.0
 
 func _handle_input():
-	input_direction = Vector2.ZERO
+	# Check if test automation is active
+	if TestAutomation.is_active():
+		# Update test automation with current player position
+		if my_entity_id != -1:
+			var player_pos = interpolator.get_entity_position(my_entity_id)
+			TestAutomation.update_player_position(player_pos)
 
-	if auto_move_enabled:
+		# Get automated input
+		input_direction = TestAutomation.get_input_direction()
+	elif auto_move_enabled:
 		auto_move_timer += get_process_delta_time()
 		# Circular motion
 		input_direction = Vector2(cos(auto_move_timer * 2.0), sin(auto_move_timer * 2.0))
 		# No normalization needed for sin/cos, it's already length 1
-		return
+	else:
+		# Manual input
+		input_direction = Vector2.ZERO
 
-	if Input.is_action_pressed("ui_right"):
-		input_direction.x += 1
-	if Input.is_action_pressed("ui_left"):
-		input_direction.x -= 1
-	if Input.is_action_pressed("ui_down"):
-		input_direction.y += 1
-	if Input.is_action_pressed("ui_up"):
-		input_direction.y -= 1
+		if Input.is_action_pressed("ui_right"):
+			input_direction.x += 1
+		if Input.is_action_pressed("ui_left"):
+			input_direction.x -= 1
+		if Input.is_action_pressed("ui_down"):
+			input_direction.y += 1
+		if Input.is_action_pressed("ui_up"):
+			input_direction.y -= 1
 
-	input_direction = input_direction.normalized()
+		input_direction = input_direction.normalized()
 
 @rpc("any_peer", "call_remote", "unreliable")
 func receive_player_input(input_dir: Vector2, ack: int):
@@ -173,14 +188,22 @@ func receive_snapshot_data(data: PackedByteArray):
 		_request_full_snapshot()
 		return
 
+	# Network condition simulation: check if packet should be dropped
+	if not NetworkSimulator.should_process_packet(snapshot.sequence):
+		# Simulate packet loss - drop this packet
+		return
+
 	# Track packet loss (missed sequence numbers)
 	if last_snapshot_sequence != -1:
 		var expected_sequence = last_snapshot_sequence + 1
 		if snapshot.sequence > expected_sequence:
 			var lost = snapshot.sequence - expected_sequence
 			packets_lost += lost
-			print("[CLIENT] WARNING: Packet loss detected! Expected seq ", expected_sequence,
-				  " but got ", snapshot.sequence, " (lost ", lost, " packets)")
+			Logger.warn("CLIENT", "Packet loss detected", {
+				"expected_seq": expected_sequence,
+				"got_seq": snapshot.sequence,
+				"lost": lost
+			})
 	last_snapshot_sequence = snapshot.sequence
 
 	# Update baselines
@@ -192,38 +215,24 @@ func receive_snapshot_data(data: PackedByteArray):
 	# CRITICAL FIX: Track player entity using explicit ID from server
 	if my_entity_id == -1 and snapshot.player_entity_id != -1:
 		my_entity_id = snapshot.player_entity_id
-		print("[CLIENT] Player entity ID tracked: ", my_entity_id)
+		Logger.info("CLIENT", "Player entity ID tracked", {"player_id": my_entity_id})
 
 	# Debug logging (every 100 snapshots)
 	if snapshot.sequence % 100 == 0:
-		var player_in_snapshot = snapshot.entities.has(my_entity_id)
-		var current_time = Time.get_ticks_msec() / 1000.0
-		print("[CLIENT] Received snapshot #", snapshot.sequence,
-			  " | Snapshot timestamp: ", snapshot.timestamp,
-			  " | Current client time: ", current_time,
-			  " | Interpolator render_time: ", interpolator.render_time,
-			  " | Interpolator latest_server_time: ", interpolator.latest_server_time,
-			  " | Entities: ", snapshot.entities.size(),
-			  " | Player in snapshot: ", player_in_snapshot,
-			  " | Player ID: ", my_entity_id,
-			  " | Data size: ", data.size(), " bytes")
-			
-		# Verify other players are moving
-		for eid in snapshot.entities:
-			if eid != my_entity_id:
-				var e = snapshot.entities[eid]
-				# Heuristic: Player IDs are usually small integers from server logic, but here they are spawned. 
-				# Let's just log one.
-				print("[CLIENT] Remote Entity ", eid, " Pos: ", e.position, " Vel: ", e.velocity)
-				break 
+		var delay_ms = (interpolator.latest_server_time - interpolator.render_time) * 1000.0
+		Logger.log_snapshot_received(
+			snapshot.sequence,
+			snapshot.entities.size(),
+			my_entity_id,
+			delay_ms
+		)
 
 	# Pass to interpolator
 	interpolator.receive_snapshot(snapshot)
 
 	# Debug - check if player disappeared
 	if my_entity_id != -1 and not snapshot.entities.has(my_entity_id):
-		print("[CLIENT] ERROR: Player entity ", my_entity_id, " NOT in snapshot #", snapshot.sequence,
-			  "! Entities in snapshot: ", snapshot.entities.keys())
+		Logger.log_player_disappearance(my_entity_id, snapshot.sequence, false)
 
 ## Get interpolated entities for rendering
 func get_entities() -> Dictionary:

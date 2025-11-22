@@ -235,6 +235,47 @@ Based on:
 - [Snapshot Interpolation](https://gafferongames.com/post/snapshot_interpolation/) - GafferOnGames
 - [Snapshot Compression](https://gafferongames.com/post/snapshot_compression/) - GafferOnGames
 
+## Automated Testing Framework
+
+This project includes a comprehensive testing framework for automated validation:
+
+### Quick Start
+
+```bash
+# Run basic functionality test
+./test_framework.py --test basic
+
+# Run stress test with rapid movements
+./test_framework.py --test stress
+
+# Test with network conditions (lag, packet loss)
+./test_framework.py --test packet_loss
+./test_framework.py --test lag
+
+# Test multiple clients simultaneously
+./test_framework.py --test multi_client
+
+# Analyze test results
+./analyze_test_logs.py test_logs/basic_single_client_<timestamp>
+```
+
+### Features
+
+- **Automated Player Movement**: Random walks, stress tests, chunk crossing patterns
+- **Network Simulation**: Configurable packet loss and lag
+- **Structured Logging**: Timestamped logs with metadata for easy analysis
+- **Issue Detection**: Automatically detects player disappearances, interpolation warnings, etc.
+- **Claude Code Integration**: Generates Claude-friendly debug summaries
+
+### Example Workflow
+
+1. Run a test: `./test_framework.py --test stress`
+2. Analyze logs: `./analyze_test_logs.py test_logs/stress_test_<timestamp>`
+3. Review summary: `cat test_reports/claude_debug_summary.md`
+4. Debug with Claude: "Claude, analyze the issues in test_reports/claude_debug_summary.md"
+
+See **[TESTING_FRAMEWORK.md](TESTING_FRAMEWORK.md)** for complete documentation.
+
 ## Files Overview
 
 ```
@@ -246,10 +287,22 @@ scripts/
 ├── game_server.gd            # Server networking
 ├── game_client.gd            # Client networking
 ├── client_renderer.gd        # Visual rendering
-└── test_launcher.gd          # Test launcher UI
+├── test_launcher.gd          # Test launcher UI
+├── logger.gd                 # Structured logging system
+├── test_automation.gd        # Automated test behaviors
+└── network_simulator.gd      # Network condition simulation
+
+test_framework.py             # Test orchestration (Python)
+analyze_test_logs.py          # Log analysis and reporting (Python)
 ```
+
+## Documentation
+
+- **[README.md](README.md)** - This file (architecture overview)
+- **[TESTING_FRAMEWORK.md](TESTING_FRAMEWORK.md)** - Complete testing guide
+- **[CLAUDE.md](CLAUDE.md)** - Claude Code project instructions
+- **[DELTA_COMPRESSION_BUG.md](DELTA_COMPRESSION_BUG.md)** - Technical deep-dive on delta compression
 
 ## License
 
 This is a prototype/example implementation. Feel free to use and modify for your projects.
-# gameserver

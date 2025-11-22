@@ -186,8 +186,11 @@ func _interpolate():
 			interp_entity.state_flags = to_state.state_flags
 		elif from_state:
 			# Entity disappeared - keep last known position
-			print("[INTERPOLATOR] Entity ", entity_id, " disappeared (in from_snapshot seq ",
-				  from_snapshot.sequence, " but not in to_snapshot seq ", to_snapshot.sequence, ")")
+			Logger.log_entity_disappeared(
+				entity_id,
+				from_snapshot.sequence,
+				to_snapshot.sequence
+			)
 			pass  # Could mark for removal
 
 	# Remove entities that no longer exist in recent snapshots
