@@ -59,7 +59,7 @@
    └─ Create EntitySnapshot with filtered entities
 
 3. DELTA COMPRESSION (entity_snapshot.gd:serialize)
-   ├─ Get baseline (last acknowledged snapshot for this peer)
+   ├─ Get baseline (based on client's last_received_tick in input)
    ├─ For each entity:
    │  ├─ If entity in baseline:
    │  │  ├─ Compare with baseline state
@@ -98,7 +98,7 @@
 
 3. INTERPOLATION BUFFER (client_interpolator.gd)
    ├─ Store snapshot in circular buffer (max 20 snapshots)
-   ├─ Maintain render_time = server_time - 150ms
+   ├─ Maintain `render_time` based on a smoothly adjusted synchronized server clock
    ├─ Find two snapshots around render_time:
    │  └─ from_snapshot (just before render_time)
    │  └─ to_snapshot (just after render_time)
@@ -193,6 +193,37 @@ Compressed Snapshot #12:
 - Physics simulations (jittery velocities)
 - Insufficient `states_equal()` threshold (false positives)
 
+### 2.5. Ack-based Delta Compression (To prevent "Death Spirals")
+
+**Problem with previous "last-sent" delta compression:**
+- If the server uses the *last sent* snapshot as the baseline, and that snapshot packet is lost, the client cannot decode subsequent delta-compressed snapshots. This leads to a request for a full snapshot and a lag spike.
+
+**Solution: Ack-based Delta Compression**
+- **Client Role:** Includes `last_received_tick` (the sequence number of the last successfully processed snapshot) in every input packet sent to the server.
+- **Server Role:**
+    1. Maintains a history of recent snapshots (e.g., last 1-2 seconds worth).
+    2. When preparing a new snapshot for a client, it checks the `last_received_tick` sent by that client.
+    3. It then retrieves the snapshot corresponding to that `last_received_tick` from its history to use as the *baseline* for delta compression.
+    4. If the client's `last_received_tick` is too old or refers to a snapshot no longer in history, the server sends a full snapshot.
+
+**Visual Flow:**
+```
+Client (Tick 100)       Server (Tick 105)
+     │                       │
+     ├── Input + Ack: 98 ───►│
+     │                       │ (Server looks up Snapshot 98)
+     │                       │ (Diffs World 105 vs Snap 98)
+     │◄── Snapshot 105 ──────┤
+     │    (Base: 98)         │
+     ▼                       ▼
+(Client has 98, applies delta -> 105)
+```
+
+**Benefits:**
+- **Packet Loss Resilience:** If a delta-compressed snapshot (e.g., S101) is lost, the client will continue to acknowledge S100. The server can then send S102, using S100 as the baseline, which the client can successfully decode. This prevents the "death spiral" of repeated full snapshot requests.
+- **Smoother Gameplay:** Reduces lag spikes and hitches in the presence of minor packet loss.
+
+
 ### 3. Hermite Interpolation
 
 **Why Not Linear?**
@@ -264,6 +295,89 @@ Interpolates between buffered snapshots, not latest!
 **Trade-off:**
 - 150ms input lag (acceptable for non-competitive games)
 
+### 4.5. Adaptive Clock Synchronization
+
+**Mechanism:**
+The client uses a Proportional Controller (P-Controller) to keep the `render_time` synchronized with `latest_server_time`.
+
+**Feedback Loop:**
+```
+      [Server Timeline] ────────────────────────► latest_server_time
+                                      │
+                                 (Target Delay)
+                                      ▼
+      [Render Timeline] ──► render_time
+            ▲                     │
+            └───────(Error)───────┘
+                       │
+               [P-Controller]
+                       │
+                       ▼
+                  time_scale
+             (Adjusts game speed)
+```
+
+**How it Works:**
+1.  **Target:** `render_time` should always be exactly `TOTAL_CLIENT_DELAY` (150ms) behind `latest_server_time`.
+2.  **Error Calculation:** `error = (latest_server_time - render_time) - target_delay`.
+3.  **Correction:**
+    - If `error > 0` (buffer too full): `time_scale > 1.0` (Fast forward slightly).
+    - If `error < 0` (buffer draining): `time_scale < 1.0` (Slow motion slightly).
+    - **Deadzone:** No adjustment if error is within 10ms.
+    - **Gain:** `time_scale = 1.0 + (error * 0.5)`
+
+**Code:**
+```gdscript
+# client_interpolator.gd
+var time_scale = 1.0
+if abs(error) > 0.010:
+    time_scale = 1.0 + (error * 0.5)
+    time_scale = clamp(time_scale, 0.90, 1.10) # ±10% max speed change
+```
+
+**Pros/Cons:**
+- **Pro:** Simple to implement, keeps buffer size bounded.
+- **Con:** Network jitter directly affects game speed (minor "rubber-banding").
+
+
+### 5. Entity Sorting & Culling (Hysteresis)
+
+**Problem:**
+Bandwidth is limited (`MAX_ENTITIES_PER_SNAPSHOT = 100`). If 105 entities are nearby, the 5 furthest ones are culled. Without hysteresis, an entity at the edge of the cutoff distance would flicker in and out of the snapshot every tick as the player moves slightly.
+
+**Solution: Hysteresis Score**
+The server sorts entities by a "modified distance" before culling:
+`Score = DistanceSquared - (IsActive ? BONUS : 0)`
+
+**Visualization:**
+```
+     [ Player ]
+         │
+    < ── │ ─── DISTANCE ─── │ ── >
+         │                  │
+   [Entity A]          [Entity B]
+   (In Active Set)     (New Candidate)
+   Dist: 100           Dist: 90
+   Bonus: -100         Bonus: 0
+   ──────────          ─────────
+   Score: 0            Score: 90
+      │                   │
+      └───[ SORTED ]──────┘
+      1. Entity A (Score 0)  <-- Kept despite being further!
+      2. Entity B (Score 90)
+```
+
+**Logic (`server_world.gd`):**
+1.  Collect all entities within `INTEREST_RADIUS`.
+2.  Always include the **Player Entity** (priority #1).
+3.  For others, calculate distance to player.
+4.  If an entity was in the *previous* snapshot sent to this client, subtract `HYSTERESIS_BONUS` (10,000 units²) from its distance score.
+5.  Sort by score (ascending).
+6.  Take the top `MAX_ENTITIES_PER_SNAPSHOT`.
+
+**Result:**
+Once an entity "enters" the snapshot list, it becomes "sticky". It has to be significantly further away than a new candidate to be dropped. This prevents flickering at the visibility edge.
+
 ## Networking Constants
 
 All in `scripts/network_config.gd`:
@@ -271,7 +385,7 @@ All in `scripts/network_config.gd`:
 | Constant | Value | Purpose |
 |----------|-------|---------|
 | `TICK_RATE` | 20 Hz | Server simulation updates per second |
-| `SNAPSHOT_RATE` | 10 Hz | Network snapshots sent per second |
+| `SNAPSHOT_RATE` | 20 Hz | Network snapshots sent per second |
 | `INTERPOLATION_DELAY` | 100ms | Base delay for interpolation |
 | `JITTER_BUFFER` | 50ms | Extra buffer for network variance |
 | `CHUNK_SIZE` | 64 units | Spatial partitioning grid size |
@@ -350,23 +464,7 @@ Easily handled by even modest server connections!
 
 ## Common Pitfalls
 
-### 1. Baseline Not Updated
 
-**Bug:**
-```gdscript
-# server_world.gd
-var snapshot = create_snapshot_for_peer(peer_id)
-var data = snapshot.serialize(last_snapshots.get(peer_id))
-game_server.send_snapshot(peer_id, data)
-# BUG: Forgot to update baseline!
-```
-
-**Fix:**
-```gdscript
-last_snapshots[peer_id] = snapshot  # ← Critical!
-```
-
-**Symptom:** Delta compression never kicks in, full snapshots every time
 
 ### 2. Bit Stream Not Flushed
 
