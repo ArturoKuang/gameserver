@@ -206,6 +206,19 @@ Compressed Snapshot #12:
     3. It then retrieves the snapshot corresponding to that `last_received_tick` from its history to use as the *baseline* for delta compression.
     4. If the client's `last_received_tick` is too old or refers to a snapshot no longer in history, the server sends a full snapshot.
 
+**Visual Flow:**
+```
+Client (Tick 100)       Server (Tick 105)
+     │                       │
+     ├── Input + Ack: 98 ───►│
+     │                       │ (Server looks up Snapshot 98)
+     │                       │ (Diffs World 105 vs Snap 98)
+     │◄── Snapshot 105 ──────┤
+     │    (Base: 98)         │
+     ▼                       ▼
+(Client has 98, applies delta -> 105)
+```
+
 **Benefits:**
 - **Packet Loss Resilience:** If a delta-compressed snapshot (e.g., S101) is lost, the client will continue to acknowledge S100. The server can then send S102, using S100 as the baseline, which the client can successfully decode. This prevents the "death spiral" of repeated full snapshot requests.
 - **Smoother Gameplay:** Reduces lag spikes and hitches in the presence of minor packet loss.
@@ -287,6 +300,23 @@ Interpolates between buffered snapshots, not latest!
 **Mechanism:**
 The client uses a Proportional Controller (P-Controller) to keep the `render_time` synchronized with `latest_server_time`.
 
+**Feedback Loop:**
+```
+      [Server Timeline] ────────────────────────► latest_server_time
+                                      │
+                                 (Target Delay)
+                                      ▼
+      [Render Timeline] ──► render_time
+            ▲                     │
+            └───────(Error)───────┘
+                       │
+               [P-Controller]
+                       │
+                       ▼
+                  time_scale
+             (Adjusts game speed)
+```
+
 **How it Works:**
 1.  **Target:** `render_time` should always be exactly `TOTAL_CLIENT_DELAY` (150ms) behind `latest_server_time`.
 2.  **Error Calculation:** `error = (latest_server_time - render_time) - target_delay`.
@@ -318,6 +348,24 @@ Bandwidth is limited (`MAX_ENTITIES_PER_SNAPSHOT = 100`). If 105 entities are ne
 **Solution: Hysteresis Score**
 The server sorts entities by a "modified distance" before culling:
 `Score = DistanceSquared - (IsActive ? BONUS : 0)`
+
+**Visualization:**
+```
+     [ Player ]
+         │
+    < ── │ ─── DISTANCE ─── │ ── >
+         │                  │
+   [Entity A]          [Entity B]
+   (In Active Set)     (New Candidate)
+   Dist: 100           Dist: 90
+   Bonus: -100         Bonus: 0
+   ──────────          ─────────
+   Score: 0            Score: 90
+      │                   │
+      └───[ SORTED ]──────┘
+      1. Entity A (Score 0)  <-- Kept despite being further!
+      2. Entity B (Score 90)
+```
 
 **Logic (`server_world.gd`):**
 1.  Collect all entities within `INTEREST_RADIUS`.
