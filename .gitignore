@@ -8,6 +8,7 @@
 test_logs/
 test_reports/
 debug_logs/
+*.log
 
 # Python cache
 __pycache__/
