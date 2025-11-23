@@ -16,6 +16,7 @@ class EntityState:
 	var velocity: Vector2
 	var sprite_frame: int = 0  # Animation frame
 	var state_flags: int = 0  # Bit flags for various states (facing direction, etc.)
+	var entity_type: int = 0 # 0=Player, 2=Obstacle
 
 	func _init(id: int, pos: Vector2, vel: Vector2 = Vector2.ZERO):
 		entity_id = id
@@ -26,6 +27,7 @@ class EntityState:
 		var state = EntityState.new(entity_id, position, velocity)
 		state.sprite_frame = sprite_frame
 		state.state_flags = state_flags
+		state.entity_type = entity_type
 		return state
 
 func _init(seq: int = 0, time: float = 0.0):
@@ -111,9 +113,10 @@ func serialize(baseline: EntitySnapshot = null) -> PackedByteArray:
 		writer.write_bits(qvel.x, NetworkConfig.VELOCITY_BITS)
 		writer.write_bits(qvel.y, NetworkConfig.VELOCITY_BITS)
 
-		# Write other state (8 bits for frame, 8 bits for flags)
+		# Write other state (8 bits for frame, 8 bits for flags, 4 bits for type)
 		writer.write_bits(state.sprite_frame, 8)
 		writer.write_bits(state.state_flags, 8)
+		writer.write_bits(state.entity_type, 4)
 
 	writer.flush()
 	return buffer
@@ -205,10 +208,12 @@ static func deserialize(buffer: PackedByteArray, baseline: EntitySnapshot = null
 		# Read other state
 		var sprite_frame = reader.read_bits(8)
 		var state_flags = reader.read_bits(8)
+		var entity_type = reader.read_bits(4)
 
 		var state = snapshot.add_entity(entity_id, position, velocity)
 		state.sprite_frame = sprite_frame
 		state.state_flags = state_flags
+		state.entity_type = entity_type
 
 	# Debug: Log deserialization result
 	if sequence % 10 == 0:
@@ -224,7 +229,8 @@ func states_equal(a: EntityState, b: EntityState) -> bool:
 	return (a.position.distance_to(b.position) < 0.01 and
 			a.velocity.distance_to(b.velocity) < 0.01 and
 			a.sprite_frame == b.sprite_frame and
-			a.state_flags == b.state_flags)
+			a.state_flags == b.state_flags and
+			a.entity_type == b.entity_type)
 
 
 ## Bit-level reader/writer for compression

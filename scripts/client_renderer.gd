@@ -41,7 +41,7 @@ func _process(delta: float):
 		var entity: ClientInterpolator.InterpolatedEntity = entities[entity_id]
 
 		if not entity_sprites.has(entity_id):
-			_create_entity_sprite(entity_id)
+			_create_entity_sprite(entity_id, entity)
 
 		var sprite: Sprite2D = entity_sprites[entity_id]
 		sprite.position = entity.current_position
@@ -54,7 +54,7 @@ func _process(delta: float):
 		var player_id = game_client.my_entity_id
 		
 		if not entity_sprites.has(player_id):
-			_create_entity_sprite(player_id)
+			_create_entity_sprite(player_id) # Default to player type
 			print("[RENDERER] Created sprite for LOCAL PLAYER entity ", player_id)
 			
 		var sprite = entity_sprites[player_id]
@@ -86,12 +86,17 @@ func _process(delta: float):
 			if debug_counter % 60 == 0:
 				print("[RENDERER] Waiting for player entity ", game_client.my_entity_id)
 
-func _create_entity_sprite(entity_id: int) -> Sprite2D:
+func _create_entity_sprite(entity_id: int, entity: ClientInterpolator.InterpolatedEntity = null) -> Sprite2D:
 	var sprite = Sprite2D.new()
 	add_child(sprite)
 
 	# Create a simple colored square
 	var size = 16
+	
+	# Check type if entity is provided
+	if entity and entity.entity_type == 2: # Obstacle
+		size = 32
+	
 	var image = Image.create(size, size, false, Image.FORMAT_RGBA8)
 	image.fill(Color(randf(), randf(), randf()))  # Random color
 
