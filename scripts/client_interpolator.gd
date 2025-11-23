@@ -22,6 +22,7 @@ class InterpolatedEntity:
 	var current_velocity: Vector2
 	var sprite_frame: int = 0
 	var state_flags: int = 0
+	var entity_type: int = 0
 
 	func _init(id: int):
 		entity_id = id
@@ -202,6 +203,7 @@ func _interpolate():
 			interp_entity.current_velocity = to_state.velocity
 			interp_entity.sprite_frame = to_state.sprite_frame
 			interp_entity.state_flags = to_state.state_flags
+			interp_entity.entity_type = to_state.entity_type
 		elif from_state:
 			# Entity disappeared - keep last known position
 			GameLogger.log_entity_disappeared(
@@ -256,9 +258,11 @@ func _hermite_interpolate(
 	if t < 0.5:
 		interp_entity.sprite_frame = from_state.sprite_frame
 		interp_entity.state_flags = from_state.state_flags
+		interp_entity.entity_type = from_state.entity_type
 	else:
 		interp_entity.sprite_frame = to_state.sprite_frame
 		interp_entity.state_flags = to_state.state_flags
+		interp_entity.entity_type = to_state.entity_type
 
 ## Get interpolated position for an entity
 func get_entity_position(entity_id: int) -> Vector2:

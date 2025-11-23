@@ -37,6 +37,7 @@ var moving_obstacles_container: Node2D
 
 class Entity:
 	var id: int
+	var type: int = 0  # 0=Player/NPC, 2=Obstacle
 	var physics_body: PhysicsBody2D  # NEW: Actual Godot physics body (can be CharacterBody2D, RigidBody2D, etc)
 	var sprite_frame: int = 0
 	var state_flags: int = 0
@@ -185,6 +186,7 @@ func spawn_entity(position: Vector2, peer_id: int = -1) -> int:
 	physics_container.add_child(body)
 
 	var entity = Entity.new(entity_id, body)
+	entity.type = 0 # Player/NPC
 	entity.peer_id = peer_id
 	entities[entity_id] = entity
 
@@ -394,6 +396,7 @@ func create_snapshot_for_peer(peer_id: int) -> EntitySnapshot:
 		var state = snapshot.add_entity(entity_id, entity.position, entity.velocity)
 		state.sprite_frame = entity.sprite_frame
 		state.state_flags = entity.state_flags
+		state.entity_type = entity.type # Pass the type to the snapshot
 
 	# CRITICAL: Verify player was actually added to snapshot
 	if not snapshot.has_entity(player_entity.id):
@@ -563,7 +566,7 @@ func spawn_moving_obstacle(start_pos: Vector2, end_pos: Vector2, speed: float = 
 	# Add collision shape
 	var collision = CollisionShape2D.new()
 	var shape = RectangleShape2D.new()
-	shape.size = Vector2(64, 64)  # 64x64 obstacle
+	shape.size = Vector2(32, 32)  # 32x32 obstacle
 	collision.shape = shape
 	body.add_child(collision)
 
@@ -585,6 +588,7 @@ func spawn_moving_obstacle(start_pos: Vector2, end_pos: Vector2, speed: float = 
 
 	# IMPORTANT: Create Entity wrapper so it appears in snapshots
 	var entity = Entity.new(entity_id, body)
+	entity.type = 2 # Obstacle
 	entity.peer_id = -1  # Not a player
 	entities[entity_id] = entity
 
