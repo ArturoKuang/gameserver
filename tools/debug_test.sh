@@ -12,6 +12,10 @@ PROJECT_PATH="${PROJECT_PATH:-${SCRIPT_DIR}/..}"
 LOG_DIR="${PROJECT_PATH}/debug_logs"
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 
+# Default to enabling the in-game debug visualization when using this script.
+# Allows opt-out by exporting DEBUG_VISUALIZATION=0 before running.
+export DEBUG_VISUALIZATION=${DEBUG_VISUALIZATION:-1}
+
 # Pick a Godot binary; allow override with GODOT_PATH
 if command -v godot4 >/dev/null 2>&1; then
     GODOT_BIN=${GODOT_PATH:-"$(command -v godot4)"}
