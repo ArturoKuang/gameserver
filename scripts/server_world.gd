@@ -155,22 +155,68 @@ func _move_entity_chunk(entity: Entity, new_chunk: Vector2i):
 	if entity.peer_id != -1:
 		GameLogger.log_chunk_change(entity.id, old_chunk, new_chunk, entity.position)
 
+func _find_free_position(target_pos: Vector2, radius: float) -> Vector2:
+	var max_attempts = 10
+	var current_pos = target_pos
+	
+	for i in range(max_attempts):
+		var collision = false
+		
+		# 1. Check against walls (Physics Server)
+		if physics_container and physics_container.is_inside_tree():
+			var space_state = physics_container.get_world_2d().direct_space_state
+			var query = PhysicsShapeQueryParameters2D.new()
+			var shape = CircleShape2D.new()
+			shape.radius = radius
+			query.shape = shape
+			query.transform = Transform2D(0, current_pos)
+			query.collision_mask = 0b0010 # Layer 2 (Walls)
+			
+			var result = space_state.intersect_shape(query)
+			if not result.is_empty():
+				collision = true
+			
+		# 2. Check against other entities (Manual check for same-frame spawns)
+		if not collision:
+			for entity_id in entities:
+				var entity = entities[entity_id]
+				# Check against physics body position if available, or entity.position
+				var ent_pos = entity.position
+				var dist = ent_pos.distance_to(current_pos)
+				var min_dist = radius * 2.0
+				if dist < min_dist:
+					collision = true
+					break
+		
+		if not collision:
+			return current_pos
+			
+		# Try new random position around target
+		var angle = randf() * TAU
+		var dist = radius * 2.5 * (i + 1) # Increasing spiral
+		current_pos = target_pos + Vector2(cos(angle), sin(angle)) * dist
+		
+	# If we fail, return target_pos but log warning
+	print("[SERVER] WARNING: Could not find free position for spawn at ", target_pos)
+	return target_pos
+
 func spawn_entity(position: Vector2, peer_id: int = -1) -> int:
 	var entity_id = next_entity_id
 	next_entity_id += 1
 
-	# Create RigidBody2D for player/NPC entities so they collide with each other
-	var body = RigidBody2D.new()
-	body.position = position
-	body.name = "Entity_" + str(entity_id)
-	body.gravity_scale = 0.0  # Top-down, no gravity
-	body.lock_rotation = true  # Keep sprites upright
-	body.linear_damp = PLAYER_LINEAR_DAMP
+	# Find a valid position to avoid overlapping
+	var spawn_pos = _find_free_position(position, 16.0)
 
+	# Use CharacterBody2D for stable top-down movement (fixes "spazzing" and overlap issues)
+	var body = CharacterBody2D.new()
+	body.position = spawn_pos
+	body.name = "Entity_" + str(entity_id)
+	body.motion_mode = CharacterBody2D.MOTION_MODE_FLOATING # Top-down physics
+	
 	# Add collision shape (box to match the sprite)
 	var collision = CollisionShape2D.new()
 	var shape = RectangleShape2D.new()
-	# Match the 16x16 visual sprite so the hitbox aligns with the box art
+	# 16x16 matches sprite exactly. CharacterBody2D stops precisely at surface.
 	shape.size = Vector2(16.0, 16.0)
 	collision.shape = shape
 	body.add_child(collision)
@@ -182,7 +228,7 @@ func spawn_entity(position: Vector2, peer_id: int = -1) -> int:
 	body.collision_layer = 0b0001  # This entity is on layer 1
 	body.collision_mask = 0b0111   # Collides with players, walls, and moving obstacles
 
-	# Add to scene tree (required for physics to work)
+	# Add to scene tree
 	physics_container.add_child(body)
 
 	var entity = Entity.new(entity_id, body)
@@ -197,7 +243,7 @@ func spawn_entity(position: Vector2, peer_id: int = -1) -> int:
 
 	GameLogger.info("SERVER", "Entity spawned", {
 		"entity_id": entity_id,
-		"pos": "(%d,%d)" % [int(position.x), int(position.y)],
+		"pos": "(%d,%d)" % [int(spawn_pos.x), int(spawn_pos.y)],
 		"peer_id": peer_id if peer_id != -1 else "NPC"
 	})
 
@@ -556,12 +602,14 @@ func spawn_moving_obstacle(start_pos: Vector2, end_pos: Vector2, speed: float = 
 	var entity_id = next_entity_id
 	next_entity_id += 1
 
-	var body = RigidBody2D.new()
-	body.position = start_pos
+	# Find free position for obstacle (larger radius ~24)
+	var spawn_pos = _find_free_position(start_pos, 24.0)
+
+	# Use AnimatableBody2D for moving obstacles (Players can't push it, it pushes players)
+	var body = AnimatableBody2D.new()
+	body.position = spawn_pos
 	body.name = "MovingObstacle_" + str(entity_id)
-	body.gravity_scale = 0.0  # Top-down game, no gravity
-	body.linear_damp = 0.0  # No damping for constant movement
-	body.lock_rotation = true  # Don't rotate
+	body.sync_to_physics = false # We move it manually in _physics_process
 
 	# Add collision shape
 	var collision = CollisionShape2D.new()
@@ -581,10 +629,12 @@ func spawn_moving_obstacle(start_pos: Vector2, end_pos: Vector2, speed: float = 
 	body.set_meta("end_pos", end_pos)
 	body.set_meta("speed", speed)
 	body.set_meta("moving_to_end", true)
-
-	# Set initial velocity
+	
+	# Initial velocity calculation for snapshot interpolation (though AnimatableBody doesn't use it for physics)
 	var direction = (end_pos - start_pos).normalized()
-	body.linear_velocity = direction * speed
+	# We store it as metadata or just let snapshot system read it from a property if needed
+	# But Entity class reads linear_velocity. AnimatableBody2D doesn't have it.
+	# We will handle this in the Entity class or getter.
 
 	# IMPORTANT: Create Entity wrapper so it appears in snapshots
 	var entity = Entity.new(entity_id, body)
@@ -606,7 +656,7 @@ func spawn_moving_obstacle(start_pos: Vector2, end_pos: Vector2, speed: float = 
 ## Update moving obstacles (call this in _physics_process or _tick)
 func _update_moving_obstacles():
 	for obstacle in moving_obstacles_container.get_children():
-		if obstacle is RigidBody2D:
+		if obstacle is AnimatableBody2D:
 			var start_pos: Vector2 = obstacle.get_meta("start_pos")
 			var end_pos: Vector2 = obstacle.get_meta("end_pos")
 			var speed: float = obstacle.get_meta("speed")
@@ -622,9 +672,13 @@ func _update_moving_obstacles():
 				obstacle.set_meta("moving_to_end", moving_to_end)
 				target = end_pos if moving_to_end else start_pos
 
-			# Update velocity towards target
+			# Move using move_and_collide (kinematic movement that pushes others)
 			var direction = (target - obstacle.position).normalized()
-			obstacle.linear_velocity = direction * speed
+			var motion = direction * speed * NetworkConfig.TICK_DELTA
+			
+			# move_and_collide returns a collision if it hits something, but AnimatableBody passes through
+			# unless it hits a StaticBody. It pushes CharacterBodies.
+			obstacle.move_and_collide(motion)
 
 ## Input handling from client
 func handle_player_input(peer_id: int, input_dir: Vector2, tick: int = 0, render_time: float = 0.0):
