@@ -89,26 +89,55 @@ Separate Clock Sync from Buffer Management.
 A specialized wrapper is available to run headless network simulations, analyze logs, and generate debugging context for LLMs.
 
 **Usage:**
-This script runs the Godot project headlessly, simulates network conditions (Lag, Loss, Jitter, Bandwidth), and produces a JSON report summarizing the run.
+```bash
+python3 testing/tools/gemini_auto_debug.py [OPTIONS]
+```
 
-**Examples:**
-*   **Basic Sanity Check:**
+**Key Options:**
+*   `--test <name>`: Preset scenario (`basic`, `stress`, `lag`, `packet_loss`, `jitter`, `bad_network`, `custom`).
+*   `--mode <behavior>`: Client movement behavior.
+    *   `random_walk`: Default, erratic movement.
+    *   `stress_test`: Rapid direction changes.
+    *   `figure_eight`: Smooth continuous curves (good for interpolation checks).
+    *   `circle_pattern`: Constant turning.
+    *   `churn`: Periodically connects/disconnects.
+    *   `convergence`: All clients move to (0,0).
+    *   `route_replay`: Deterministic square path.
+*   `--clients <N>`: Number of concurrent clients.
+*   `--duration <sec>`: Test duration.
+
+**Network Simulation Flags:**
+*   `--loss <0.0-1.0>`: Packet loss rate (e.g., 0.05 for 5%).
+*   `--lag <ms>`: Base latency.
+*   `--jitter <ms>`: Random latency variance (+/-).
+*   `--bw <KB/s>`: Bandwidth limit (drop packets if exceeded).
+*   `--duplicate <0.0-1.0>`: Packet duplication rate.
+
+**Common Scenarios:**
+
+1.  **Interpolation Smoothness Check:**
     ```bash
-    python3 testing/tools/gemini_auto_debug.py
+    python3 testing/tools/gemini_auto_debug.py --test custom --mode figure_eight --jitter 30 --loss 0.02
     ```
-    Runs a single client with perfect network for 30s.
+    Tests if the interpolator handles jitter/loss smoothly on curves.
 
-*   **Network Chaos Test:**
+2.  **Stress Test (Chaos):**
     ```bash
     python3 testing/tools/gemini_auto_debug.py --test bad_network
     ```
-    Simulates 5% packet loss, 150ms lag, 40ms jitter, and 2% packet duplication.
+    Simulates 5% loss, 150ms lag, 40ms jitter, and duplicates.
 
-*   **Custom Scenario:**
+3.  **Connection Stability (Churn):**
     ```bash
-    python3 testing/tools/gemini_auto_debug.py --test custom --clients 2 --loss 0.05 --bw 256
+    python3 testing/tools/gemini_auto_debug.py --test custom --mode churn --clients 5 --duration 60
     ```
-    Runs 2 clients with 5% loss and 256KB/s bandwidth limit.
+    Tests server handling of frequent connects/disconnects.
+
+4.  **Bandwidth Constraint:**
+    ```bash
+    python3 testing/tools/gemini_auto_debug.py --test custom --clients 4 --bw 64
+    ```
+    Limits bandwidth to 64KB/s to test compression and congestion.
 
 **Output:**
 The tool streams progress to the console and ends with a `🤖 GEMINI DEBUG CONTEXT GENERATED` block. Paste this block into the chat to have the agent analyze the logs and propose fixes.

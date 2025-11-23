@@ -88,6 +88,13 @@ var server_snap_chart: LineChart = null
 
 func _ready():
 	set_process(true)
+	
+	# Debug auto-start
+	var args = OS.get_cmdline_args()
+	var test_mode_env = OS.get_environment("TEST_MODE")
+	print("[LAUNCHER] Args: ", args)
+	print("[LAUNCHER] TEST_MODE: ", test_mode_env)
+
 	# Setup UI
 	var vbox = VBoxContainer.new()
 	vbox.position = Vector2(20, 20)
@@ -136,9 +143,11 @@ func _ready():
 
 	# Check command line args for auto-start
 	var args = OS.get_cmdline_args()
-	if "--server" in args:
+	var test_mode_env = OS.get_environment("TEST_MODE")
+	
+	if "--server" in args or test_mode_env == "server":
 		_on_server_button_pressed()
-	elif "--client" in args:
+	elif "--client" in args or test_mode_env == "client":
 		_on_client_button_pressed()
 
 func _on_server_button_pressed():
