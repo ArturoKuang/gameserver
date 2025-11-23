@@ -19,7 +19,12 @@ var snapshot_sequences: Dictionary = {}  # peer_id -> int
 # For delta compression (Ack-based)
 var snapshot_history: Dictionary = {}  # peer_id -> Dictionary[sequence -> EntitySnapshot]
 var peer_acks: Dictionary = {}  # peer_id -> int (last acknowledged sequence)
+var peer_last_input_tick: Dictionary = {} # peer_id -> int (last processed input tick)
 const HISTORY_SIZE = 60  # Keep ~3 seconds of snapshots (at 20Hz)
+
+# Lag Compensation History
+var world_history: Dictionary = {} # tick -> Dictionary[entity_id, Dictionary]
+const LAG_COMP_HISTORY_TICKS = 40 # 2 seconds at 20Hz
 
 # For entity interest management hysteresis
 var active_peer_entities: Dictionary = {}  # peer_id -> Dictionary[entity_id -> bool]
@@ -92,6 +97,9 @@ func _tick():
 
 	# Update moving obstacles
 	_update_moving_obstacles()
+	
+	# Store state for lag compensation
+	_store_world_state()
 
 	# Send snapshots every N ticks
 	if current_tick % (NetworkConfig.TICK_RATE / NetworkConfig.SNAPSHOT_RATE) == 0:
@@ -415,6 +423,75 @@ func _send_snapshots():
 	#     last_snapshots[peer_id] = snapshot
 	pass
 
+## Store current world state for lag compensation rewinds
+func _store_world_state():
+	var state = {}
+	for id in entities:
+		var e = entities[id]
+		if e.physics_body:
+			state[id] = e.physics_body.position
+	
+	world_history[current_tick] = state
+	
+	# Prune old history
+	if world_history.size() > LAG_COMP_HISTORY_TICKS:
+		var oldest_tick = current_tick - LAG_COMP_HISTORY_TICKS
+		if world_history.has(oldest_tick):
+			world_history.erase(oldest_tick)
+
+## Perform a lag-compensated raycast
+## Returns the entity ID hit, or -1 if none
+func verify_hit(origin: Vector2, direction: Vector2, timestamp: float) -> int:
+	# 1. Convert timestamp to tick
+	var estimated_tick = timestamp / NetworkConfig.TICK_DELTA
+	
+	# Find two closest ticks in history
+	var tick_floor = floori(estimated_tick)
+	var tick_ceil = tick_floor + 1
+	var t = estimated_tick - tick_floor
+	
+	if not world_history.has(tick_floor):
+		if abs(estimated_tick - current_tick) < 2.0:
+			return _raycast(origin, direction)
+		# print("[SERVER] LagComp: History missing for tick ", tick_floor)
+		return -1
+		
+	var state_floor = world_history[tick_floor]
+	var state_ceil = world_history.get(tick_ceil, state_floor)
+	
+	# Manual Hit Check (Circle/AABB) against rewound positions
+	var hit_id = -1
+	var closest_dist = 999999.0
+	
+	for id in state_floor:
+		if entities.has(id):
+			# Get rewound position
+			var pos_a = state_floor[id]
+			var pos_b = state_ceil.get(id, pos_a)
+			var interp_pos = pos_a.lerp(pos_b, t)
+			
+			# Check intersection (Radius 16)
+			var radius = 16.0
+			var L = interp_pos - origin
+			var tca = L.dot(direction)
+			if tca < 0: continue # Behind origin
+			
+			var d2 = L.length_squared() - tca * tca
+			if d2 > radius * radius: continue # Miss
+			
+			var thc = sqrt(radius * radius - d2)
+			var t0 = tca - thc
+			
+			if t0 < closest_dist:
+				closest_dist = t0
+				hit_id = id
+				
+	return hit_id
+
+func _raycast(origin: Vector2, direction: Vector2) -> int:
+	# Placeholder for standard raycast
+	return -1
+
 ## Create static walls around the world
 func _create_walls():
 	print("[SERVER] Creating world walls...")
@@ -546,7 +623,10 @@ func _update_moving_obstacles():
 			obstacle.linear_velocity = direction * speed
 
 ## Input handling from client
-func handle_player_input(peer_id: int, input_dir: Vector2):
+func handle_player_input(peer_id: int, input_dir: Vector2, tick: int = 0, render_time: float = 0.0):
+	# Store the tick so we can acknowledge it in the next snapshot
+	if tick > peer_last_input_tick.get(peer_id, 0):
+		peer_last_input_tick[peer_id] = tick
 	# Find player entity
 	for entity_id in entities:
 		var entity: Entity = entities[entity_id]

@@ -16,6 +16,8 @@ var awaiting_full_snapshot: bool = false
 var input_direction: Vector2 = Vector2.ZERO
 var last_input_send_time: float = 0.0
 const INPUT_SEND_RATE = 20  # Send input 20 times per second
+var local_player: CharacterBody2D = null
+const LocalPlayerScript = preload("res://scripts/local_player.gd")
 
 # Automated Testing
 var auto_move_enabled: bool = false
@@ -34,6 +36,11 @@ var bandwidth_timer: float = 0.0
 # FPS tracking
 var frames_this_second: int = 0
 var fps: int = 0
+
+# Clock Synchronization
+var sync_timer: float = 0.0
+var clock_offsets: Array = [] # Buffer for smoothing
+const CLOCK_SYNC_SMOOTHING_COUNT = 10
 
 const SERVER_IP = "127.0.0.1"
 const PORT = 7777
@@ -87,6 +94,18 @@ func _on_server_disconnected():
 	print("Disconnected from server")
 	connected = false
 
+func _physics_process(delta: float):
+	if not connected:
+		return
+
+	# Handle input (get direction)
+	_handle_input_generation()
+
+	# Run Client-Side Prediction (CSP)
+	if local_player:
+		var current_tick = int(interpolator.get_server_time() * NetworkConfig.TICK_RATE)
+		local_player.process_tick(current_tick, input_direction)
+
 func _process(delta: float):
 	# Track FPS
 	frames_this_second += 1
@@ -111,31 +130,39 @@ func _process(delta: float):
 		frames_this_second = 0
 		bandwidth_timer = 0.0
 
-	# Handle input
-	_handle_input()
+	# Clock synchronization
+	sync_timer += delta
+	if sync_timer >= NetworkConfig.CLOCK_SYNC_INTERVAL:
+		sync_clock()
+		sync_timer = 0.0
 
 	# Rate-limit input sending to avoid spamming the server
 	last_input_send_time += delta
 	if last_input_send_time >= (1.0 / INPUT_SEND_RATE):
+		# Calculate current tick based on synchronized server time
+		var current_tick = int(interpolator.get_server_time() * NetworkConfig.TICK_RATE)
+		var current_render_time = interpolator.render_time
+		
 		# Send input along with the last received snapshot sequence (ack) for delta compression
-		receive_player_input.rpc_id(1, input_direction, last_snapshot_sequence)
+		receive_player_input.rpc_id(1, input_direction, current_tick, current_render_time, last_snapshot_sequence)
 		last_input_send_time = 0.0
 
-func _handle_input():
+func _handle_input_generation():
 	# Check if test automation is active
 	if TestAutomation.is_active():
 		# Update test automation with current player position
-		if my_entity_id != -1:
+		if local_player:
+			TestAutomation.update_player_position(local_player.position)
+		elif my_entity_id != -1:
 			var player_pos = interpolator.get_entity_position(my_entity_id)
 			TestAutomation.update_player_position(player_pos)
 
 		# Get automated input
 		input_direction = TestAutomation.get_input_direction()
 	elif auto_move_enabled:
-		auto_move_timer += get_process_delta_time()
+		auto_move_timer += get_physics_process_delta_time()
 		# Circular motion
 		input_direction = Vector2(cos(auto_move_timer * 2.0), sin(auto_move_timer * 2.0))
-		# No normalization needed for sin/cos, it's already length 1
 	else:
 		# Manual input
 		input_direction = Vector2.ZERO
@@ -151,8 +178,80 @@ func _handle_input():
 
 		input_direction = input_direction.normalized()
 
+func sync_clock():
+	# Send current local time to server
+	request_clock_sync.rpc_id(1, Time.get_ticks_msec())
+
 @rpc("any_peer", "call_remote", "unreliable")
-func receive_player_input(input_dir: Vector2, ack: int):
+func request_clock_sync(client_time: int):
+	# Server-side method
+	pass
+
+@rpc("authority", "call_remote", "unreliable")
+func return_clock_sync(client_send_time: int, server_receive_time: int, server_send_time: int):
+	var client_receive_time = Time.get_ticks_msec()
+	
+	# Calculate RTT
+	# RTT = (t4 - t1) - (t3 - t2)
+	var rtt = (client_receive_time - client_send_time) - (server_send_time - server_receive_time)
+	
+	# Calculate Server Time at the moment of receiving response
+	# ServerTime = t3 + RTT/2
+	var server_time = server_send_time + (rtt / 2.0)
+	
+	# Calculate offset: ServerTime - ClientTime
+	var offset = server_time - client_receive_time
+	
+	_update_clock_offset_robustly(offset)
+
+func _update_clock_offset_robustly(new_offset: float):
+	clock_offsets.append(new_offset)
+	if clock_offsets.size() > CLOCK_SYNC_SMOOTHING_COUNT:
+		clock_offsets.pop_front()
+	
+	if clock_offsets.size() < 3:
+		# Not enough samples for robust stats, just use average
+		var avg = 0.0
+		for o in clock_offsets: avg += o
+		interpolator.update_clock_offset(avg / clock_offsets.size())
+		return
+
+	# Sort offsets to find median and for outlier removal
+	var sorted_offsets = clock_offsets.duplicate()
+	sorted_offsets.sort()
+	
+	# Median
+	var median = sorted_offsets[sorted_offsets.size() / 2]
+	
+	# Calculate Standard Deviation
+	var mean = 0.0
+	for o in sorted_offsets: mean += o
+	mean /= sorted_offsets.size()
+	
+	var variance = 0.0
+	for o in sorted_offsets: variance += pow(o - mean, 2)
+	var std_dev = sqrt(variance / sorted_offsets.size())
+	
+	# Filter outliers (e.g. > 1.5 std dev from median)
+	# If std_dev is very small (tight cluster), we might filter everything if we're not careful,
+	# so we ensure we keep samples if std_dev is small.
+	var valid_offsets = []
+	for o in sorted_offsets:
+		if std_dev < 1.0 or abs(o - median) <= (1.5 * std_dev):
+			valid_offsets.append(o)
+			
+	# Re-calculate average of valid offsets
+	if valid_offsets.size() > 0:
+		var final_offset = 0.0
+		for o in valid_offsets: final_offset += o
+		final_offset /= valid_offsets.size()
+		interpolator.update_clock_offset(final_offset)
+	else:
+		# Fallback to median if all are outliers (unlikely)
+		interpolator.update_clock_offset(median)
+
+@rpc("any_peer", "call_remote", "unreliable")
+func receive_player_input(input_dir: Vector2, tick: int, render_time: float, ack: int):
 	# This is defined on server - this is just a stub for RPC registration
 	pass
 
@@ -216,6 +315,17 @@ func receive_snapshot_data(data: PackedByteArray):
 	if my_entity_id == -1 and snapshot.player_entity_id != -1:
 		my_entity_id = snapshot.player_entity_id
 		GameLogger.info("CLIENT", "Player entity ID tracked", {"player_id": my_entity_id})
+		
+		# CSP: Spawn LocalPlayer
+		if local_player == null:
+			# Wait for entity to be in snapshot to get position
+			if snapshot.has_entity(my_entity_id):
+				var start_pos = snapshot.get_entity(my_entity_id).position
+				local_player = LocalPlayerScript.new()
+				add_child(local_player)
+				local_player.setup(self, start_pos)
+				interpolator.local_player_id = my_entity_id
+				print("[CLIENT] LocalPlayer spawned for CSP at ", start_pos)
 
 	# Debug logging (every 100 snapshots)
 	if snapshot.sequence % 100 == 0:
@@ -229,6 +339,11 @@ func receive_snapshot_data(data: PackedByteArray):
 
 	# Pass to interpolator
 	interpolator.receive_snapshot(snapshot)
+	
+	# CSP Reconciliation
+	if local_player and snapshot.has_entity(my_entity_id):
+		var state = snapshot.get_entity(my_entity_id)
+		local_player.reconcile(state.position, snapshot.last_processed_input_tick)
 
 	# Debug - check if player disappeared
 	if my_entity_id != -1 and not snapshot.entities.has(my_entity_id):

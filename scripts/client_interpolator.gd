@@ -9,10 +9,12 @@ var baseline_snapshot: EntitySnapshot = null
 
 # Interpolated entities
 var interpolated_entities: Dictionary = {}  # entity_id -> InterpolatedEntity
+var local_player_id: int = -1
 
 # Timing
 var render_time: float = 0.0  # Time we're rendering at (server time - delay)
 var latest_server_time: float = 0.0
+var server_time_offset: float = 0.0 # Offset between local ticks and server time (ms)
 
 class InterpolatedEntity:
 	var entity_id: int
@@ -28,6 +30,19 @@ class InterpolatedEntity:
 
 func _ready():
 	set_process(true)
+
+## Get the current estimated server time in seconds
+func get_server_time() -> float:
+	# Time.get_ticks_msec() returns milliseconds since engine start
+	# server_time_offset is in milliseconds (calculated from clock sync)
+	return (Time.get_ticks_msec() + server_time_offset) / 1000.0
+
+## Update the clock offset from synchronization
+func update_clock_offset(offset_ms: float):
+	# Smoothly update offset to avoid jumps? For now, direct set.
+	# In production, you'd want a moving average here.
+	server_time_offset = offset_ms
+	# print("[INTERPOLATOR] Clock offset updated: ", offset_ms, "ms")
 
 func _process(delta: float):
 	# CRITICAL: Never extrapolate beyond latest snapshot (GafferOnGames)
@@ -167,6 +182,9 @@ func _interpolate():
 
 	# Interpolate each entity
 	for entity_id in all_entity_ids:
+		if entity_id == local_player_id:
+			continue
+
 		var from_state: EntitySnapshot.EntityState = from_snapshot.get_entity(entity_id)
 		var to_state: EntitySnapshot.EntityState = to_snapshot.get_entity(entity_id)
 
@@ -258,3 +276,4 @@ func reset():
 	interpolated_entities.clear()
 	render_time = 0.0
 	latest_server_time = 0.0
+	server_time_offset = 0.0

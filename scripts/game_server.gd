@@ -149,18 +149,33 @@ func receive_snapshot_data(data: PackedByteArray):
 	# This is defined on client - this is just a stub for RPC registration
 	pass
 
+@rpc("any_peer", "call_remote", "unreliable")
+func request_clock_sync(client_time: int):
+	var peer_id = multiplayer.get_remote_sender_id()
+	var server_receive_time = Time.get_ticks_msec()
+	var server_send_time = server_receive_time # Assume instantaneous processing for now
+	
+	return_clock_sync.rpc_id(peer_id, client_time, server_receive_time, server_send_time)
+
+@rpc("authority", "call_remote", "unreliable")
+func return_clock_sync(client_send_time: int, server_receive_time: int, server_send_time: int):
+	# Client-side method
+	pass
+
 ## Receive player input from client
 @rpc("any_peer", "call_remote", "unreliable")
-func receive_player_input(input_dir: Vector2, ack: int = 0):
+func receive_player_input(input_dir: Vector2, tick: int, render_time: float, ack: int = 0):
 	var peer_id = multiplayer.get_remote_sender_id()
 	
 	# Debug: Log input occasionally
 	if Engine.get_physics_frames() % 60 == 0:
-		print("[SERVER] Received input from ", peer_id, ": ", input_dir, " | Ack: ", ack)
+		print("[SERVER] Received input from ", peer_id, ": ", input_dir, " | Tick: ", tick, " | RT: ", render_time, " | Ack: ", ack)
 
 	if ack > 0:
 		world.acknowledge_snapshot(peer_id, ack)
-	world.handle_player_input(peer_id, input_dir)
+	
+	# TODO: Queue input by tick for reconciliation. For now, apply immediately but store tick.
+	world.handle_player_input(peer_id, input_dir, tick, render_time)
 
 ## Get bandwidth stats for UI
 func get_bandwidth_stats() -> Dictionary:
