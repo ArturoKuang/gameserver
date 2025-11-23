@@ -15,7 +15,7 @@ const JITTER_BUFFER = 0.050  # 50ms extra for jitter/lag spikes
 const TOTAL_CLIENT_DELAY = INTERPOLATION_DELAY + JITTER_BUFFER  # 150ms total delay
 
 # Gameplay constants
-const SPEED = 300.0  # Player speed in units/second
+const SPEED = 150.0  # Player speed in units/second
 const LINEAR_DAMP = 0.0  # No damping for immediate response
 
 # Spatial partitioning (for 10k players)
