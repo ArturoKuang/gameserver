@@ -403,6 +403,22 @@ func create_snapshot_for_peer(peer_id: int) -> EntitySnapshot:
 	# Get entities in interest area
 	var interest_entities = get_entities_in_area(player_entity.position)
 
+	# Retrieve active entities for this peer (Hysteresis)
+	if not active_peer_entities.has(peer_id):
+		active_peer_entities[peer_id] = {}
+	var active_set = active_peer_entities[peer_id]
+
+	# HYSTERESIS FIX: Ensure active entities are considered even if they fell out of interest chunks
+	# This prevents flickering when crossing chunk boundaries
+	var interest_set = {}
+	for eid in interest_entities:
+		interest_set[eid] = true
+		
+	for eid in active_set:
+		if not interest_set.has(eid) and entities.has(eid):
+			interest_entities.append(eid)
+			interest_set[eid] = true
+
 	# CRITICAL FIX: ALWAYS include player entity first, regardless of interest area
 	# Remove player if they're already in the list, then add them at position 0
 	var player_was_in_interest = player_entity.id in interest_entities
@@ -414,11 +430,6 @@ func create_snapshot_for_peer(peer_id: int) -> EntitySnapshot:
 	# Debug: Log when player wasn't naturally in interest area
 	if not player_was_in_interest and sequence % 10 == 0:
 		print("[SERVER] DEBUG: Player ", player_entity.id, " NOT in natural interest area, manually added. Interest count: ", interest_entities.size())
-
-	# Retrieve active entities for this peer (Hysteresis)
-	if not active_peer_entities.has(peer_id):
-		active_peer_entities[peer_id] = {}
-	var active_set = active_peer_entities[peer_id]
 
 	# Limit to MAX_ENTITIES_PER_SNAPSHOT (but never cut the player)
 	if interest_entities.size() > NetworkConfig.MAX_ENTITIES_PER_SNAPSHOT:
