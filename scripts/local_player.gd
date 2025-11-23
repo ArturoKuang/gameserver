@@ -4,12 +4,6 @@ class_name LocalPlayer
 ## Client-Side Prediction Controller
 ## Handles local simulation, input storage, and server reconciliation.
 
-# Configuration matching ServerWorld
-const SPEED = 100.0
-const LINEAR_DAMP = 8.0 # Not strictly used by CharacterBody2D but we can simulate it if needed. 
-# For CharacterBody2D, immediate velocity setting (like Stardew) means we don't really need damping 
-# unless we want slide. The server code sets velocity directly every frame input is received.
-
 # State History for Reconciliation
 class PlayerState:
 	var tick: int
@@ -69,7 +63,7 @@ func process_tick(current_tick: int, input_dir: Vector2):
 
 func _apply_movement(input_dir: Vector2):
 	if input_dir != Vector2.ZERO:
-		velocity = input_dir.normalized() * SPEED
+		velocity = input_dir.normalized() * NetworkConfig.SPEED
 	else:
 		velocity = Vector2.ZERO # Instant stop (or lerp for sliding)
 	

@@ -15,7 +15,7 @@ var awaiting_full_snapshot: bool = false
 # Input
 var input_direction: Vector2 = Vector2.ZERO
 var last_input_send_time: float = 0.0
-const INPUT_SEND_RATE = 20  # Send input 20 times per second
+const INPUT_SEND_RATE = NetworkConfig.TICK_RATE  # Match server tick rate
 var local_player: CharacterBody2D = null
 const LocalPlayerScript = preload("res://scripts/local_player.gd")
 

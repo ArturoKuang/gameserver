@@ -4,15 +4,19 @@ extends Node
 ## Based on GafferOnGames snapshot interpolation/compression articles
 
 # Network timing
-const TICK_RATE = 20  # Server simulation ticks per second (50ms)
-const SNAPSHOT_RATE = 20  # Snapshots sent per second (Send every tick for smoothness)
-const TICK_DELTA = 1.0 / TICK_RATE  # 0.05 seconds per tick
+const TICK_RATE = 30  # Server simulation ticks per second (33ms)
+const SNAPSHOT_RATE = 30  # Snapshots sent per second (Send every tick for smoothness)
+const TICK_DELTA = 1.0 / TICK_RATE  # ~0.033 seconds per tick
 
 # Interpolation settings
-# With 20Hz snapshots (50ms interval), we need at least 100ms buffer to survive 1 lost packet
-const INTERPOLATION_DELAY = 0.100  # 100ms buffer (2 frames)
+# With 30Hz snapshots (33ms interval), we need at least 66ms buffer to survive 1 lost packet
+const INTERPOLATION_DELAY = 0.100  # 100ms buffer (3 frames)
 const JITTER_BUFFER = 0.050  # 50ms extra for jitter/lag spikes
 const TOTAL_CLIENT_DELAY = INTERPOLATION_DELAY + JITTER_BUFFER  # 150ms total delay
+
+# Gameplay constants
+const SPEED = 300.0  # Player speed in units/second
+const LINEAR_DAMP = 0.0  # No damping for immediate response
 
 # Spatial partitioning (for 10k players)
 const CHUNK_SIZE = 64  # World units per chunk (e.g., 64 tiles)
