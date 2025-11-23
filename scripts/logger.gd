@@ -47,21 +47,36 @@ static func _format_message(level_str: String, category: String, message: String
 static func debug(category: String, message: String, metadata: Dictionary = {}):
 	if current_level <= Level.DEBUG:
 		print(_format_message("DEBUG", category, message, metadata))
+		_log_json("DEBUG", category, message, metadata)
 
 ## Info level logging
 static func info(category: String, message: String, metadata: Dictionary = {}):
 	if current_level <= Level.INFO:
 		print(_format_message("INFO", category, message, metadata))
+		_log_json("INFO", category, message, metadata)
 
 ## Warning level logging
 static func warn(category: String, message: String, metadata: Dictionary = {}):
 	if current_level <= Level.WARN:
 		print(_format_message("WARN", category, message, metadata))
+		_log_json("WARN", category, message, metadata)
 
 ## Error level logging
 static func error(category: String, message: String, metadata: Dictionary = {}):
 	if current_level <= Level.ERROR:
 		print(_format_message("ERROR", category, message, metadata))
+		_log_json("ERROR", category, message, metadata)
+
+## Log in structured JSON format for automation tools
+static func _log_json(level: String, category: String, message: String, metadata: Dictionary):
+	var log_data = {
+		"timestamp": get_timestamp(),
+		"level": level,
+		"category": category,
+		"message": message,
+		"metadata": metadata
+	}
+	print("[LOG_JSON]" + JSON.stringify(log_data))
 
 ## Set log level from string
 static func set_level_from_string(level_str: String):

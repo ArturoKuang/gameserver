@@ -82,3 +82,62 @@ Separate Clock Sync from Buffer Management.
 *   Use a distinct algorithm to estimate `ServerTime - ClientTime` (e.g., finding the lower bound of RTT).
 *   `render_time` should track this synchronized clock smoothly.
 *   Buffer health should only trigger "emergency" catch-up/slow-down if it deviates significantly (e.g., >100ms off).
+
+## 5. Automated Testing Tools
+**Location:** `testing/tools/gemini_auto_debug.py`
+
+A specialized wrapper is available to run headless network simulations, analyze logs, and generate debugging context for LLMs.
+
+**Usage:**
+```bash
+python3 testing/tools/gemini_auto_debug.py [OPTIONS]
+```
+
+**Key Options:**
+*   `--test <name>`: Preset scenario (`basic`, `stress`, `lag`, `packet_loss`, `jitter`, `bad_network`, `custom`).
+*   `--mode <behavior>`: Client movement behavior.
+    *   `random_walk`: Default, erratic movement.
+    *   `stress_test`: Rapid direction changes.
+    *   `figure_eight`: Smooth continuous curves (good for interpolation checks).
+    *   `circle_pattern`: Constant turning.
+    *   `churn`: Periodically connects/disconnects.
+    *   `convergence`: All clients move to (0,0).
+    *   `route_replay`: Deterministic square path.
+*   `--clients <N>`: Number of concurrent clients.
+*   `--duration <sec>`: Test duration.
+
+**Network Simulation Flags:**
+*   `--loss <0.0-1.0>`: Packet loss rate (e.g., 0.05 for 5%).
+*   `--lag <ms>`: Base latency.
+*   `--jitter <ms>`: Random latency variance (+/-).
+*   `--bw <KB/s>`: Bandwidth limit (drop packets if exceeded).
+*   `--duplicate <0.0-1.0>`: Packet duplication rate.
+
+**Common Scenarios:**
+
+1.  **Interpolation Smoothness Check:**
+    ```bash
+    python3 testing/tools/gemini_auto_debug.py --test custom --mode figure_eight --jitter 30 --loss 0.02
+    ```
+    Tests if the interpolator handles jitter/loss smoothly on curves.
+
+2.  **Stress Test (Chaos):**
+    ```bash
+    python3 testing/tools/gemini_auto_debug.py --test bad_network
+    ```
+    Simulates 5% loss, 150ms lag, 40ms jitter, and duplicates.
+
+3.  **Connection Stability (Churn):**
+    ```bash
+    python3 testing/tools/gemini_auto_debug.py --test custom --mode churn --clients 5 --duration 60
+    ```
+    Tests server handling of frequent connects/disconnects.
+
+4.  **Bandwidth Constraint:**
+    ```bash
+    python3 testing/tools/gemini_auto_debug.py --test custom --clients 4 --bw 64
+    ```
+    Limits bandwidth to 64KB/s to test compression and congestion.
+
+**Output:**
+The tool streams progress to the console and ends with a `🤖 GEMINI DEBUG CONTEXT GENERATED` block. Paste this block into the chat to have the agent analyze the logs and propose fixes.
