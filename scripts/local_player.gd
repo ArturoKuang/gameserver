@@ -130,13 +130,13 @@ func _prune_history():
 	# But keep a bit of buffer just in case
 	var safety_buffer = 0
 	
-	var keep_inputs = []
+	var keep_inputs: Array[Dictionary] = []
 	for input in input_history:
 		if input.tick > last_processed_input_tick - safety_buffer:
 			keep_inputs.append(input)
 	input_history = keep_inputs
 	
-	var keep_states = []
+	var keep_states: Array[PlayerState] = []
 	for state in state_history:
 		if state.tick > last_processed_input_tick - safety_buffer:
 			keep_states.append(state)
