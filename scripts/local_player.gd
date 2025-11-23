@@ -21,6 +21,7 @@ var input_history: Array[Dictionary] = [] # { tick, direction, timestamp }
 var state_history: Array[PlayerState] = []
 var last_processed_input_tick: int = 0
 var prev_position: Vector2 = Vector2.ZERO # For visual interpolation
+var last_server_position: Vector2 = Vector2.ZERO # For debug visualization
 
 # GameClient reference for sending RPCs
 var game_client: Node = null
@@ -95,6 +96,8 @@ func _apply_movement(input_dir: Vector2):
 			move_and_collide(collision2.get_remainder().slide(collision2.get_normal()))
 
 func reconcile(server_pos: Vector2, last_server_tick: int):
+	last_server_position = server_pos # Store for debug visualization
+
 	# 1. Find the predicted state for this tick
 	var history_state = null
 	var history_index = -1

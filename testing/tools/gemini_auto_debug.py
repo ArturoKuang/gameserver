@@ -111,6 +111,9 @@ def main():
     test_args = sys.argv[1:]
     if not test_args:
         test_args = ["--test", "basic"]
+    
+    # Ensure --debug-vis is passed if set (though sys.argv[1:] should handle it, being explicit is good if we add arg parsing here later)
+    # Currently we just pass all args directly.
         
     report_path, output = run_test_and_get_report(test_args)
     

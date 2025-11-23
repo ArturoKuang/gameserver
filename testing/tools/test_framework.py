@@ -39,7 +39,8 @@ class TestConfig:
         duplicate_rate: float = 0.0,
         interp_delay: Optional[float] = None,
         jitter_buf: Optional[float] = None,
-        enable_client_prediction: bool = False
+        enable_client_prediction: bool = False,
+        debug_vis: bool = False
     ):
         self.name = name
         self.num_clients = num_clients
@@ -53,6 +54,7 @@ class TestConfig:
         self.interp_delay = interp_delay
         self.jitter_buf = jitter_buf
         self.enable_client_prediction = enable_client_prediction
+        self.debug_vis = debug_vis
 
 
 class GodotProcess:
@@ -71,7 +73,8 @@ class GodotProcess:
         bandwidth_kbps: float = 0.0,
         duplicate_rate: float = 0.0,
         interp_delay: Optional[float] = None,
-        jitter_buf: Optional[float] = None
+        jitter_buf: Optional[float] = None,
+        debug_vis: bool = False
     ):
         self.godot_path = godot_path
         self.project_path = project_path
@@ -86,6 +89,7 @@ class GodotProcess:
         self.duplicate_rate = duplicate_rate
         self.interp_delay = interp_delay
         self.jitter_buf = jitter_buf
+        self.debug_vis = debug_vis
         self.process: Optional[subprocess.Popen] = None
 
     def start(self):
@@ -100,6 +104,10 @@ class GodotProcess:
             env["NET_CFG_INTERP_DELAY"] = str(self.interp_delay)
         if self.jitter_buf is not None:
             env["NET_CFG_JITTER_BUF"] = str(self.jitter_buf)
+            
+        # Debug Visualization
+        if self.debug_vis:
+            env["DEBUG_VISUALIZATION"] = "1"
 
         if self.is_server:
             args.append("--headless")
@@ -194,7 +202,8 @@ class TestFramework:
                 server_log,
                 is_server=True,
                 interp_delay=config.interp_delay,
-                jitter_buf=config.jitter_buf
+                jitter_buf=config.jitter_buf,
+                debug_vis=config.debug_vis
             )
             self.server.start()
             time.sleep(3)  # Wait for server to initialize
@@ -215,7 +224,8 @@ class TestFramework:
                     bandwidth_kbps=config.bandwidth_kbps,
                     duplicate_rate=config.duplicate_rate,
                     interp_delay=config.interp_delay,
-                    jitter_buf=config.jitter_buf
+                    jitter_buf=config.jitter_buf,
+                    debug_vis=config.debug_vis
                 )
                 client.start()
                 self.clients.append(client)
@@ -565,6 +575,7 @@ def main():
     parser.add_argument("--bw", type=float, default=0.0)
     parser.add_argument("--duplicate", type=float, default=0.0)
     parser.add_argument("--json-out", action="store_true", help="Ensure JSON path is last output")
+    parser.add_argument("--debug-vis", action="store_true", help="Enable debug visualization overlay")
 
     args = parser.parse_args()
 
@@ -583,33 +594,38 @@ def main():
             name="basic_single_client",
             num_clients=1,
             duration=30,
-            test_mode="random_walk"
+            test_mode="random_walk",
+            debug_vis=args.debug_vis
         ),
         "stress": TestConfig(
             name="stress_test",
             num_clients=1,
             duration=60,
-            test_mode="stress_test"
+            test_mode="stress_test",
+            debug_vis=args.debug_vis
         ),
         "lag": TestConfig(
             name="high_lag_test",
             num_clients=1,
             duration=30,
             test_mode="random_walk",
-            lag_ms=200
+            lag_ms=200,
+            debug_vis=args.debug_vis
         ),
         "packet_loss": TestConfig(
             name="packet_loss_test",
             num_clients=1,
             duration=30,
             test_mode="random_walk",
-            packet_loss=0.1  # 10% packet loss
+            packet_loss=0.1,  # 10% packet loss
+            debug_vis=args.debug_vis
         ),
         "multi_client": TestConfig(
             name="multi_client_test",
             num_clients=3,
             duration=60,
-            test_mode="random_walk"
+            test_mode="random_walk",
+            debug_vis=args.debug_vis
         ),
         "jitter": TestConfig(
             name="high_jitter_test",
@@ -617,7 +633,8 @@ def main():
             duration=30,
             test_mode="random_walk",
             lag_ms=100,
-            jitter_ms=50  # High jitter
+            jitter_ms=50,  # High jitter
+            debug_vis=args.debug_vis
         ),
         "bad_network": TestConfig(
             name="bad_network_chaos",
@@ -627,7 +644,8 @@ def main():
             packet_loss=0.05,
             lag_ms=150,
             jitter_ms=40,
-            duplicate_rate=0.02
+            duplicate_rate=0.02,
+            debug_vis=args.debug_vis
         )
     }
 
@@ -646,11 +664,15 @@ def main():
             packet_loss=args.loss,
             jitter_ms=args.jitter,
             bandwidth_kbps=args.bw,
-            duplicate_rate=args.duplicate
+            duplicate_rate=args.duplicate,
+            debug_vis=args.debug_vis
         )
         framework.run_test(config)
     else:
-        framework.run_test(tests[args.test])
+        config = tests[args.test]
+        # Ensure cli args override preset if needed (though we set them above, this is safer if logic changes)
+        if args.debug_vis: config.debug_vis = True 
+        framework.run_test(config)
 
     print("\n[FRAMEWORK] All tests completed!")
 
