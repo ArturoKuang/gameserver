@@ -54,6 +54,10 @@ class Entity:
 				return physics_body.velocity
 			elif physics_body is RigidBody2D:
 				return physics_body.linear_velocity
+			elif physics_body is AnimatableBody2D:
+				if physics_body.has_meta("velocity"):
+					return physics_body.get_meta("velocity")
+				return Vector2.ZERO
 			else:
 				return Vector2.ZERO
 
@@ -213,11 +217,11 @@ func spawn_entity(position: Vector2, peer_id: int = -1) -> int:
 	body.name = "Entity_" + str(entity_id)
 	body.motion_mode = CharacterBody2D.MOTION_MODE_FLOATING # Top-down physics
 	
-	# Add collision shape (box to match the sprite)
+	# Add collision shape (Circle for smooth rotation/sliding)
 	var collision = CollisionShape2D.new()
-	var shape = RectangleShape2D.new()
-	# 16x16 matches sprite exactly. CharacterBody2D stops precisely at surface.
-	shape.size = Vector2(16.0, 16.0)
+	var shape = CircleShape2D.new()
+	# Radius 8 matches the 16x16 sprite width roughly
+	shape.radius = 8.0
 	collision.shape = shape
 	body.add_child(collision)
 
@@ -632,9 +636,10 @@ func spawn_moving_obstacle(start_pos: Vector2, end_pos: Vector2, speed: float = 
 	
 	# Initial velocity calculation for snapshot interpolation (though AnimatableBody doesn't use it for physics)
 	var direction = (end_pos - start_pos).normalized()
-	# We store it as metadata or just let snapshot system read it from a property if needed
-	# But Entity class reads linear_velocity. AnimatableBody2D doesn't have it.
-	# We will handle this in the Entity class or getter.
+	# Store velocity for entity snapshot
+	body.set_meta("velocity", direction * speed)
+	# Rotate to match initial direction
+	body.rotation = direction.angle()
 
 	# IMPORTANT: Create Entity wrapper so it appears in snapshots
 	var entity = Entity.new(entity_id, body)
@@ -674,6 +679,12 @@ func _update_moving_obstacles():
 
 			# Move using move_and_collide (kinematic movement that pushes others)
 			var direction = (target - obstacle.position).normalized()
+			
+			# Rotate to face movement
+			obstacle.rotation = direction.angle()
+			# Update velocity for snapshot
+			obstacle.set_meta("velocity", direction * speed)
+
 			var motion = direction * speed * NetworkConfig.TICK_DELTA
 			
 			# move_and_collide returns a collision if it hits something, but AnimatableBody passes through

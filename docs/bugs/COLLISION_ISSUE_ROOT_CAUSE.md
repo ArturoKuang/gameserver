@@ -1,34 +1,20 @@
 # Collision Issue Root Cause Analysis
 **Date:** 2025-11-22
-**Status:** IDENTIFIED
+**Status:** FIXED
 **Severity:** MEDIUM
 
 ## Issue Description
 Users reported that non-player entities in the game world appear to have "too big" collision boxes, causing players to collide with empty space around these entities or get stuck unexpectedly.
 
 ## Root Cause
-The investigation identified that the issue stems from the `spawn_moving_obstacle` function in `scripts/server_world.gd`.
+The investigation identified two contributing factors:
+1. **Misaligned Rotation:** "Moving Obstacles" (`AnimatableBody2D`) were not being rotated on the server, but were being rotated visually on the client (via client-side prediction). This caused the axis-aligned server collision box (Square) to mismatch the rotated visual sprite (Diamond), leading to "invisible corners" sticking out.
+2. **Corner Snagging:** Standard NPCs (`CharacterBody2D`) used a `RectangleShape2D` (Square). When rotating (visually), the square corners would snag on walls or extend beyond the visual representation, causing perceived collision errors.
 
-While standard NPCs are spawned with a `16x16` collision shape (matching their visual sprite), "Moving Obstacles" are hardcoded with a `64x64` collision shape, which is significantly larger than the standard entity size.
+## Applied Fix
+1. **Moving Obstacles:** Updated `scripts/server_world.gd` to rotate the `AnimatableBody2D` obstacles on the server to match their movement direction. Also enabled velocity metadata so the client can correctly predict the rotation.
+2. **NPCs/Entities:** Changed `spawn_entity` to use `CircleShape2D` (Radius 8) instead of `RectangleShape2D` (16x16). This makes collision rotation-invariant and prevents corners from snagging or extending beyond the visual sprite, providing a much smoother gameplay experience.
 
-### Relevant Code Snippet
-**File:** `scripts/server_world.gd`
-
-```gdscript
-func spawn_moving_obstacle(start_pos: Vector2, end_pos: Vector2, speed: float = 50.0) -> int:
-    # ... (Entity creation logic) ...
-
-    # Add collision shape
-    var collision = CollisionShape2D.new()
-    var shape = RectangleShape2D.new()
-    shape.size = Vector2(64, 64)  # <--- ROOT CAUSE: Hardcoded 64x64 size
-    collision.shape = shape
-    body.add_child(collision)
-
-    # ...
-```
-
-These obstacles are spawned by the `game_server.gd` during the `_ready()` phase, populating the world with these large invisible collision boxes if there is no corresponding visual asset of that size.
-
-## Proposed Fix
-Adjust the `Vector2(64, 64)` values in `scripts/server_world.gd` to a smaller size that better represents the intended obstacle size (likely `32x32` or `16x16` depending on the visual representation), or expose this size as a parameter to the `spawn_moving_obstacle` function.
+## Verification
+- Code changes applied to `scripts/server_world.gd`.
+- Server startup verified with `testing/test.sh`.
