@@ -10,7 +10,10 @@ enum TestMode {
 	CHUNK_CROSSING,     # Deliberately cross chunk boundaries
 	CIRCLE_PATTERN,     # Move in circles
 	FIGURE_EIGHT,       # Move in figure-8 pattern
-	COLLISION_TEST      # Deliberately collide with walls
+	COLLISION_TEST,      # Deliberately collide with walls
+	CHURN,              # Connect/Disconnect repeatedly
+	CONVERGENCE,        # Move to a common point
+	ROUTE_REPLAY        # Deterministic path
 }
 
 var current_mode: TestMode = TestMode.DISABLED
@@ -30,12 +33,23 @@ var figure8_time: float = 0.0
 # For collision testing
 var collision_targets: Array[Vector2] = []
 
+# For Route Replay
+var route_waypoints: Array[Vector2] = []
+var current_waypoint_idx: int = 0
+
 # Reference to player entity (set externally)
 var player_position: Vector2 = Vector2.ZERO
+
+# Reference to GameClient for connection control
+var game_client: Node = null
 
 func _ready():
 	set_process(true)
 	_load_test_config()
+
+func register_client(client_node: Node):
+	game_client = client_node
+	GameLogger.info("TEST_AUTO", "GameClient registered for automation", {})
 
 ## Load test configuration from environment variables
 func _load_test_config():
@@ -72,6 +86,21 @@ func _load_test_config():
 			current_mode = TestMode.COLLISION_TEST
 			_setup_collision_targets()
 			GameLogger.info("TEST_AUTO", "Enabled: COLLISION_TEST", {"targets": collision_targets.size()})
+			
+		"churn":
+			current_mode = TestMode.CHURN
+			direction_change_interval = 10.0 # Connect/Disconnect every 10s
+			GameLogger.info("TEST_AUTO", "Enabled: CHURN", {"interval": direction_change_interval})
+
+		"convergence":
+			current_mode = TestMode.CONVERGENCE
+			target_position = Vector2.ZERO # Center of world
+			GameLogger.info("TEST_AUTO", "Enabled: CONVERGENCE", {"target": target_position})
+
+		"route_replay":
+			current_mode = TestMode.ROUTE_REPLAY
+			_setup_route_waypoints()
+			GameLogger.info("TEST_AUTO", "Enabled: ROUTE_REPLAY", {"waypoints": route_waypoints.size()})
 
 		_:
 			test_enabled = false
@@ -102,6 +131,15 @@ func _process(delta: float):
 
 		TestMode.COLLISION_TEST:
 			_update_collision_test(delta)
+			
+		TestMode.CHURN:
+			_update_churn(delta)
+			
+		TestMode.CONVERGENCE:
+			_update_convergence(delta)
+			
+		TestMode.ROUTE_REPLAY:
+			_update_route_replay(delta)
 
 ## Get current input direction for automated testing
 func get_input_direction() -> Vector2:
@@ -241,6 +279,50 @@ func _update_collision_test(delta: float):
 			"target": "(%d,%d)" % [int(target_position.x), int(target_position.y)]
 		})
 
+## Churn: Connect and disconnect periodically
+func _update_churn(delta: float):
+	if game_client == null:
+		return
+		
+	if test_timer >= direction_change_interval:
+		test_timer = 0.0
+		
+		if game_client.connected:
+			GameLogger.info("TEST_AUTO", "Churn: Disconnecting...", {})
+			# Assuming we can just close the peer
+			if game_client.peer:
+				game_client.peer.close()
+				# Manually trigger cleanup since signals might be erratic on forced close
+				game_client._on_server_disconnected()
+		else:
+			GameLogger.info("TEST_AUTO", "Churn: Reconnecting...", {})
+			game_client._connect_to_server()
+
+## Convergence: All clients move to (0,0)
+func _update_convergence(delta: float):
+	var dist = player_position.distance_to(target_position)
+	if dist > 10.0:
+		current_direction = (target_position - player_position).normalized()
+	else:
+		# Jiggle around center to cause collisions
+		if randf() < 0.1:
+			current_direction = Vector2(randf_range(-1,1), randf_range(-1,1)).normalized()
+			
+## Route Replay: Follow waypoints
+func _update_route_replay(delta: float):
+	if route_waypoints.is_empty():
+		return
+		
+	var target = route_waypoints[current_waypoint_idx]
+	var dist = player_position.distance_to(target)
+	
+	if dist < 20.0:
+		current_waypoint_idx = (current_waypoint_idx + 1) % route_waypoints.size()
+		target = route_waypoints[current_waypoint_idx]
+		GameLogger.debug("TEST_AUTO", "Reached waypoint", {"next": current_waypoint_idx})
+		
+	current_direction = (target - player_position).normalized()
+
 ## Setup collision targets (world boundaries)
 func _setup_collision_targets():
 	collision_targets = [
@@ -252,6 +334,18 @@ func _setup_collision_targets():
 		Vector2(0, NetworkConfig.WORLD_MAX.y - 100),        # Bottom center
 		Vector2(NetworkConfig.WORLD_MIN.x + 100, 0),        # Left center
 		Vector2(NetworkConfig.WORLD_MAX.x - 100, 0),        # Right center
+	]
+
+func _setup_route_waypoints():
+	# A simple square loop
+	route_waypoints = [
+		Vector2(0, 0),
+		Vector2(200, 0),
+		Vector2(200, 200),
+		Vector2(0, 200),
+		Vector2(-200, 200),
+		Vector2(-200, -200),
+		Vector2(200, -200)
 	]
 
 ## Snap direction to 8 cardinal directions (Stardew Valley style)

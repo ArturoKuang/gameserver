@@ -9,6 +9,12 @@ var enabled: bool = false
 var packet_loss_rate: float = 0.0  # 0.0 to 1.0 (0% to 100%)
 var lag_ms: int = 0  # Base latency in milliseconds
 var jitter_ms: int = 0  # Random jitter range in milliseconds
+var bandwidth_limit_kbps: float = 0.0  # 0 = unlimited
+var duplicate_rate: float = 0.0 # 0.0 to 1.0
+
+# Bandwidth tracking
+var bytes_sent_window: int = 0
+var window_start_time: int = 0
 
 # Packet delay queue (for lag simulation)
 var delayed_packets: Array[DelayedPacket] = []
@@ -33,33 +39,55 @@ func _ready():
 func _load_config():
 	var packet_loss_str = OS.get_environment("TEST_PACKET_LOSS")
 	var lag_str = OS.get_environment("TEST_LAG_MS")
+	var jitter_str = OS.get_environment("TEST_JITTER_MS")
+	var bw_str = OS.get_environment("TEST_BW_KBPS")
+	var dup_str = OS.get_environment("TEST_DUPLICATE_RATE")
 
 	if not packet_loss_str.is_empty():
 		packet_loss_rate = float(packet_loss_str)
 		enabled = true
-		GameLogger.info("NET_SIM", "Packet loss simulation enabled", {
-			"rate": "%.1f%%" % (packet_loss_rate * 100)
-		})
 
 	if not lag_str.is_empty():
 		lag_ms = int(lag_str)
 		enabled = true
-		GameLogger.info("NET_SIM", "Lag simulation enabled", {
-			"lag_ms": lag_ms
-		})
 
-	# Default jitter is 20% of lag
-	if lag_ms > 0:
+	if not jitter_str.is_empty():
+		jitter_ms = int(jitter_str)
+		enabled = true
+	elif lag_ms > 0:
+		# Default jitter is 20% of lag if not specified
 		jitter_ms = lag_ms / 5
+		
+	if not bw_str.is_empty():
+		bandwidth_limit_kbps = float(bw_str)
+		enabled = true
+		
+	if not dup_str.is_empty():
+		duplicate_rate = float(dup_str)
+		enabled = true
+
+	if enabled:
+		GameLogger.info("NET_SIM", "Network simulation enabled", {
+			"loss": "%.1f%%" % (packet_loss_rate * 100),
+			"lag": lag_ms,
+			"jitter": jitter_ms,
+			"bw_kbps": bandwidth_limit_kbps,
+			"dup": "%.1f%%" % (duplicate_rate * 100)
+		})
 
 func _process(delta: float):
 	if not enabled:
 		return
 
-	# Process delayed packets
 	var current_time = Time.get_ticks_msec()
-	var i = 0
+	
+	# Reset bandwidth window every second
+	if current_time - window_start_time >= 1000:
+		bytes_sent_window = 0
+		window_start_time = current_time
 
+	# Process delayed packets
+	var i = 0
 	while i < delayed_packets.size():
 		var packet = delayed_packets[i]
 
@@ -100,10 +128,23 @@ func should_process_packet(sequence: int = 0) -> bool:
 ## Simulate sending a packet with lag
 ## Instead of immediately processing, delay it
 func send_with_delay(data: PackedByteArray, callback: Callable, sequence: int = 0):
-	if not enabled or lag_ms <= 0:
+	if not enabled:
 		# No delay, deliver immediately
 		callback.call(data)
 		return
+		
+	# Bandwidth throttling (drop if over limit)
+	if bandwidth_limit_kbps > 0.0:
+		bytes_sent_window += data.size()
+		var limit_bytes = bandwidth_limit_kbps * 1024
+		if bytes_sent_window > limit_bytes:
+			GameLogger.log_network_simulation(
+				"Packet dropped (bandwidth limit)",
+				sequence,
+				true,
+				0
+			)
+			return
 
 	# Calculate delivery time with jitter
 	var current_time = Time.get_ticks_msec()
@@ -125,6 +166,18 @@ func send_with_delay(data: PackedByteArray, callback: Callable, sequence: int = 
 		false,
 		delay
 	)
+	
+	# Duplication
+	if duplicate_rate > 0.0 and randf() < duplicate_rate:
+		var dup_delay = delay + randi_range(10, 50) # Duplicate arrives slightly later
+		var dup_packet = DelayedPacket.new(data, current_time + dup_delay, callback, sequence)
+		delayed_packets.append(dup_packet)
+		GameLogger.log_network_simulation(
+			"Packet duplicated",
+			sequence,
+			false,
+			dup_delay
+		)
 
 ## Configure simulation parameters at runtime
 func set_packet_loss(rate: float):
