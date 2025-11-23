@@ -30,7 +30,7 @@ const WORLD_MAX = Vector2(1024, 1024)
 # Network limits
 const MAX_PACKET_SIZE = 1400  # Stay under MTU
 const MAX_ENTITIES_PER_SNAPSHOT = 100  # Limit per packet
-
+const CLOCK_SYNC_INTERVAL = 1.0  # Sync clock every 1 second
 
 ## Quantization helpers
 static func quantize_position(pos: Vector2) -> Vector2i:

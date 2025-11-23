@@ -8,6 +8,7 @@ var sequence: int = 0  # Snapshot sequence number
 var timestamp: float = 0.0  # Server time when snapshot was taken
 var entities: Dictionary = {}  # entity_id -> EntityState
 var player_entity_id: int = -1  # ID of the player entity in this snapshot
+var last_processed_input_tick: int = 0 # The input tick that produced this state (for reconciliation)
 
 class EntityState:
 	var entity_id: int
@@ -60,6 +61,7 @@ func serialize(baseline: EntitySnapshot = null) -> PackedByteArray:
 
 	writer.write_bits(entities.size(), 16)  # Entity count
 	writer.write_bits(player_entity_id if player_entity_id >= 0 else 0, 32)  # Player entity ID
+	writer.write_bits(last_processed_input_tick, 32) # Last processed input tick
 
 	# Sort entity IDs for delta encoding
 	var entity_ids = entities.keys()
@@ -122,6 +124,7 @@ static func peek_header(buffer: PackedByteArray) -> Dictionary:
 	var sequence = reader.read_bits(16)
 	var timestamp_ms = reader.read_bits(32)
 	var baseline_seq = reader.read_bits(16)
+	# Entity count (16) + Player ID (32) + Last processed input tick (32) are next, but not needed for peek
 	return {
 		"sequence": sequence,
 		"timestamp": float(timestamp_ms) / 1000.0,
@@ -156,9 +159,11 @@ static func deserialize(buffer: PackedByteArray, baseline: EntitySnapshot = null
 
 	var entity_count = reader.read_bits(16)
 	var player_id = reader.read_bits(32)
+	var last_processed_input_tick = reader.read_bits(32)
 
 	var snapshot = EntitySnapshot.new(sequence, timestamp_sec)
 	snapshot.player_entity_id = player_id if player_id > 0 else -1
+	snapshot.last_processed_input_tick = last_processed_input_tick
 
 	# Debug: Log deserialization start
 	if sequence % 10 == 0:
