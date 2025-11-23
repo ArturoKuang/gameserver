@@ -50,9 +50,19 @@ func _process(delta: float):
 
 		# Blend toward server position (soft reconciliation)
 		if entities.has(game_client.my_entity_id):
-			var server_position = entities[game_client.my_entity_id].current_position
-			var error = server_position - predicted_player_position
-			predicted_player_position += error * PREDICTION_BLEND_FACTOR
+			var entity = entities[game_client.my_entity_id]
+			var server_position = entity.current_position
+			
+			# Extrapolate server position to present time to avoid drag/lag sensation
+			# We compare our predicted pos (T=0) vs Server pos (T=-150ms) projected to T=0
+			var latency = NetworkConfig.TOTAL_CLIENT_DELAY
+			var target_position = server_position + (entity.current_velocity * latency)
+			
+			var error = target_position - predicted_player_position
+			
+			# Lower blend factor to trust client more, only correcting drift slowly
+			# 0.05 @ 60FPS = ~95% correction over 1 second
+			predicted_player_position += error * 0.05
 
 	# Update/create sprites for entities
 	for entity_id in entities:
@@ -68,12 +78,18 @@ func _process(delta: float):
 		# CLIENT PREDICTION: Use predicted position for local player
 		if entity_id == game_client.my_entity_id and prediction_enabled:
 			sprite.position = predicted_player_position
+
+			# Predict rotation based on input (immediate response)
+			var input_dir = game_client.input_direction
+			if input_dir.length() > 0.01:
+				sprite.rotation = input_dir.angle()
 		else:
 			# Other entities use interpolated position
 			sprite.position = entity.current_position
 
 		# Update sprite appearance based on state
-		_update_sprite_appearance(sprite, entity)
+		# Pass is_local_player=true to prevent overriding our predicted rotation
+		_update_sprite_appearance(sprite, entity, entity_id == game_client.my_entity_id)
 
 	# Remove sprites for entities that no longer exist
 	for entity_id in entity_sprites.keys():
@@ -119,9 +135,9 @@ func _create_entity_sprite(entity_id: int) -> Sprite2D:
 	entity_sprites[entity_id] = sprite
 	return sprite
 
-func _update_sprite_appearance(sprite: Sprite2D, entity: ClientInterpolator.InterpolatedEntity):
-	# Rotate sprite based on movement direction
-	if entity.current_velocity.length() > 0.1:
+func _update_sprite_appearance(sprite: Sprite2D, entity: ClientInterpolator.InterpolatedEntity, is_local_player: bool = false):
+	# Rotate sprite based on movement direction (unless local player controlled by prediction)
+	if not is_local_player and entity.current_velocity.length() > 0.1:
 		sprite.rotation = entity.current_velocity.angle()
 
 	# Could update sprite frame, modulation, etc. based on entity.state_flags
