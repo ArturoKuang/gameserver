@@ -46,6 +46,7 @@ func _ready():
 	var test_mode = OS.get_environment("TEST_MODE")
 	if test_mode == "client":
 		GameLogger.info("CLIENT", "Starting in automated test mode", {})
+		TestAutomation.register_client(self)
 		_connect_to_server()
 	
 	# Check for auto-move argument
