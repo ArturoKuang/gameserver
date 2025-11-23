@@ -20,6 +20,7 @@ class PlayerState:
 var input_history: Array[Dictionary] = [] # { tick, direction, timestamp }
 var state_history: Array[PlayerState] = []
 var last_processed_input_tick: int = 0
+var prev_position: Vector2 = Vector2.ZERO # For visual interpolation
 
 # GameClient reference for sending RPCs
 var game_client: Node = null
@@ -41,8 +42,12 @@ func _ready():
 func setup(client_ref: Node, start_pos: Vector2):
 	game_client = client_ref
 	position = start_pos
+	prev_position = start_pos
 	
 func process_tick(current_tick: int, input_dir: Vector2):
+	# 0. Store previous position for interpolation
+	prev_position = position
+
 	# 1. Apply Input
 	_apply_movement(input_dir)
 	
@@ -65,9 +70,29 @@ func _apply_movement(input_dir: Vector2):
 	if input_dir != Vector2.ZERO:
 		velocity = input_dir.normalized() * NetworkConfig.SPEED
 	else:
-		velocity = Vector2.ZERO # Instant stop (or lerp for sliding)
+		velocity = Vector2.ZERO # Instant stop
 	
-	move_and_slide()
+	# Manual move_and_collide loop for deterministic physics matching ServerWorld
+	# We use NetworkConfig.TICK_DELTA (1/30) instead of frame delta
+	var motion = velocity * NetworkConfig.TICK_DELTA
+	
+	# 1. Move
+	var collision = move_and_collide(motion)
+	
+	# 2. Slide (if collided)
+	if collision:
+		var normal = collision.get_normal()
+		# Slide velocity
+		velocity = velocity.slide(normal)
+		# Slide remainder of motion
+		var remainder = collision.get_remainder().slide(normal)
+		
+		# Retry move
+		var collision2 = move_and_collide(remainder)
+		if collision2:
+			# Slide again (corner case)
+			velocity = velocity.slide(collision2.get_normal())
+			move_and_collide(collision2.get_remainder().slide(collision2.get_normal()))
 
 func reconcile(server_pos: Vector2, last_server_tick: int):
 	# 1. Find the predicted state for this tick
