@@ -142,8 +142,6 @@ func _ready():
 	vbox.add_child(instructions)
 
 	# Check command line args for auto-start
-	var args = OS.get_cmdline_args()
-	var test_mode_env = OS.get_environment("TEST_MODE")
 	
 	if "--server" in args or test_mode_env == "server":
 		_on_server_button_pressed()

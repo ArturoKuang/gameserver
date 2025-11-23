@@ -66,6 +66,7 @@ class GodotProcess:
         self.packet_loss = packet_loss
         self.lag_ms = lag_ms
         self.process: Optional[subprocess.Popen] = None
+        self.log_file = None
 
     def start(self):
         """Start the Godot process"""
@@ -86,12 +87,12 @@ class GodotProcess:
             env["TEST_LAG_MS"] = str(self.lag_ms)
 
         # Open log file
-        log_file = open(self.log_path, 'w')
+        self.log_file = open(self.log_path, 'w')
 
         # Start process
         self.process = subprocess.Popen(
             args,
-            stdout=log_file,
+            stdout=self.log_file,
             stderr=subprocess.STDOUT,
             env=env
         )
@@ -111,6 +112,10 @@ class GodotProcess:
 
             role = "Server" if self.is_server else f"Client-{self.client_id}"
             print(f"[FRAMEWORK] Stopped {role} (PID: {self.process.pid})")
+
+        if self.log_file:
+            self.log_file.close()
+            self.log_file = None
 
     def is_alive(self) -> bool:
         """Check if process is still running"""
