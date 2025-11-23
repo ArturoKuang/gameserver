@@ -103,6 +103,10 @@ func _process(delta: float):
 			if debug_counter % 60 == 0:
 				print("[RENDERER] Waiting for player entity ", game_client.my_entity_id)
 
+	# Debug Visualization
+	if NetworkConfig.DEBUG_VISUALIZATION:
+		_draw_debug_ghosts()
+
 func _create_entity_sprite(entity_id: int, entity: ClientInterpolator.InterpolatedEntity = null) -> Sprite2D:
 	var sprite = Sprite2D.new()
 	add_child(sprite)
@@ -203,3 +207,60 @@ func _draw_debug_obstacle_paths():
 	draw_path.call(Vector2(150, -100), Vector2(-150, 100))  # Another diagonal
 
 	print("[RENDERER] Debug obstacle paths drawn")
+
+# Ghost sprites for debug visualization
+var ghost_sprites: Dictionary = {} # id -> Sprite2D
+
+func _draw_debug_ghosts():
+	if not game_client or not game_client.connected:
+		return
+		
+	var entities = game_client.get_entities()
+	
+	# 1. Visualize Remote Entities (Target Server Position)
+	for entity_id in entities:
+		# Don't draw ghost for local player here (handled separately)
+		if entity_id == game_client.my_entity_id:
+			continue
+			
+		var entity = entities[entity_id]
+		_update_ghost_sprite(entity_id, entity.target_position, Color(1, 0, 0, 0.5)) # Red ghost = Server Target
+		
+	# 2. Visualize Local Player (Authoritative Server Position)
+	if game_client.local_player:
+		var player_id = game_client.my_entity_id
+		# Green ghost = Server Authoritative Position for Local Player
+		_update_ghost_sprite(player_id, game_client.local_player.last_server_position, Color(0, 1, 0, 0.5))
+
+	# Cleanup old ghosts
+	for id in ghost_sprites.keys():
+		if id != game_client.my_entity_id and not entities.has(id):
+			ghost_sprites[id].queue_free()
+			ghost_sprites.erase(id)
+
+func _update_ghost_sprite(id: int, pos: Vector2, color: Color):
+	if pos == Vector2.ZERO: return
+	
+	if not ghost_sprites.has(id):
+		var sprite = Sprite2D.new()
+		
+		# Create a simple ghost texture (hollow square)
+		var size = 16
+		var image = Image.create(size, size, false, Image.FORMAT_RGBA8)
+		image.fill(Color(0,0,0,0)) # Transparent center
+		
+		# Add border
+		for i in range(size):
+			image.set_pixel(i, 0, Color.WHITE)
+			image.set_pixel(i, size-1, Color.WHITE)
+			image.set_pixel(0, i, Color.WHITE)
+			image.set_pixel(size-1, i, Color.WHITE)
+			
+		var texture = ImageTexture.create_from_image(image)
+		sprite.texture = texture
+		sprite.modulate = color
+		sprite.z_index = 10 # Draw on top
+		add_child(sprite)
+		ghost_sprites[id] = sprite
+		
+	ghost_sprites[id].position = pos

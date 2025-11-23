@@ -54,10 +54,16 @@ func register_client(client_node: Node):
 ## Load test configuration from environment variables
 func _load_test_config():
 	var test_mode_str = OS.get_environment("TEST_BEHAVIOR")
-	if test_mode_str.is_empty():
-		return
+	if not test_mode_str.is_empty():
+		test_enabled = true
 
-	test_enabled = true
+	# Check for debug visualization flag
+	if OS.get_environment("DEBUG_VISUALIZATION") == "1":
+		NetworkConfig.DEBUG_VISUALIZATION = true
+		GameLogger.info("TEST_AUTO", "Debug Visualization Enabled", {})
+
+	if not test_enabled:
+		return
 
 	match test_mode_str.to_lower():
 		"random_walk":

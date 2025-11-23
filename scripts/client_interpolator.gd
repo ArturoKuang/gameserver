@@ -20,6 +20,7 @@ class InterpolatedEntity:
 	var entity_id: int
 	var current_position: Vector2
 	var current_velocity: Vector2
+	var target_position: Vector2 # For debug visualization (server authoritative position)
 	var sprite_frame: int = 0
 	var state_flags: int = 0
 	var entity_type: int = 0
@@ -27,6 +28,7 @@ class InterpolatedEntity:
 	func _init(id: int):
 		entity_id = id
 		current_position = Vector2.ZERO
+		target_position = Vector2.ZERO
 		current_velocity = Vector2.ZERO
 
 func _ready():
@@ -197,9 +199,11 @@ func _interpolate():
 		if from_state and to_state:
 			# Both snapshots have this entity - interpolate
 			_hermite_interpolate(interp_entity, from_state, to_state, t)
+			interp_entity.target_position = to_state.position # Update target for debug
 		elif to_state:
 			# Entity just appeared - snap to position
 			interp_entity.current_position = to_state.position
+			interp_entity.target_position = to_state.position
 			interp_entity.current_velocity = to_state.velocity
 			interp_entity.sprite_frame = to_state.sprite_frame
 			interp_entity.state_flags = to_state.state_flags
