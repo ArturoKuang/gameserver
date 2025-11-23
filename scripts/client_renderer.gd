@@ -58,7 +58,24 @@ func _process(delta: float):
 			print("[RENDERER] Created sprite for LOCAL PLAYER entity ", player_id)
 			
 		var sprite = entity_sprites[player_id]
-		sprite.position = game_client.local_player.position
+		
+		# Smooth Visual Interpolation for CSP
+		# Calculate fraction of time between the last processed tick and the next one
+		var server_time = game_client.interpolator.get_server_time()
+		var tick_duration = NetworkConfig.TICK_DELTA
+		var current_tick = floor(server_time * NetworkConfig.TICK_RATE)
+		var next_tick_time = (current_tick + 1) * tick_duration
+		
+		# Time accumulated within the current tick
+		# (server_time is smoothed, so this gives us a smooth 0.0->1.0 ramp)
+		var fraction = (server_time - (current_tick * tick_duration)) / tick_duration
+		fraction = clamp(fraction, 0.0, 1.0)
+		
+		# Interpolate between prev_position (start of tick) and position (end of tick)
+		if game_client.local_player.prev_position != Vector2.ZERO:
+			sprite.position = game_client.local_player.prev_position.lerp(game_client.local_player.position, fraction)
+		else:
+			sprite.position = game_client.local_player.position
 		
 		# Update camera to follow local player
 		camera.position = sprite.position

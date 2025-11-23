@@ -15,9 +15,10 @@ var awaiting_full_snapshot: bool = false
 # Input
 var input_direction: Vector2 = Vector2.ZERO
 var last_input_send_time: float = 0.0
-const INPUT_SEND_RATE = 20  # Send input 20 times per second
+const INPUT_SEND_RATE = NetworkConfig.TICK_RATE  # Match server tick rate
 var local_player: CharacterBody2D = null
 const LocalPlayerScript = preload("res://scripts/local_player.gd")
+var last_processed_tick: int = -1
 
 # Automated Testing
 var auto_move_enabled: bool = false
@@ -111,7 +112,16 @@ func _physics_process(delta: float):
 	# Run Client-Side Prediction (CSP)
 	if local_player:
 		var current_tick = int(interpolator.get_server_time() * NetworkConfig.TICK_RATE)
-		local_player.process_tick(current_tick, input_direction)
+		
+		# Only run physics if we have entered a new tick
+		if last_processed_tick == -1:
+			last_processed_tick = current_tick - 1
+			
+		if current_tick > last_processed_tick:
+			# Catch up if we missed frames (e.g. lag spike), though usually just 1 iteration
+			while last_processed_tick < current_tick:
+				last_processed_tick += 1
+				local_player.process_tick(last_processed_tick, input_direction)
 
 func _process(delta: float):
 	# Track FPS

@@ -115,11 +115,28 @@ func _update_entity(entity: Entity):
 
 	# Let Godot handle physics for CharacterBody2D
 	if body is CharacterBody2D:
-		# Move with collision detection
-		body.move_and_slide()
+		# Manual move_and_slide logic to ensure deterministic movement matching TICK_DELTA
+		# move_and_slide() uses the engine's physics delta, which mismatches our custom tick rate
+		var motion = body.velocity * NetworkConfig.TICK_DELTA
+		
+		# 1. Move
+		var collision = body.move_and_collide(motion)
+		
+		# 2. Slide (if collided)
+		if collision:
+			var normal = collision.get_normal()
+			body.velocity = body.velocity.slide(normal)
+			var remainder = collision.get_remainder().slide(normal)
+			
+			# Retry move with remainder
+			var collision2 = body.move_and_collide(remainder)
+			if collision2:
+				# Slide again (corner case)
+				body.velocity = body.velocity.slide(collision2.get_normal())
+				body.move_and_collide(collision2.get_remainder().slide(collision2.get_normal()))
 
-		# Apply friction (Stardew Valley style - gradual stop)
-		body.velocity *= 0.85
+		# No friction for immediate response
+		# body.velocity *= 0.85 
 
 	# For RigidBody2D, physics is handled automatically by the engine
 	elif body is RigidBody2D:
@@ -701,7 +718,7 @@ func handle_player_input(peer_id: int, input_dir: Vector2, tick: int = 0, render
 		var entity: Entity = entities[entity_id]
 		if entity.peer_id == peer_id:
 			# Set velocity based on input (Stardew Valley has 8-directional movement)
-			var speed = 100.0  # units per second
+			var speed = NetworkConfig.SPEED
 			if entity.physics_body is CharacterBody2D:
 				entity.physics_body.velocity = input_dir.normalized() * speed
 			elif entity.physics_body is RigidBody2D:
