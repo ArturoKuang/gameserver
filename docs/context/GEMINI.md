@@ -82,3 +82,33 @@ Separate Clock Sync from Buffer Management.
 *   Use a distinct algorithm to estimate `ServerTime - ClientTime` (e.g., finding the lower bound of RTT).
 *   `render_time` should track this synchronized clock smoothly.
 *   Buffer health should only trigger "emergency" catch-up/slow-down if it deviates significantly (e.g., >100ms off).
+
+## 5. Automated Testing Tools
+**Location:** `testing/tools/gemini_auto_debug.py`
+
+A specialized wrapper is available to run headless network simulations, analyze logs, and generate debugging context for LLMs.
+
+**Usage:**
+This script runs the Godot project headlessly, simulates network conditions (Lag, Loss, Jitter, Bandwidth), and produces a JSON report summarizing the run.
+
+**Examples:**
+*   **Basic Sanity Check:**
+    ```bash
+    python3 testing/tools/gemini_auto_debug.py
+    ```
+    Runs a single client with perfect network for 30s.
+
+*   **Network Chaos Test:**
+    ```bash
+    python3 testing/tools/gemini_auto_debug.py --test bad_network
+    ```
+    Simulates 5% packet loss, 150ms lag, 40ms jitter, and 2% packet duplication.
+
+*   **Custom Scenario:**
+    ```bash
+    python3 testing/tools/gemini_auto_debug.py --test custom --clients 2 --loss 0.05 --bw 256
+    ```
+    Runs 2 clients with 5% loss and 256KB/s bandwidth limit.
+
+**Output:**
+The tool streams progress to the console and ends with a `🤖 GEMINI DEBUG CONTEXT GENERATED` block. Paste this block into the chat to have the agent analyze the logs and propose fixes.

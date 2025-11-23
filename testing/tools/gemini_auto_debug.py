@@ -27,27 +27,46 @@ def run_test_and_get_report(args):
     print(f"[AUTO-DEBUG] Working Directory: {test_dir}")
     
     try:
-        result = subprocess.run(
-            cmd, 
-            cwd=test_dir, # Run in testing/ directory
-            capture_output=True, 
-            text=True, 
-            check=True
+        print(f"[AUTO-DEBUG] Running: {' '.join(cmd)}")
+        print(f"[AUTO-DEBUG] Working Directory: {test_dir}")
+
+        process = subprocess.Popen(
+            cmd,
+            cwd=test_dir,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            bufsize=1,
+            universal_newlines=True
         )
-        print(result.stdout)
+
+        full_output = []
+        while True:
+            line = process.stdout.readline()
+            if not line and process.poll() is not None:
+                break
+            if line:
+                print(line, end='') # Print to console in real-time
+                full_output.append(line)
+
+        exit_code = process.poll()
+        output_str = "".join(full_output)
+
+        if exit_code != 0:
+             raise subprocess.CalledProcessError(exit_code, cmd, output=output_str)
         
         # Find the REPORT_JSON line
         report_path = None
-        for line in result.stdout.splitlines():
+        for line in full_output:
             if line.startswith("REPORT_JSON:"):
                 report_path = line.split(":", 1)[1].strip()
                 break
                 
         if not report_path:
             print("[AUTO-DEBUG] Error: No REPORT_JSON found in output.")
-            return None, result.stdout
+            return None, output_str
             
-        return report_path, result.stdout
+        return report_path, output_str
         
     except subprocess.CalledProcessError as e:
         print(f"[AUTO-DEBUG] Test Failed with exit code {e.returncode}")

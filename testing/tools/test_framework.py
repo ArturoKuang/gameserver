@@ -117,7 +117,7 @@ class GodotProcess:
             env["TEST_DUPLICATE_RATE"] = str(self.duplicate_rate)
 
         # Open log file
-        log_file = open(self.log_path, 'w')
+        log_file = open(self.log_path, 'w', buffering=1)
 
         # Start process
         self.process = subprocess.Popen(

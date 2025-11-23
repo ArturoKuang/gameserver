@@ -53,6 +53,7 @@ func _load_config():
 
 	if not jitter_str.is_empty():
 		jitter_ms = int(jitter_str)
+		enabled = true
 	elif lag_ms > 0:
 		# Default jitter is 20% of lag if not specified
 		jitter_ms = lag_ms / 5
